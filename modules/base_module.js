@@ -43,15 +43,28 @@ class BaseModule {
             if (commandParams.length < command.params.filter(param => !param.optional).length) return;
         }
 
-        message.channel.startTyping();
-        return Promise.try(() => command.on_command(message, commandParams))
-            .catch(err => {
-                console.warn(`Executing command '${message.content}' by '${message.author.username}#${message.author.discriminator}' failed: ${err.message}`);
-                console.warn(err.stack);
-                return `Command execution failed: ${err.message}`;
-            })
-            .finally(() => message.channel.stopTyping())
-            .then(response => message.reply(response));
+        // Check what the deliver method is
+        const deliver = command.deliver || 'text';
+
+        if (deliver === 'text') {
+            message.channel.startTyping();
+            return Promise.try(() => command.on_command(message, commandParams))
+                .catch(err => {
+                    console.warn(`Executing command '${message.content}' by '${message.author.username}#${message.author.discriminator}' failed: ${err.message}`);
+                    console.warn(err.stack);
+                    return `Command execution failed: ${err.message}`;
+                })
+                .finally(() => message.channel.stopTyping())
+                .then(response => message.reply(response));
+        } else if (deliver === 'dm') {
+            return Promise.try(() => command.on_command(message, commandParams))
+                .catch(err => {
+                    console.warn(`Executing command '${message.content}' by '${message.author.username}#${message.author.discriminator}' failed: ${err.message}`);
+                    console.warn(err.stack);
+                    return `Command execution failed: ${err.message}`;
+                })
+                .then(response => message.author.sendMessage(response));
+        }
     }
 }
 

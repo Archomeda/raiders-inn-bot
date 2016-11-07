@@ -13,6 +13,7 @@ class GeneralModule extends BaseModule {
     cmd_help() {
         return {
             id: config.get('modules.general.command'),
+            deliver: config.get('modules.general.deliver'),
             help: 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.',
             short_help: 'Shows information about how to use commands',
             params: [
