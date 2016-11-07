@@ -14,8 +14,8 @@ const moduleConfigs = config.get('modules');
 const modules = [];
 
 const bot = {
-    getClient() { return client },
-    getModules() { return modules }
+    getClient() { return client; },
+    getModules() { return modules; }
 };
 
 Promise.map(Object.keys(moduleConfigs), m => {

@@ -37,6 +37,8 @@ class RegionAssignment extends BaseModule {
     cmd_assignEU() {
         return {
             id: config.get('modules.region_assignment.eu.command_assign'),
+            help: 'This allows you to assign yourself to the EU region.',
+            short_help: 'Assign yourself to the EU region',
             channel_type: 'text',
             channels: config.get('modules.region_assignment.channels'),
             on_command: message => {
@@ -48,6 +50,8 @@ class RegionAssignment extends BaseModule {
     cmd_assignNA() {
         return {
             id: config.get('modules.region_assignment.na.command_assign'),
+            help: 'This allows you to assign yourself to the NA region.',
+            short_help: 'Assign yourself to the NA region',
             channel_type: 'text',
             channels: config.get('modules.region_assignment.channels'),
             on_command: message => {
@@ -59,6 +63,8 @@ class RegionAssignment extends BaseModule {
     cmd_assignCN() {
         return {
             id: config.get('modules.region_assignment.cn.command_assign'),
+            help: 'This allows you to assign yourself to the CN region.',
+            short_help: 'Assign yourself to the CN region',
             channel_type: 'text',
             channels: config.get('modules.region_assignment.channels'),
             on_command: message => {
@@ -70,6 +76,8 @@ class RegionAssignment extends BaseModule {
     cmd_removeEU() {
         return {
             id: config.get('modules.region_assignment.eu.command_remove'),
+            help: 'This allows you to remove yourself from the EU region.',
+            short_help: 'Remove yourself from the EU region',
             channel_type: 'text',
             channels: config.get('modules.region_assignment.channels'),
             on_command: message => {
@@ -81,6 +89,8 @@ class RegionAssignment extends BaseModule {
     cmd_removeNA() {
         return {
             id: config.get('modules.region_assignment.na.command_remove'),
+            help: 'This allows you to remove yourself from the NA region.',
+            short_help: 'Remove yourself from the NA region',
             channel_type: 'text',
             channels: config.get('modules.region_assignment.channels'),
             on_command: message => {
@@ -92,6 +102,8 @@ class RegionAssignment extends BaseModule {
     cmd_removeCN() {
         return {
             id: config.get('modules.region_assignment.cn.command_remove'),
+            help: 'This allows you to remove yourself from the CN region.',
+            short_help: 'Remove yourself from the CN region',
             channel_type: 'text',
             channels: config.get('modules.region_assignment.channels'),
             on_command: message => {
