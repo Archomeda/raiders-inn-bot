@@ -10,13 +10,25 @@ class RegionAssignment extends BaseModule {
         this.name = 'Region Assignment';
     }
 
+    checkEnabled(region) {
+        return config.modules.region_assignment[region] && config.modules.region_assignment[region].enabled;
+    }
+
     assignRegionRole(member, region) {
+        if (!this.checkEnabled(region)) {
+            return `Region ${region.toUpperCase()} is currently not available.`;
+        }
+
         const role = member.guild.roles.find('name', config.modules.region_assignment[region].role);
         return member.addRole(role)
             .then(() => `You should have been **assigned** to **${role.name}**. If not, please contact one of the staff members.`);
     }
 
     removeRegionRole(member, region) {
+        if (!this.checkEnabled(region)) {
+            return `Region ${region.toUpperCase()} is currently not available.`;
+        }
+
         const role = member.guild.roles.find('name', config.modules.region_assignment[region].role);
         return member.removeRole(role)
             .then(() => `You should have been **removed** from **${role.name}**. If not, please contact one of the staff members.`);
@@ -28,9 +40,6 @@ class RegionAssignment extends BaseModule {
             channel_type: 'text',
             channels: config.modules.region_assignment.channels,
             on_command: message => {
-                if (!config.modules.region_assignment.eu.enabled) {
-                    return "I'm sorry, but this region is currently disabled.";
-                }
                 return this.assignRegionRole(message.member, 'eu');
             }
         };
@@ -42,9 +51,6 @@ class RegionAssignment extends BaseModule {
             channel_type: 'text',
             channels: config.modules.region_assignment.channels,
             on_command: message => {
-                if (!config.modules.region_assignment.na.enabled) {
-                    return "I'm sorry, but this region is currently disabled.";
-                }
                 return this.assignRegionRole(message.member, 'na');
             }
         };
@@ -56,9 +62,6 @@ class RegionAssignment extends BaseModule {
             channel_type: 'text',
             channels: config.modules.region_assignment.channels,
             on_command: message => {
-                if (!config.modules.region_assignment.cn.enabled) {
-                    return "I'm sorry, but this region is currently disabled.";
-                }
                 return this.assignRegionRole(message.member, 'cn');
             }
         };
@@ -70,9 +73,6 @@ class RegionAssignment extends BaseModule {
             channel_type: 'text',
             channels: config.modules.region_assignment.channels,
             on_command: message => {
-                if (!config.modules.region_assignment.eu.enabled) {
-                    return "I'm sorry, but this region is currently disabled.";
-                }
                 return this.removeRegionRole(message.member, 'eu');
             }
         };
@@ -84,9 +84,6 @@ class RegionAssignment extends BaseModule {
             channel_type: 'text',
             channels: config.modules.region_assignment.channels,
             on_command: message => {
-                if (!config.modules.region_assignment.na.enabled) {
-                    return "I'm sorry, but this region is currently disabled.";
-                }
                 return this.removeRegionRole(message.member, 'na');
             }
         };
@@ -98,9 +95,6 @@ class RegionAssignment extends BaseModule {
             channel_type: 'text',
             channels: config.modules.region_assignment.channels,
             on_command: message => {
-                if (!config.modules.region_assignment.cn.enabled) {
-                    return "I'm sorry, but this region is currently disabled.";
-                }
                 return this.removeRegionRole(message.member, 'cn');
             }
         };
