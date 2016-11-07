@@ -21,15 +21,7 @@ class BaseModule {
         if (!match) return;
 
         const commandId = match[1].toLowerCase();
-        const modules = this.bot.getModules();
-        let command;
-        for (module of modules) {
-            const foundCommand = module.commands.find(command => command.id == commandId);
-            if (foundCommand) {
-                command = foundCommand;
-                break;
-            }
-        }
+        const command = this.commands.find(command => command.id == commandId);
 
         // Check for empty command
         if (!command) return;
