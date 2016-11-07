@@ -17,10 +17,10 @@ class BaseModule {
     }
 
     on_message(message) {
-        const match = message.content.match(new RegExp(`^${config.get('discord.command-prefix')}([^\\s]*)(\\s+(.*))?$`, 'i'));
+        const match = message.content.match(new RegExp(`^${config.get('discord.command-prefix')}([^\\s]*)(\\s+(.*))?$`));
         if (!match) return;
 
-        const commandId = match[1];
+        const commandId = match[1].toLowerCase();
         const modules = this.bot.getModules();
         let command;
         for (module of modules) {
