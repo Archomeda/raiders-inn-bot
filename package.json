@@ -1,7 +1,7 @@
 {
   "name": "gw2-raiders-inn-bot",
   "version": "1.0.0",
-  "description": "The bot that's powering The Raider's Inn on Discord.",
+  "description": "The bot that's powering The Raiders Inn on Discord.",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
