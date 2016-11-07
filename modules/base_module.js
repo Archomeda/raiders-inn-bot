@@ -17,7 +17,7 @@ class BaseModule {
     }
 
     on_message(message) {
-        const match = message.content.match(new RegExp(`^${config.get('discord.command-prefix')}([^\\s]*)(\\s+(.*))?$`));
+        const match = message.content.match(new RegExp(`^${config.get('discord.command-prefix')}([^\\s]*)(\\s+(.*))?$`, 'i'));
         if (!match) return;
 
         const commandId = match[1];
