@@ -22,20 +22,20 @@ modules:
   # Provides region assignment related stuff
   region_assignment:
     enabled: true
-    # The channels accepts an array of channel *names*, an empty array means that it listens to all channels
+    # The channels accepts an array of channel IDs, an empty array means that it listens to all channels
     channels: []
     eu:
       enabled: true
       command_assign: eu
       command_remove: -eu
-      role: eu-role-id
+      role: eu-role-name
     na:
       enabled: true
       command_assign: na
       command_remove: -na
-      role: na-role-id
+      role: na-role-name
     cn:
       enabled: true
       command_assign: cn
       command_remove: -cn
-      role: cn-role-id
+      role: cn-role-name
