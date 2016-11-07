@@ -40,7 +40,7 @@ class BaseModule {
         if (channelType.indexOf(message.channel.type) === -1) return;
 
         // Check for correct channel(s)
-        let channels = command.channels || [];console.log(channels);console.log(message.channel.id);
+        let channels = command.channels || [];
         if (!Array.isArray(channels)) channels = [channels];
         if (channels.length > 0 && channels.indexOf(message.channel.id) === -1) return;
 
