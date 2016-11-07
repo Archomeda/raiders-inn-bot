@@ -12,8 +12,8 @@ class GeneralModule extends BaseModule {
 
     cmd_help() {
         return {
-            id: config.get('modules.general.command'),
-            deliver: config.get('modules.general.deliver'),
+            id: config.get('modules.general.command_help'),
+            deliver: config.get('modules.general.deliver_help'),
             help: 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.',
             short_help: 'Shows information about how to use commands',
             params: [
@@ -54,6 +54,17 @@ class GeneralModule extends BaseModule {
                     });
                     return `\n${help.join('\n\n')}`;
                 }
+            }
+        };
+    }
+
+    cmd_sourceCode() {
+        return {
+            id: config.get('modules.general.command_source'),
+            help: 'Shows the URL of the source code of this bot.',
+            short_help: 'Shows the URL of the source code of this bot',
+            on_command: () => {
+                return 'You can find the source code at https://github.com/Archomeda/raiders-inn-bot.';
             }
         };
     }
