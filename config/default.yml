@@ -91,7 +91,10 @@ permissions:
     role_ids: []
     blacklist:
       - manage.*
-    whitelist: []
+    whitelist:
+      # Even though it looks like all commands are whitelisted, it's not.
+      # Blacklist takes precedence, the "*" in the whitelist is just a catch all so it doesn't fallback further.
+      - "*"
 
   # The default group is a special case, if nothing has been blacklisted or whitelisted, it will accept all commands.
   default:

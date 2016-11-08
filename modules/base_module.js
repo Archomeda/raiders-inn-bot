@@ -102,7 +102,6 @@ class BaseModule {
                     message.reply("This command has already been executed recently, please wait a bit before executing it again.");
                 }
             }
-            console.log(`commandCooldown: ${cache.getTtl(commandCooldownCacheName)}`);
             return;
         }
 
@@ -114,18 +113,17 @@ class BaseModule {
                 cache.set(userCooldownCacheName, { warning: true }, (cache.getTtl(userCooldownCacheName) - Date.now()) / 1000);
                 message.reply("You've already executed a command recently, please wait a bit before executing another.");
             }
-            console.log(`userCooldown: ${cache.getTtl(userCooldownCacheName)}`);
             return;
         }
-
-        // Set cooldowns
-        cache.set(commandCooldownCacheName, { }, config.get('discord.command_cooldown'));
-        cache.set(userCooldownCacheName, { }, config.get('discord.user_cooldown'));
 
         // Check for correct permissions
         if (!this.checkPermission(message, `${this.filename}.${command.id}`)) {
             return message.reply("You don't have permission to access that command.");
         }
+
+        // Set cooldowns
+        cache.set(commandCooldownCacheName, { }, config.get('discord.command_cooldown'));
+        cache.set(userCooldownCacheName, { }, config.get('discord.user_cooldown'));
 
         // Get parameters
         let commandParams = [];
