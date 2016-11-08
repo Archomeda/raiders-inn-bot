@@ -157,7 +157,7 @@ class GeneralModule extends BaseModule {
                     }
                     throw err;
                 }).then(response => {
-                    if (response.parse.text['*']) {
+                    if (response && response.parse.text['*']) {
                         // We have our article
                         let text = response.parse.text['*'];
                         const title = response.parse.title;
