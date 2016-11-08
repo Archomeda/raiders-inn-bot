@@ -189,17 +189,24 @@ class GeneralModule extends BaseModule {
     }
 
     formatCommandChannelFilter(command) {
+        let text = [];
         if (command.channel_type) {
             if (command.channel_type.indexOf('dm') > -1 && command.channel_type.indexOf('text') === -1) {
-                return 'DM only';
+                text.push('DM only');
             } else if (command.channel_type.indexOf('dm') === -1 && command.channel_type.indexOf('text') > -1) {
                 if (command.channels && command.channels.length > 0) {
-                    return 'specific server channels only';
+                    text.push('specific server channels only');
                 } else {
-                    return 'server channels only';
+                    text.push('server channels only');
                 }
             }
         }
+        let deliver = command.deliver || ['text'];
+        if (!Array.isArray(deliver)) deliver = [deliver];
+        if (deliver.indexOf('mention') > -1) {
+            text.push('mentionable');
+        }
+        return text.join(', ');
     }
 
     formatModuleHelp(message, module) {
