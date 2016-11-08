@@ -85,13 +85,12 @@ class BaseModule {
 
         const userId = message.author.id;
         const commandCooldownType = command.cooldown || 'user';
+        let commandCooldownCacheName = `command-cooldown-${command.id}`;
+        let userCooldownCacheName = `user-cooldown-${userId}`;
         if (commandCooldownType !== 'none') {
             // Check for command cooldown
-            let commandCooldownCacheName;
             if (commandCooldownType === 'user') {
                 commandCooldownCacheName = `command-cooldown-${command.id}-${userId}`;
-            } else if (commandCooldownType === 'global') {
-                commandCooldownCacheName = `command-cooldown-${command.id}`;
             }
             const commandCooldown = cache.get(commandCooldownCacheName);
             if (commandCooldown) {
@@ -107,7 +106,6 @@ class BaseModule {
             }
 
             // Check for user cooldown
-            const userCooldownCacheName = `user-cooldown-${userId}`;
             const userCooldown = cache.get(userCooldownCacheName);
             if (userCooldown) {
                 if (!userCooldown.warning) {
@@ -124,8 +122,10 @@ class BaseModule {
         }
 
         // Set cooldowns
-        cache.set(commandCooldownCacheName, { }, config.get('discord.command_cooldown'));
-        cache.set(userCooldownCacheName, { }, config.get('discord.user_cooldown'));
+        if (commandCooldownType !== 'none') {
+            cache.set(commandCooldownCacheName, {}, config.get('discord.command_cooldown'));
+            cache.set(userCooldownCacheName, {}, config.get('discord.user_cooldown'));
+        }
 
         // Get parameters
         let commandParams = [];
