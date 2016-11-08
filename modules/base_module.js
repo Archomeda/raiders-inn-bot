@@ -121,11 +121,13 @@ class BaseModule {
             return message.reply("You don't have permission to access that command.");
         }
 
-        // Set cooldowns
-        if (commandCooldownType !== 'none') {
-            cache.set(commandCooldownCacheName, {}, config.get('discord.command_cooldown'));
-            cache.set(userCooldownCacheName, {}, config.get('discord.user_cooldown'));
-        }
+        const setCooldowns = () => {
+            // Set cooldowns
+            if (commandCooldownType !== 'none') {
+                cache.set(commandCooldownCacheName, {}, config.get('discord.command_cooldown'));
+                cache.set(userCooldownCacheName, {}, config.get('discord.user_cooldown'));
+            }
+        };
 
         // Get parameters
         let commandParams = [];
@@ -139,11 +141,15 @@ class BaseModule {
             if (commandParams.length < command.params.filter(param => !param.optional).length) return;
         }
 
-        // Check what the deliver method is
-        let deliver = command.deliver || 'text';
+        // Check what the delivery method is
+        let deliver = command.deliver || ['text'];
+        if (!Array.isArray(deliver)) deliver = [deliver];
 
-        if (deliver === 'mention') {
-            if (message.mentions.users.size > 0) {
+        if (deliver.indexOf('mention') > -1) {
+            // Filter out ourselves
+            const mentions = message.mentions.users.filterArray(u => u.id !== this.bot.getClient().user.id);
+            if (mentions.length > 0) {
+                // The command is delivered by mentioning
                 message.channel.startTyping();
                 return Promise.try(() => command.on_command(message, commandParams))
                     .catch(err => {
@@ -152,13 +158,16 @@ class BaseModule {
                         return `Command execution failed: ${err.message}`;
                     })
                     .finally(() => message.channel.stopTyping())
-                    .then(response => response ? message.channel.sendMessage(`${message.mentions.users.array().join(' ')}, ${response}`) : null);
-            } else {
-                deliver = 'text';
+                    .then(response => response ? message.channel.sendMessage(`${mentions.join(' ')}, ${response}`) : null)
+                    .then(setCooldowns);
+            } else if (deliver.length === 1) {
+                // This was the only delivery method, but no one has been mentioned
+                return message.reply(`For this command to work, you have to mention someone with the '@' symbol, like ${this.bot.getClient().user}.`);
             }
         }
 
-        if (deliver === 'text') {
+        if (deliver.indexOf('text') > -1) {
+            // The command is delivered directly as a reply in the same channel
             message.channel.startTyping();
             return Promise.try(() => command.on_command(message, commandParams))
                 .catch(err => {
@@ -167,15 +176,19 @@ class BaseModule {
                     return `Command execution failed: ${err.message}`;
                 })
                 .finally(() => message.channel.stopTyping())
-                .then(response => response ? message.reply(response) : null);
-        } else if (deliver === 'dm') {
+                .then(response => response ? message.reply(response) : null)
+                .then(setCooldowns);
+        }
+        if (deliver.indexOf('dm') > -1) {
+            // The command is delivered by DM
             return Promise.try(() => command.on_command(message, commandParams))
                 .catch(err => {
                     console.warn(`Executing command '${message.content}' by '${message.author.username}#${message.author.discriminator}' failed: ${err.message}`);
                     console.warn(err.stack);
                     return `Command execution failed: ${err.message}`;
                 })
-                .then(response => response ? message.author.sendMessage(response) : null);
+                .then(response => response ? message.author.sendMessage(response) : null)
+                .then(setCooldowns);
         }
     }
 }
