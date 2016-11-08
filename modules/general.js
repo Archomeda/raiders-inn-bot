@@ -67,8 +67,8 @@ class GeneralModule extends BaseModule {
     cmd_sourceCode() {
         return {
             id: config.get('modules.general.command_source'),
-            help: 'Shows the URL of the source code of this bot.',
-            short_help: 'Shows the URL of the source code of this bot',
+            help: 'Shows the link to the source code of this bot.',
+            short_help: 'Shows the link to the source code of this bot',
             on_command: () => {
                 return 'You can find the source code at https://github.com/Archomeda/raiders-inn-bot.';
             }
