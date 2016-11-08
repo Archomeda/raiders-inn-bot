@@ -95,7 +95,7 @@ class GeneralModule extends BaseModule {
             on_command: message => {
                 return (
                     `Welcome to The Raiders Inn! Be sure to head over to ${message.guild.channels.get(config.get('modules.general.welcome_channel'))} to get started. ` +
-                    "Our rules and general information is listed there. Don't forget to assign yourself to a server!\n\nEnjoy your stay!"
+                    "You will find our rules and general information there. Don't forget to assign yourself to a server!\n\nEnjoy your stay!"
                 );
             }
         };
