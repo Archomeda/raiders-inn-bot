@@ -18,8 +18,12 @@ modules:
     # The delivery method for the help command, either 'dm' (DM) or 'text' (reply to the same text channel)
     deliver_help: dm
     command_source: source
-    command_reset: reset
     command_wiki: wiki
+
+  # Provides raid related stuff
+  raids:
+    enabled: true
+    command_reset: reset
 
   # Provides region assignment related stuff
   region_assignment:
