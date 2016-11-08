@@ -10,14 +10,20 @@ discord:
   # Command prefix; in case there is another bot running you can change the prefix of this bot's commands
   command-prefix: "!"
 
+#####
+# Generally every command can be configured with the command_* properties
+# When a deliver_* property is available, you can change the delivery method to:
+#   'dm' (DM), 'text' (reply to the same text channel) or 'mention' (mention the mentioned person instead of the author of the message, if available)
+#####
 modules:
   # Provides general stuff that probably should stay enabled
   general:
     enabled: true
     command_help: help
-    # The delivery method for the help command, either 'dm' (DM) or 'text' (reply to the same text channel)
     deliver_help: dm
     command_source: source
+    command_welcome: welcome
+    welcome_channel: welcome-channel-id
     command_wiki: wiki
 
   # Provides raid related stuff

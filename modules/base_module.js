@@ -49,7 +49,21 @@ class BaseModule {
         }
 
         // Check what the deliver method is
-        const deliver = command.deliver || 'text';
+        let deliver = command.deliver || 'text';
+
+        if (deliver === 'mention' && message.mentions.users.size > 0) {
+            message.channel.startTyping();
+            return Promise.try(() => command.on_command(message, commandParams))
+                .catch(err => {
+                    console.warn(`Executing command '${message.content}' by '${message.author.username}#${message.author.discriminator}' failed: ${err.message}`);
+                    console.warn(err.stack);
+                    return `Command execution failed: ${err.message}`;
+                })
+                .finally(() => message.channel.stopTyping())
+                .then(response => message.channel.sendMessage(`${message.mentions.users.array().join(' ')}, ${response}`));
+        } else {
+            deliver = 'text';
+        }
 
         if (deliver === 'text') {
             message.channel.startTyping();

@@ -75,6 +75,21 @@ class GeneralModule extends BaseModule {
         };
     }
 
+    cmd_welcome() {
+        return {
+            id: config.get('modules.general.command_welcome'),
+            deliver: 'mention',
+            help: 'Welcomes a person to the server and directs him or her to the read first channel.',
+            short_help: 'Welcomes a person to the server',
+            on_command: message => {
+                return (
+                    `Welcome to The Raiders Inn! Be sure to head over to ${message.guild.channels.get(config.get('modules.general.welcome_channel'))} to get started. ` +
+                    "Our rules and general information is listed there. Don't forget to assign yourself to a server!\n\nEnjoy your stay!"
+                );
+            }
+        };
+    }
+
     cmd_wiki() {
         return {
             id: config.get('modules.general.command_wiki'),
