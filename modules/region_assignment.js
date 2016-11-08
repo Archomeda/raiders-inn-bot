@@ -5,8 +5,8 @@ const
     BaseModule = require('./base_module');
 
 class RegionAssignment extends BaseModule {
-    constructor(bot, config) {
-        super(bot, config);
+    constructor(bot, config, filename) {
+        super(bot, config, filename);
         this.name = 'Region Assignment';
     }
 
@@ -36,7 +36,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_assignEU() {
         return {
-            id: config.get('modules.region_assignment.eu.command_assign'),
+            id: 'assign_eu',
+            command: config.get('modules.region_assignment.eu.command_assign'),
             help: 'This allows you to assign yourself to the EU region.',
             short_help: 'Assign yourself to the EU region',
             channel_type: 'text',
@@ -49,7 +50,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_assignNA() {
         return {
-            id: config.get('modules.region_assignment.na.command_assign'),
+            id: 'assign_na',
+            command: config.get('modules.region_assignment.na.command_assign'),
             help: 'This allows you to assign yourself to the NA region.',
             short_help: 'Assign yourself to the NA region',
             channel_type: 'text',
@@ -62,7 +64,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_assignCN() {
         return {
-            id: config.get('modules.region_assignment.cn.command_assign'),
+            id: 'assign_cn',
+            command: config.get('modules.region_assignment.cn.command_assign'),
             help: 'This allows you to assign yourself to the CN region.',
             short_help: 'Assign yourself to the CN region',
             channel_type: 'text',
@@ -75,7 +78,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_removeEU() {
         return {
-            id: config.get('modules.region_assignment.eu.command_remove'),
+            id: 'remove_eu',
+            command: config.get('modules.region_assignment.eu.command_remove'),
             help: 'This allows you to remove yourself from the EU region.',
             short_help: 'Remove yourself from the EU region',
             channel_type: 'text',
@@ -88,7 +92,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_removeNA() {
         return {
-            id: config.get('modules.region_assignment.na.command_remove'),
+            id: 'remove_na',
+            command: config.get('modules.region_assignment.na.command_remove'),
             help: 'This allows you to remove yourself from the NA region.',
             short_help: 'Remove yourself from the NA region',
             channel_type: 'text',
@@ -101,7 +106,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_removeCN() {
         return {
-            id: config.get('modules.region_assignment.cn.command_remove'),
+            id: 'remove_cn',
+            command: config.get('modules.region_assignment.cn.command_remove'),
             help: 'This allows you to remove yourself from the CN region.',
             short_help: 'Remove yourself from the CN region',
             channel_type: 'text',
@@ -114,7 +120,8 @@ class RegionAssignment extends BaseModule {
 
     cmd_listNumbers() {
         return {
-            id: config.get('modules.region_assignment.command_numbers'),
+            id: 'numbers',
+            command: config.get('modules.region_assignment.command_numbers'),
             help: 'Gets the amount of users assigned to each region.',
             short_help: 'Gets the amount of users assigned to each region',
             channel_type: 'text',

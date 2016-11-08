@@ -6,14 +6,15 @@ const
     BaseModule = require('./base_module');
 
 class RaidsModule extends BaseModule {
-    constructor(bot, config) {
-        super(bot, config);
+    constructor(bot, config, filename) {
+        super(bot, config, filename);
         this.name = 'Raids';
     }
 
     cmd_resetTime() {
         return {
-            id: config.get('modules.raids.command_reset'),
+            id: 'reset',
+            command: config.get('modules.raids.command_reset'),
             help: 'Shows the current raid reset time and how much time there is left until the reset happens. This will also show a link to the wiki containing all Guild Wars 2 reset times.',
             short_help: 'Shows the raid reset time',
             on_command: () => {

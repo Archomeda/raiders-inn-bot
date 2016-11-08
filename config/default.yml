@@ -13,7 +13,9 @@ discord:
 #####
 # Generally every command can be configured with the command_* properties
 # When a deliver_* property is available, you can change the delivery method to:
-#   'dm' (DM), 'text' (reply to the same text channel) or 'mention' (mention the mentioned person instead of the author of the message, if available)
+#  - 'dm' (DM)
+#  - 'text' (reply to the same text channel)
+#  - 'mention' (mention the mentioned person instead of the author of the message, if available)
 #####
 modules:
   # Provides general stuff that probably should stay enabled
@@ -25,6 +27,11 @@ modules:
     command_welcome: welcome
     welcome_channel: welcome-channel-id
     command_wiki: wiki
+
+  # Provides stuff for managing the bot
+  manage:
+    enabled: true
+    command_listids: listids
 
   # Provides raid related stuff
   raids:
@@ -52,3 +59,38 @@ modules:
       command_assign: cn
       command_remove: -cn
       role: cn-role-name
+
+#####
+# The permissions are set up in a hierarchical way. If a person is a member of more than 1 group,
+# the first matched command in either blacklist or whitelist in a group (top-down) from the list below gets priority.
+# This means that if in groupA commandA is listed, and user is part of groupA and wants to execute commandB, it will
+# fall back to the next first group (that is not groupA) that the user is also part of, that has commandB either
+# whitelisted or blacklisted explicitly. If none has been found, it will fall back to the default group.
+#
+# Please note that if both blacklist and whitelist are matched, blacklist will take precedence.
+#
+# To add a new group, just add a new key and fill in the properties.
+# Be sure to *not* delete default, as this is the fallback group in case nothing is matched.
+# The asterisk can be used as a wildcard.
+#####
+permissions:
+  owner:
+    user_ids:
+      - owner-id
+    role_ids: []
+    blacklist: []
+    whitelist:
+      - "*"
+  moderator:
+    user_ids: []
+    role_ids: []
+    blacklist:
+      - manage.*
+    whitelist: []
+
+  # The default group is a special case, if nothing has been blacklisted or whitelisted, it will accept all commands.
+  default:
+    blacklist:
+      - manage.*
+      - general.welcome
+    whitelist: []

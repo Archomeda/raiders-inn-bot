@@ -25,7 +25,7 @@ Promise.map(Object.keys(moduleConfigs), m => {
         try {
             const Module = require(`./modules/${m}`);
             if (Module.prototype instanceof BaseModule) {
-                modules.push(new Module(bot, moduleConfig));
+                modules.push(new Module(bot, moduleConfig, m));
                 console.log(`Module '${m}' loaded`);
             } else {
                 console.warn(`Module '${m}' does not export a class that extends BaseModule, skipping`);
