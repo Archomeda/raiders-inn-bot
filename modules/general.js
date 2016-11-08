@@ -21,7 +21,7 @@ class GeneralModule extends BaseModule {
             id: 'help',
             command: config.get('modules.general.command_help'),
             deliver: config.get('modules.general.deliver_help'),
-            cooldown: 'user',
+            cooldown: 'none',
             help: 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.',
             short_help: 'Shows information about how to use commands',
             params: [

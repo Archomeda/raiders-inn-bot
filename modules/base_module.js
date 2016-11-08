@@ -83,37 +83,39 @@ class BaseModule {
         if (!Array.isArray(channels)) channels = [channels];
         if (channels.length > 0 && channels.indexOf(message.channel.id) === -1) return;
 
-        // Check for command cooldown
         const userId = message.author.id;
         const commandCooldownType = command.cooldown || 'user';
-        let commandCooldownCacheName;
-        if (commandCooldownType === 'user') {
-            commandCooldownCacheName = `command-cooldown-${command.id}-${userId}`;
-        } else if (commandCooldownType === 'global') {
-            commandCooldownCacheName = `command-cooldown-${command.id}`;
-        }
-        const commandCooldown = cache.get(commandCooldownCacheName);
-        if (commandCooldown) {
-            if (!commandCooldown.warning) {
-                cache.set(commandCooldownCacheName, { warning: true }, (cache.getTtl(commandCooldownCacheName) - Date.now()) / 1000);
-                if (commandCooldownType === 'user') {
-                    message.reply("You've already executed this command recently, please wait a bit before executing it again.");
-                } else if (commandCooldownType === 'global') {
-                    message.reply("This command has already been executed recently, please wait a bit before executing it again.");
+        if (commandCooldownType !== 'none') {
+            // Check for command cooldown
+            let commandCooldownCacheName;
+            if (commandCooldownType === 'user') {
+                commandCooldownCacheName = `command-cooldown-${command.id}-${userId}`;
+            } else if (commandCooldownType === 'global') {
+                commandCooldownCacheName = `command-cooldown-${command.id}`;
+            }
+            const commandCooldown = cache.get(commandCooldownCacheName);
+            if (commandCooldown) {
+                if (!commandCooldown.warning) {
+                    cache.set(commandCooldownCacheName, { warning: true }, (cache.getTtl(commandCooldownCacheName) - Date.now()) / 1000);
+                    if (commandCooldownType === 'user') {
+                        message.reply("You've already executed this command recently, please wait a bit before executing it again.");
+                    } else if (commandCooldownType === 'global') {
+                        message.reply("This command has already been executed recently, please wait a bit before executing it again.");
+                    }
                 }
+                return;
             }
-            return;
-        }
 
-        // Check for user cooldown
-        const userCooldownCacheName = `user-cooldown-${userId}`;
-        const userCooldown = cache.get(userCooldownCacheName);
-        if (userCooldown) {
-            if (!userCooldown.warning) {
-                cache.set(userCooldownCacheName, { warning: true }, (cache.getTtl(userCooldownCacheName) - Date.now()) / 1000);
-                message.reply("You've already executed a command recently, please wait a bit before executing another.");
+            // Check for user cooldown
+            const userCooldownCacheName = `user-cooldown-${userId}`;
+            const userCooldown = cache.get(userCooldownCacheName);
+            if (userCooldown) {
+                if (!userCooldown.warning) {
+                    cache.set(userCooldownCacheName, { warning: true }, (cache.getTtl(userCooldownCacheName) - Date.now()) / 1000);
+                    message.reply("You've already executed a command recently, please wait a bit before executing another.");
+                }
+                return;
             }
-            return;
         }
 
         // Check for correct permissions
