@@ -81,6 +81,7 @@ class GeneralModule extends BaseModule {
             deliver: 'mention',
             help: 'Welcomes a person to the server and directs him or her to the read first channel.',
             short_help: 'Welcomes a person to the server',
+            channel_type: 'text',
             on_command: message => {
                 return (
                     `Welcome to The Raiders Inn! Be sure to head over to ${message.guild.channels.get(config.get('modules.general.welcome_channel'))} to get started. ` +
