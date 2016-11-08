@@ -17,6 +17,7 @@
     "lodash": "^4.16.6",
     "moment-timezone": "^0.5.9",
     "mwbot": "^1.0.7",
+    "node-cache": "^4.1.0",
     "to-markdown": "^3.0.3"
   }
 }

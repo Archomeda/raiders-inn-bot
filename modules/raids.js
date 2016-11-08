@@ -15,6 +15,7 @@ class RaidsModule extends BaseModule {
         return {
             id: 'reset',
             command: config.get('modules.raids.command_reset'),
+            cooldown: 'global',
             help: 'Shows the current raid reset time and how much time there is left until the reset happens. This will also show a link to the wiki containing all Guild Wars 2 reset times.',
             short_help: 'Shows the raid reset time',
             on_command: () => {

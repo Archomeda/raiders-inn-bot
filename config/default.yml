@@ -8,7 +8,12 @@ discord:
   # The bot's token can found on the bot's application page on discordapp.com/developers/applications/me
   token: your-token-should-be-here
   # Command prefix; in case there is another bot running you can change the prefix of this bot's commands
-  command-prefix: "!"
+  command_prefix: "!"
+  # Time to wait in seconds before the same command can be executed again
+  # (depending on the command this can be saved per user or globally)
+  command_cooldown: 60
+  # Time for a user to wait in seconds before the next command can be executed
+  user_cooldown: 3
 
 #####
 # Generally every command can be configured with the command_* properties

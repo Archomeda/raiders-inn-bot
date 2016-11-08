@@ -15,6 +15,7 @@ class ManageModule extends BaseModule {
             id: 'listids',
             command: config.get('modules.manage.command_listids'),
             deliver: 'dm',
+            cooldown: 'user',
             help: 'Assembles all the available ids of this bot into a file.',
             on_command: message => {
                 const client = this.bot.getClient();

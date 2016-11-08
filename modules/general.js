@@ -21,6 +21,7 @@ class GeneralModule extends BaseModule {
             id: 'help',
             command: config.get('modules.general.command_help'),
             deliver: config.get('modules.general.deliver_help'),
+            cooldown: 'user',
             help: 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.',
             short_help: 'Shows information about how to use commands',
             params: [
@@ -35,7 +36,7 @@ class GeneralModule extends BaseModule {
 
                 if (params.length > 0) {
                     // Reply with help for a specific command
-                    const commandName = params[0].replace(new RegExp(`^${config.get('discord.command-prefix')}?(.*)$`), '$1');
+                    const commandName = params[0].replace(new RegExp(`^${config.get('discord.command_prefix')}?(.*)$`), '$1');
                     let command;
                     for (module of modules) {
                         const foundCommand = module.commands.find(command => command.command == commandName);
@@ -50,8 +51,8 @@ class GeneralModule extends BaseModule {
                     //if (!this.checkPermission(message, `${command.filename}.${command.id}`)) return;
 
                     if (!command) {
-                        return `I do not recognize the command \`${config.get('discord.command-prefix')}${commandName}\`.` +
-                            `Type \`${config.get('discord.command-prefix')}${config.get('modules.general.command_help')}\` to see the list of commands.`;
+                        return `I do not recognize the command \`${config.get('discord.command_prefix')}${commandName}\`.` +
+                            `Type \`${config.get('discord.command_prefix')}${config.get('modules.general.command_help')}\` to see the list of commands.`;
                     }
                     return `\n${this.formatCommandHelp(command)}`;
                 } else {
@@ -73,6 +74,7 @@ class GeneralModule extends BaseModule {
         return {
             id: 'source',
             command: config.get('modules.general.command_source'),
+            cooldown: 'global',
             help: 'Shows the link to the source code of this bot.',
             short_help: 'Shows the link to the source code of this bot',
             on_command: () => {
@@ -86,6 +88,7 @@ class GeneralModule extends BaseModule {
             id: 'welcome',
             command: config.get('modules.general.command_welcome'),
             deliver: 'mention',
+            cooldown: 'user',
             help: 'Welcomes a person to the server and directs him or her to the read first channel.',
             short_help: 'Welcomes a person to the server',
             channel_type: 'text',
@@ -102,6 +105,7 @@ class GeneralModule extends BaseModule {
         return {
             id: 'wiki',
             command: config.get('modules.general.command_wiki'),
+            cooldown: 'user',
             help: 'Searches the wiki for an article and returns a summary and the article link if found.',
             short_help: 'Searches the wiki for an article',
             params: [
@@ -205,7 +209,7 @@ class GeneralModule extends BaseModule {
             // TODO: Disabled for now as I don't have a way to detect server role assignments in a DM yet... (they are separate)
             //if (!this.checkPermission(message, `${module.filename}.${command.id}`)) return;
 
-            const commandText = `\`${config.get('discord.command-prefix')}${command.command}\``;
+            const commandText = `\`${config.get('discord.command_prefix')}${command.command}\``;
             const helpText = command.short_help;
             if (!helpText) return;
 
@@ -225,7 +229,7 @@ class GeneralModule extends BaseModule {
     }
 
     formatCommandHelp(command) {
-        let invocation = `${config.get('discord.command-prefix')}${command.command} `;
+        let invocation = `${config.get('discord.command_prefix')}${command.command} `;
         const params = [];
         if (command.params) {
             command.params.forEach(param => {

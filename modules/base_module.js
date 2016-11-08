@@ -3,13 +3,17 @@
 const
     _ = require('lodash'),
     config = require('config'),
+    NodeCache = require('node-cache'),
     Promise = require('bluebird');
+
+const cache = new NodeCache();
 
 class BaseModule {
     constructor(bot, config, filename) {
         this.bot = bot;
         this.config = config;
         this.filename = filename;
+        this.user_cooldowns = {};
 
         this.commands = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
             .filter(name => name.startsWith('cmd_'))
@@ -60,7 +64,7 @@ class BaseModule {
     }
 
     on_message(message) {
-        const match = message.content.match(new RegExp(`^${config.get('discord.command-prefix')}([^\\s]*)(\\s+(.*))?$`));
+        const match = message.content.match(new RegExp(`^${config.get('discord.command_prefix')}([^\\s]*)(\\s+(.*))?$`));
         if (!match) return;
 
         const commandName = match[1].toLowerCase();
@@ -78,6 +82,45 @@ class BaseModule {
         let channels = command.channels || [];
         if (!Array.isArray(channels)) channels = [channels];
         if (channels.length > 0 && channels.indexOf(message.channel.id) === -1) return;
+
+        // Check for command cooldown
+        const userId = message.author.id;
+        const commandCooldownType = command.cooldown || 'user';
+        let commandCooldownCacheName;
+        if (commandCooldownType === 'user') {
+            commandCooldownCacheName = `command-cooldown-${command.id}-${userId}`;
+        } else if (commandCooldownType === 'global') {
+            commandCooldownCacheName = `command-cooldown-${command.id}`;
+        }
+        const commandCooldown = cache.get(commandCooldownCacheName);
+        if (commandCooldown) {
+            if (!commandCooldown.warning) {
+                cache.set(commandCooldownCacheName, { warning: true }, (cache.getTtl(commandCooldownCacheName) - Date.now()) / 1000);
+                if (commandCooldownType === 'user') {
+                    message.reply("You've already executed this command recently, please wait a bit before executing it again.");
+                } else if (commandCooldownType === 'global') {
+                    message.reply("This command has already been executed recently, please wait a bit before executing it again.");
+                }
+            }
+            console.log(`commandCooldown: ${cache.getTtl(commandCooldownCacheName)}`);
+            return;
+        }
+
+        // Check for user cooldown
+        const userCooldownCacheName = `user-cooldown-${userId}`;
+        const userCooldown = cache.get(userCooldownCacheName);
+        if (userCooldown) {
+            if (!userCooldown.warning) {
+                cache.set(userCooldownCacheName, { warning: true }, (cache.getTtl(userCooldownCacheName) - Date.now()) / 1000);
+                message.reply("You've already executed a command recently, please wait a bit before executing another.");
+            }
+            console.log(`userCooldown: ${cache.getTtl(userCooldownCacheName)}`);
+            return;
+        }
+
+        // Set cooldowns
+        cache.set(commandCooldownCacheName, { }, config.get('discord.command_cooldown'));
+        cache.set(userCooldownCacheName, { }, config.get('discord.user_cooldown'));
 
         // Check for correct permissions
         if (!this.checkPermission(message, `${this.filename}.${command.id}`)) {
