@@ -190,9 +190,9 @@ class GeneralModule extends BaseModule {
                 return 'DM only';
             } else if (command.channel_type.indexOf('dm') === -1 && command.channel_type.indexOf('text') > -1) {
                 if (command.channels && command.channels.length > 0) {
-                    return 'specific text channels only';
+                    return 'specific server channels only';
                 } else {
-                    return 'text channels only';
+                    return 'server channels only';
                 }
             }
         }
