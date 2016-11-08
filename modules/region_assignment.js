@@ -111,6 +111,24 @@ class RegionAssignment extends BaseModule {
             }
         };
     }
+
+    cmd_listNumbers() {
+        return {
+            id: config.get('modules.region_assignment.command_numbers'),
+            help: 'Gets the amount of users assigned to each region.',
+            short_help: 'Gets the amount of users assigned to each region',
+            channel_type: 'text',
+            on_command: message => {
+                const regionLines = ['eu', 'na', 'cn']
+                    .filter(region => config.get(`modules.region_assignment.${region}.enabled`))
+                    .map(region => message.guild.roles.find('name', config.get(`modules.region_assignment.${region}.role`)))
+                    .map(role => role ? `:small_blue_diamond: ${role.name}: ${role.members.size} ${role.members.size === 1 ? 'person' : 'people'}` : null)
+                    .filter(region => region)
+                    .join('\n');
+                return `We currently have:\n${regionLines}`;
+            }
+        }
+    }
 }
 
 module.exports = RegionAssignment;
