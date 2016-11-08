@@ -23,13 +23,22 @@ class ManageModule extends BaseModule {
                 for (let server of client.guilds.array()) {
                     result.push(`=== ${server.name} ===`);
                     result.push('Roles:');
-                    for (let role of server.roles.array().sort((a, b) => a.position - b.position)) {
+                    for (let role of server.roles.array().sort((a, b) => b.position - a.position)) {
                         result.push(`${role.name}: ${role.id}`);
                     }
-                    result.push('\nChannels:');
+                    let textChannels = [];
+                    let voiceChannels = [];
                     for (let channel of server.channels.array().sort((a, b) => a.position - b.position)) {
-                        result.push(`${channel.name} (${channel.type}): ${channel.id}`);
+                        if (channel.type === 'text') {
+                            textChannels.push(`${channel.name}: ${channel.id}`);
+                        } else if (channel.type === 'voice') {
+                            voiceChannels.push(`${channel.name}: ${channel.id}`);
+                        }
                     }
+                    result.push('\nText channels:');
+                    result = result.concat(textChannels);
+                    result.push('\nVoice channels:');
+                    result = result.concat(voiceChannels);
                     result.push('\nMembers:');
                     for (let member of server.members.array()) {
                         result.push(`${member.user.username}#${member.user.discriminator}: ${member.id}`);
