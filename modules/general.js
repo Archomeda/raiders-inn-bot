@@ -1,9 +1,15 @@
 'use strict';
 
 const
+    MWBot = require('mwbot'),
     config = require('config'),
     moment = require('moment-timezone'),
+    toMarkdown = require('to-markdown'),
     BaseModule = require('./base_module');
+
+const wiki = new MWBot({
+    apiUrl: 'https://wiki.guildwars2.com/api.php'
+});
 
 class GeneralModule extends BaseModule {
     constructor(bot, config) {
@@ -93,6 +99,91 @@ class GeneralModule extends BaseModule {
         }
     }
 
+    cmd_wiki() {
+        return {
+            id: config.get('modules.general.command_wiki'),
+            help: 'Searches the wiki for an article and returns a summary and the article link if found.',
+            short_help: 'Searches the wiki for an article',
+            params: [
+                {
+                    id: 'terms',
+                    help: 'Search terms'
+                }
+            ],
+            on_command: (message, params) => {
+                if (!params || params.length === 0) {
+                    return 'Please provide a wiki article title or search terms.';
+                }
+                const terms = params[0];
+
+                // Search with nearmatch first
+                return wiki.request({
+                    action: 'query',
+                    list: 'search',
+                    srsearch: terms,
+                    srwhat: 'nearmatch'
+                }).then(response => {
+                    if (response && response.query.search.length > 0) {
+                        return response;
+                    }
+
+                    // No results, search with title
+                    return wiki.request({
+                        action: 'query',
+                        list: 'search',
+                        srsearch: terms,
+                        srwhat: 'title'
+                    });
+                }).then(response => {
+                    if (response && response.query.search.length > 0) {
+                        // Found our article, get it
+                        return wiki.request({
+                            action: 'parse',
+                            page: response.query.search[0].title,
+                            redirects: true,
+                            prop: 'text'
+                        });
+                    }
+                }).catch(err => {
+                    // Make sure we have sane errors
+                    if (err.code === 'missingtitle') {
+                        throw new Error('not found');
+                    } else if (err.info) {
+                        throw new Error(err.info);
+                    }
+                    throw err;
+                }).then(response => {
+                    if (response.parse.text['*']) {
+                        // We have our article
+                        let text = response.parse.text['*'];
+                        const title = response.parse.title;
+
+                        // Construct message
+                        text = this.constructor.formatWikiText(text).split('\n')[0].trim();
+                        const url = encodeURI(`https://wiki.guildwars2.com/wiki/${title}`);
+                        if (text) {
+                            text += `\n\nMore: ${url}`;
+                        } else {
+                            text = `${title}: ${url}`;
+                        }
+                        return text;
+                    }
+                    throw new Error('not found');
+                }).catch(err => {
+                    // Capture errors and construct proper fail message
+                    switch (err.message) {
+                        case 'not found':
+                            return 'Your request did not come up with any results. Try using different search terms.';
+                        case 'no title':
+                            return 'Please provide a wiki article title or search terms.';
+                        default:
+                            throw err;
+                    }
+                });
+            }
+        }
+    }
+
     static formatCommandChannelFilter(command) {
         if (command.channel_type) {
             if (command.channel_type.indexOf('dm') > -1 && command.channel_type.indexOf('text') === -1) {
@@ -151,6 +242,23 @@ class GeneralModule extends BaseModule {
         const extraText = this.formatCommandChannelFilter(command);
         if (extraText) return `\`\`\`${invocation}\`\`\`\n**(${extraText})**\n${command.help}\n\n${params.join('\n')}`;
         else return `\`\`\`${invocation}\`\`\`\n${command.help}\n\n${params.join('\n')}`;
+    }
+
+    static formatWikiText(text) {
+        return toMarkdown(text, {
+            converters: [
+                {
+                    // Convert various stuff to plain-text
+                    filter: ['a', 'small', 'span'],
+                    replacement: (innerHTML, node) => node.style.display !== 'none' ? innerHTML : ''
+                },
+                {
+                    // Filter out all unwanted tags
+                    filter: node => !node.nodeName.match(/^(b|strong|i|em|s|del|p)$/i),
+                    replacement: () => ''
+                }
+            ]
+        })
     }
 }
 

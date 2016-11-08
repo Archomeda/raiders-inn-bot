@@ -19,6 +19,7 @@ modules:
     deliver_help: dm
     command_source: source
     command_reset: reset
+    command_wiki: wiki
 
   # Provides region assignment related stuff
   region_assignment:

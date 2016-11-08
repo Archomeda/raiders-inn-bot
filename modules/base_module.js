@@ -39,7 +39,12 @@ class BaseModule {
         // Get parameters
         let commandParams = [];
         if (command.params) {
-            commandParams = match[3] ? match[3].split(' ', command.params.length) : [];
+            commandParams = [];
+            if (match[3]) {
+                const spl = match[3].split(' ');
+                commandParams = spl.splice(0, command.params.length - 1);
+                commandParams.push(spl.join(' '));
+            }
             if (commandParams.length < command.params.filter(param => !param.optional).length) return;
         }
 
