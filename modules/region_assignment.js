@@ -19,7 +19,7 @@ class RegionAssignment extends BaseModule {
             return `Region ${region.toUpperCase()} is currently not available.`;
         }
 
-        const role = member.guild.roles.find('name', config.get(`modules.region_assignment.${region}.role`));
+        const role = member.guild.roles.get(config.get(`modules.region_assignment.${region}.role`));
         return member.addRole(role)
             .then(() => `You should have been **assigned** to **${role.name}**. If not, please contact one of the staff members.`);
     }
@@ -29,7 +29,7 @@ class RegionAssignment extends BaseModule {
             return `Region ${region.toUpperCase()} is currently not available.`;
         }
 
-        const role = member.guild.roles.find('name', config.get(`modules.region_assignment.${region}.role`));
+        const role = member.guild.roles.get(config.get(`modules.region_assignment.${region}.role`));
         return member.removeRole(role)
             .then(() => `You should have been **removed** from **${role.name}**. If not, please contact one of the staff members.`);
     }
@@ -135,7 +135,7 @@ class RegionAssignment extends BaseModule {
             on_command: message => {
                 const regionLines = ['eu', 'na', 'cn']
                     .filter(region => config.get(`modules.region_assignment.${region}.enabled`))
-                    .map(region => message.guild.roles.find('name', config.get(`modules.region_assignment.${region}.role`)))
+                    .map(region => message.guild.roles.get(config.get(`modules.region_assignment.${region}.role`)))
                     .map(role => role ? `:small_blue_diamond: ${role.name}: ${role.members.size} ${role.members.size === 1 ? 'person' : 'people'}` : null)
                     .filter(region => region)
                     .join('\n');

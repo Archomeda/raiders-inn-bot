@@ -4,6 +4,10 @@
 # Keep in mind that the YAML format does not like tabs as indentation, you have to use spaces.
 #
 
+# Every setting that accepts an id needs to be enclosed with double quotes (").
+# The reason is that the ids are too big for Node to handle properly as a number.
+# Saving it as a string explicitly works around this issue.
+
 discord:
   # The bot's token can found on the bot's application page on discordapp.com/developers/applications/me
   token: your-token-should-be-here
@@ -46,24 +50,24 @@ modules:
   # Provides region assignment related stuff
   region_assignment:
     enabled: true
-    # The channels accepts an array of channel IDs, an empty array means that it listens to all channels
+    # The channels accepts an array of channel ids, an empty array means that it listens to all channels
     channels: []
     command_numbers: numbers
     eu:
       enabled: true
       command_assign: eu
       command_remove: -eu
-      role: eu-role-name
+      role: eu-role-id
     na:
       enabled: true
       command_assign: na
       command_remove: -na
-      role: na-role-name
+      role: na-role-id
     cn:
       enabled: true
       command_assign: cn
       command_remove: -cn
-      role: cn-role-name
+      role: cn-role-id
 
 #####
 # The permissions are set up in a hierarchical way. If a person is a member of more than 1 group,
