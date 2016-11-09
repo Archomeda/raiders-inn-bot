@@ -47,14 +47,11 @@ class GeneralModule extends BaseModule {
                         }
                     }
 
-                    // TODO: Disabled for now as I don't have a way to detect server role assignments in a DM yet... (they are separate)
-                    //if (!this.checkPermission(message, `${command.filename}.${command.id}`)) return;
-
                     if (!command) {
                         return `I do not recognize the command \`${config.get('discord.command_prefix')}${commandName}\`.` +
                             `Type \`${config.get('discord.command_prefix')}${config.get('modules.general.command_help')}\` to see the list of commands.`;
                     }
-                    return `\n${this.formatCommandHelp(command)}`;
+                    return `\n${this.formatCommandHelp(message, command)}`;
                 } else {
                     // Reply with general help
                     const help = [];
@@ -64,7 +61,7 @@ class GeneralModule extends BaseModule {
                             help.push(moduleHelp);
                         }
                     });
-                    return `\n${help.join('\n\n')}`;
+                    return `\n${help.join('\n\n')}\n\nCommands marked with an asterisk might be restricted.`;
                 }
             }
         };
@@ -191,9 +188,9 @@ class GeneralModule extends BaseModule {
     formatCommandChannelFilter(command) {
         let text = [];
         if (command.channel_type) {
-            if (command.channel_type.indexOf('dm') > -1 && command.channel_type.indexOf('text') === -1) {
+            if (command.channel_type.indexOf('dm') > -1 && command.channel_type.length === 1) {
                 text.push('DM only');
-            } else if (command.channel_type.indexOf('dm') === -1 && command.channel_type.indexOf('text') > -1) {
+            } else if (command.channel_type.indexOf('text') > -1 && command.channel_type.length === 1) {
                 if (command.channels && command.channels.length > 0) {
                     text.push('specific server channels only');
                 } else {
@@ -213,20 +210,23 @@ class GeneralModule extends BaseModule {
         const name = module.name || module.constructor.name.replace(/(.*?)(Module)?/, '$1');
         const commands = [];
         module.commands.forEach(command => {
-            // TODO: Disabled for now as I don't have a way to detect server role assignments in a DM yet... (they are separate)
-            //if (!this.checkPermission(message, `${module.filename}.${command.id}`)) return;
-
             const commandText = `\`${config.get('discord.command_prefix')}${command.command}\``;
             const helpText = command.short_help;
             if (!helpText) return;
-
             let text;
-            if (command.channel_type && command.channel_type.length > 0) {
-                const extraText = this.formatCommandChannelFilter(command);
+
+            let extraText = this.formatCommandChannelFilter(command);
+            // TODO: Find a better way to detect server role assignments in a DM
+            if (!this.checkCommandPermission(message, command)) {
+                extraText += '*';
+            }
+
+            if (extraText) {
                 text = `${commandText} - ${helpText} *(${extraText})*`;
             } else {
                 text = `${commandText} - ${helpText}`;
             }
+
             commands.push(text);
         });
         if (commands.length === 0) {
@@ -235,7 +235,7 @@ class GeneralModule extends BaseModule {
         return `__**${name}**__\n${commands.join('\n')}`;
     }
 
-    formatCommandHelp(command) {
+    formatCommandHelp(message, command) {
         let invocation = `${config.get('discord.command_prefix')}${command.command} `;
         const params = [];
         if (command.params) {
@@ -244,8 +244,7 @@ class GeneralModule extends BaseModule {
                 const helpText = param.help;
                 let text;
                 if (param.optional) {
-                    const extraText = 'optional';
-                    text = `${paramText} - ${helpText} *(${extraText})*`;
+                    text = `${paramText} - ${helpText} *(optional)*`;
                 } else {
                     text = `${paramText} - ${helpText}`;
                 }
@@ -253,7 +252,12 @@ class GeneralModule extends BaseModule {
                 invocation += (param.optional ? '[' : '') + param.id + (param.optional ? ']' : '') + ' ';
             });
         }
-        const extraText = this.formatCommandChannelFilter(command);
+        let extraText = this.formatCommandChannelFilter(command);
+        // TODO: Find a better way to detect server role assignments in a DM
+        if (!this.checkCommandPermission(message, command)) {
+            extraText += (extraText ? ', ' : '') + 'might be restricted';
+        }
+
         if (extraText) return `\`\`\`${invocation}\`\`\`\n**(${extraText})**\n${command.help}\n\n${params.join('\n')}`;
         else return `\`\`\`${invocation}\`\`\`\n${command.help}\n\n${params.join('\n')}`;
     }
