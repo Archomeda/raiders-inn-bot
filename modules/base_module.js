@@ -266,9 +266,14 @@ class BaseModule {
                     return response;
                 })
                 .catch(err => {
-                    console.warn(`Executing command '${message.content}' by '${message.author.username}#${message.author.discriminator}' failed: ${err.message}`);
-                    console.warn(err.stack);
-                    return `Command execution failed: ${err.message}`;
+                    if (err.name === 'CommandError') {
+                        console.log(`Caught CommandError on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
+                        return err.message;
+                    } else {
+                        console.warn(`Unexpected error on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
+                        console.warn(err.stack);
+                        return `Failed to execute command: ${err.message}`;
+                    }
                 })
                 .finally(() => {
                     if (typing) {

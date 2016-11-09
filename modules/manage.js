@@ -2,6 +2,7 @@
 
 const
     config = require('config'),
+
     BaseModule = require('./base_module');
 
 class ManageModule extends BaseModule {

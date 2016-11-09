@@ -3,6 +3,7 @@
 const
     config = require('config'),
     moment = require('moment-timezone'),
+
     BaseModule = require('./base_module');
 
 class RaidsModule extends BaseModule {

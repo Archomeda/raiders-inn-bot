@@ -4,6 +4,8 @@ const
     MWBot = require('mwbot'),
     config = require('config'),
     toMarkdown = require('to-markdown'),
+
+    CommandError = require('./errors/CommandError'),
     BaseModule = require('./base_module');
 
 const wiki = new MWBot({
@@ -48,8 +50,8 @@ class GeneralModule extends BaseModule {
                     }
 
                     if (!command) {
-                        return `I do not recognize the command \`${config.get('discord.command_prefix')}${commandName}\`.` +
-                            `Type \`${config.get('discord.command_prefix')}${config.get('modules.general.command_help')}\` to see the list of commands.`;
+                        throw new CommandError(`The command \`${config.get('discord.command_prefix')}${commandName}\` is not recognized.` +
+                            `Type \`${config.get('discord.command_prefix')}${config.get('modules.general.command_help')}\` to see the list of commands.`);
                     }
                     return `\n${this.formatCommandHelp(message, command)}`;
                 } else {
@@ -113,7 +115,7 @@ class GeneralModule extends BaseModule {
             ],
             on_command: (message, params) => {
                 if (!params || params.length === 0) {
-                    return 'Please provide a wiki article title or search terms.';
+                    throw new CommandError('Please provide a wiki article title or search terms.');
                 }
                 const terms = params[0];
 
@@ -174,9 +176,9 @@ class GeneralModule extends BaseModule {
                     // Capture errors and construct proper fail message
                     switch (err.message) {
                         case 'not found':
-                            return 'Your request did not come up with any results. Try using different search terms.';
+                            throw new CommandError('Your request did not come up with any results. Try using different search terms.');
                         case 'no title':
-                            return 'Please provide a wiki article title or search terms.';
+                            throw new CommandError('Please provide a wiki article title or search terms.');
                         default:
                             throw err;
                     }
@@ -184,6 +186,7 @@ class GeneralModule extends BaseModule {
             }
         }
     }
+
 
     formatCommandChannelFilter(command) {
         let text = [];
