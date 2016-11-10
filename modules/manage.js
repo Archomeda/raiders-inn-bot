@@ -22,7 +22,7 @@ class ManageModule extends BaseModule {
                 const client = this.bot.getClient();
                 let result = [];
                 for (let server of client.guilds.array()) {
-                    result.push(`=== ${server.name} ===`);
+                    result.push(`=== ${server.name}: ${server.id} ===`);
                     result.push('Roles:');
                     for (let role of server.roles.array().sort((a, b) => b.position - a.position)) {
                         result.push(`${role.name}: ${role.id}`);
