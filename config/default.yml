@@ -74,6 +74,9 @@ modules:
     enabled: true
     # The channels accepts an array of channel ids, an empty array means that it listens to all channels
     channels: []
+    # Roles with permanent access accepts an array of role ids that will always have access to each created squad channel
+    # An empty array means that no roles have permanent access
+    roles_with_permanent_access: []
     command_request: requestsquad
     command_leader: leader
     command_invite: invite

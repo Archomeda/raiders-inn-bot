@@ -149,6 +149,17 @@ class SquadModule extends BaseModule {
                 this.squads.push(squad);
                 return squad.createChannels(message.guild)
                     .then(() => this.reorderSquadChannels(message.guild, config.get('modules.squads.squads_after_textchannel'), config.get('modules.squads.squads_after_voicechannel')))
+                    .then(() => {
+                        return Promise.mapSeries(config.get('modules.squads.roles_with_permanent_access'), roleId => {
+                            const role = message.guild.roles.get(roleId);
+                            if (role) {
+                                return Promise.all([
+                                    message.guild.channels.get(squad.textChannel).overwritePermissions(roleId, { READ_MESSAGES: true }),
+                                    message.guild.channels.get(squad.voiceChannel).overwritePermissions(roleId, { CONNECT: true })
+                                ]);
+                            }
+                        });
+                    })
                     .then(() => squad.setLeader(message.member))
                     .then(() => {
                         setTimeout(() => this.onSquadExpired(message.guild, squad), config.get('modules.squads.disband_new_squad_after') * 60 * 1000);
