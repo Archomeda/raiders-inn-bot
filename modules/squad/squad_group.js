@@ -74,8 +74,8 @@ class SquadGroup {
 
         // Try generating a name 10 times, if we don't have a unique name after that, give up and generate a numbered room
         do {
-            const adjective = adjectives[random.integer(0, adjectives.length - 1)];
-            const noun = nouns[random.integer(0, nouns.length - 1)];
+            const adjective = random.pick(adjectives);
+            const noun = random.pick(nouns);
             name = this.makeVoiceChannelName(`${adjective} ${noun}`);
             success = existingNames.indexOf(name) === -1;
             i++;
