@@ -69,6 +69,108 @@ modules:
       command_remove: -cn
       role: cn-role-id
 
+  # Provides squad managing
+  squads:
+    enabled: true
+    # The channels accepts an array of channel ids, an empty array means that it listens to all channels
+    channels: []
+    command_request: requestsquad
+    command_leader: leader
+    command_invite: invite
+    command_kick: kick
+    command_transfer: transfer
+    command_leave: leave
+    command_disband: disband
+    # The squad channels are placed directly after these channels
+    squads_after_textchannel: text-channel-id
+    squads_after_voicechannel: voice-channel-id
+    # Since each squad has a text and a voice channel, they need to have a unique name
+    # {name} is replaced by the actual squad name
+    textchannel_template: sq-{name}
+    voicechannel_template: Squad {name}
+    # The disband timers are minutes
+    disband_new_squad_after: 20
+    disband_empty_squad_after: 5
+    disband_restored_squad_after: 10
+    # The squad names are randomly generated from 1 adjective and 1 noun
+    squad_names:
+      adjectives:
+        - asuran
+        - charr
+        - human
+        - norn
+        - sylvan
+        - northern
+        - eastern
+        - southern
+        - western
+        - central
+        - lower
+        - upper
+        - dead
+        - mystic
+        - ash legion's
+        - blood legion's
+        - flame legion's
+        - iron legion's
+        - balthazar's
+        - dwayna's
+        - grenth's
+        - kormir's
+        - lyssa's
+        - melandru's
+        - hunter's
+        - lion's
+        - wolf's
+        - owl's
+        - raven's
+        - braham's
+        - caithe's
+        - eir's
+        - logan's
+        - garm's
+        - kasmeer's
+        - marjory's
+        - rox's
+        - rytlock's
+        - pyre's
+        - snaff's
+        - taimi's
+        - ventari's
+        - zojja's
+      nouns:
+        - bar
+        - commons
+        - district
+        - headquarters
+        - hearth
+        - inn
+        - plaza
+        - room
+        - shelter
+        - tavern
+        - ward
+        - ale
+        - beer
+        - brandy
+        - lager
+        - mead
+        - shandy
+        - wine
+        - bull
+        - bunny
+        - chicken
+        - cow
+        - doe
+        - dolyak
+        - frog
+        - marmox
+        - moose
+        - ram
+        - rat
+        - sheep
+        - stag
+
 #####
 # The permissions are set up in a hierarchical way. If a person is a member of more than 1 group,
 # the first matched command in either blacklist or whitelist in a group (top-down) from the list below gets priority.

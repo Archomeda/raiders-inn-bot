@@ -18,6 +18,7 @@
     "moment-timezone": "^0.5.9",
     "mwbot": "^1.0.7",
     "node-cache": "^4.1.0",
+    "random-js": "^1.0.8",
     "to-markdown": "^3.0.3"
   }
 }
