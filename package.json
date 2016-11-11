@@ -9,6 +9,10 @@
   },
   "author": "Archomeda",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Archomeda/raiders-inn-bot.git"
+  },
   "dependencies": {
     "bluebird": "^3.4.6",
     "config": "^1.24.0",
