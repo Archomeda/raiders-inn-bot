@@ -95,6 +95,8 @@ modules:
     disband_new_squad_after: 20
     disband_empty_squad_after: 5
     disband_restored_squad_after: 10
+    # When the kick or leave command is executed, this is the voice channel where those people are automatically moved to
+    kick_users_to_channel: voice-channel-id
     # The squad names are randomly generated from 1 adjective and 1 noun
     squad_names:
       adjectives:

@@ -10,6 +10,7 @@ const adjectives = config.get('modules.squads.squad_names.adjectives');
 const nouns = config.get('modules.squads.squad_names.nouns');
 const textChannelTemplate = config.get('modules.squads.textchannel_template');
 const voiceChannelTemplate = config.get('modules.squads.voicechannel_template');
+const kickUsersToChannel = config.get('modules.squads.kick_users_to_channel');
 
 class SquadGroup {
     constructor() {
@@ -226,7 +227,7 @@ class SquadGroup {
         const index = this._members.indexOf(memberId);
         if (index > -1) {
             this._members.splice(index, 1);
-            return this.setPermissions(member);
+            return this.setPermissions(member).then(() => member.setVoiceChannel(kickUsersToChannel));
         }
     }
 
