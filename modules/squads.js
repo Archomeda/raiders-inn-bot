@@ -27,12 +27,6 @@ class SquadModule extends BaseModule {
 
     onVoiceStateUpdate(oldMember, newMember) {
         try {
-            const squad = this.getSquadByMember(oldMember) || this.getSquadByMember(newMember);
-            if (!squad) {
-                // We have nothing do do here
-                return;
-            }
-
             const oldVoiceChannelId = oldMember.voiceChannelID;
             const newVoiceChannelId = newMember.voiceChannelID;
             if (oldVoiceChannelId === newVoiceChannelId) {
@@ -40,22 +34,37 @@ class SquadModule extends BaseModule {
                 return;
             }
 
-            const textChannel = newMember.guild.channels.get(squad.textChannel);
-            const voiceChannel = newMember.guild.channels.get(squad.voiceChannel);
-
-            if (oldVoiceChannelId === squad.voiceChannel) {
-                // User has left the squad voice channel
-                textChannel.sendMessage(`${newMember} has left the voice channel.`);
-            } else if (newVoiceChannelId === squad.voiceChannel) {
-                // User has joined the squad voice channel
-                textChannel.sendMessage(`${newMember} has joined the voice channel.`);
+            const oldVoiceChannel = oldMember.guild.channels.get(oldVoiceChannelId);
+            const newVoiceChannel = newMember.guild.channels.get(newVoiceChannelId);
+            const oldSquad = this.getSquadByChannel(oldVoiceChannel);
+            const newSquad = this.getSquadByChannel(newVoiceChannel);
+            if (!oldSquad && !newSquad) {
+                // We have nothing do do here
+                return;
             }
 
-            if (voiceChannel.members.size === 0) {
-                // No one is in the voice channel
-                this.scheduleSquadExpire(newMember.guild, squad, config.get('modules.squads.disband_empty_squad_after') * 60 * 1000);
-                textChannel.sendMessage('Everyone has left the voice channel. ' +
-                    `Disbanding squad in ${config.get('modules.squads.disband_empty_squad_after')} minutes if no one joins.`);
+            if (oldSquad) {
+                // We have a squad before
+                if (!newSquad || oldSquad.voiceChannel !== newSquad.voiceChannel) {
+                    // User has left the squad voice channel
+                    const textChannel = oldMember.guild.channels.get(oldSquad.textChannel);
+                    textChannel.sendMessage(`${oldMember} has left the voice channel.`);
+                    if (oldVoiceChannel.members.size === 0) {
+                        // No one is in the voice channel
+                        const time = config.get('modules.squads.disband_empty_squad_after');
+                        this.scheduleSquadExpire(oldMember.guild, oldSquad, time * 60 * 1000);
+                        textChannel.sendMessage('Everyone has left the voice channel. ' +
+                            `Disbanding squad in ${time} minutes if no one joins.`);
+                    }
+                }
+            }
+            if (newSquad) {
+                // We have a squad after
+                if (!oldSquad || oldSquad.voiceChannel !== newSquad.voiceChannel) {
+                    // User has joined the squad voice channel
+                    const textChannel = newMember.guild.channels.get(newSquad.textChannel);
+                    textChannel.sendMessage(`${newMember} has joined the voice channel.`);
+                }
             }
         } catch (err) {
             console.warn(`Unexpected error: ${err.message}`);
@@ -229,7 +238,7 @@ class SquadModule extends BaseModule {
             channel_type: 'text',
             channels: config.get('modules.squads.channels'),
             on_command: message => {
-                if (this.getSquadByTextChannel(message.channel)) {
+                if (this.getSquadByChannel(message.channel)) {
                     throw new CommandError('This command does not work in squad channels. Please try again in the same channel as where you created the squad.');
                 }
                 const squad = this.getSquadByMember(message.member);
@@ -390,12 +399,21 @@ class SquadModule extends BaseModule {
         return this.squads.find(s => s.members.indexOf(member.id) > -1);
     }
 
-    getSquadByTextChannel(channel) {
-        return this.squads.find(s => s.textChannel === channel.id);
+    getSquadByChannel(channel) {
+        if (!channel) {
+            return null;
+        }
+        switch (channel.type) {
+            case 'text':
+                return this.squads.find(s => s.textChannel === channel.id);
+            case 'voice':
+                return this.squads.find(s => s.voiceChannel === channel.id);
+        }
+        return null;
     }
 
     checkSquadChannel(channel) {
-        const squad = this.getSquadByTextChannel(channel);
+        const squad = this.getSquadByChannel(channel);
         if (!squad) {
             throw new CommandError('You can only execute this command in a squad channel.');
         }
