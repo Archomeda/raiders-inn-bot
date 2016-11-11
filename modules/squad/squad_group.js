@@ -146,8 +146,8 @@ class SquadGroup {
         const voiceChannel = member.guild.channels.get(this._voiceChannel);
 
         if (!permissions) {
-            const textPerm = textChannel.permissionOverwrites.get(member);
-            const voicePerm = voiceChannel.permissionOverwrites.get(member);
+            const textPerm = textChannel.permissionOverwrites.get(member.id);
+            const voicePerm = voiceChannel.permissionOverwrites.get(member.id);
             const promises = [];
             if (textPerm) {
                 promises.push(textPerm.delete());
@@ -155,9 +155,7 @@ class SquadGroup {
             if (voicePerm) {
                 promises.push(voicePerm.delete());
             }
-            return Promise.all(promises).then(() => {
-
-            });
+            return Promise.all(promises);
         } else {
             return Promise.all([
                 textChannel.overwritePermissions(member, permissions),
