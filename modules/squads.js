@@ -114,7 +114,7 @@ class SquadModule extends BaseModule {
             }
 
             const voiceChannel = guild.channels.get(squad.voiceChannel);
-            if (voiceChannel.members.size === 0) {
+            if (voiceChannel && voiceChannel.members.size === 0) {
                 // Double check if no one is connected
                 squad.deleteChannels(guild)
                     .then(() => this.squads.splice(this.squads.indexOf(squad), 1))
@@ -238,7 +238,7 @@ class SquadModule extends BaseModule {
                         `You can create one by typing \`${config.get('discord.command_prefix')}${config.get('modules.squads.command_request')}\`.`);
                 }
                 this.checkLeader(squad, message.member);
-                const mentions = this.filterMentions(squad, message.member, message.mentions.users.array());
+                const mentions = this.filterMentionsOutside(squad, message.member, message.mentions.users.array());
                 if (mentions.length === 0) {
                     throw new CommandError(`This command will only work if you mention one or more people, like ${message.author}.`);
                 }
@@ -276,7 +276,7 @@ class SquadModule extends BaseModule {
             on_command: message => {
                 const squad = this.checkSquadChannel(message.channel);
                 this.checkLeader(squad, message.member);
-                const mentions = this.filterMentions(squad, message.member, message.mentions.users.array());
+                const mentions = this.filterMentionsInside(squad, message.member, message.mentions.users.array());
                 if (mentions.length === 0) {
                     throw new CommandError(`This command will only work if you mention one or more people, like ${message.author}.`);
                 }
@@ -302,7 +302,7 @@ class SquadModule extends BaseModule {
             on_command: message => {
                 const squad = this.checkSquadChannel(message.channel);
                 this.checkLeader(squad, message.member);
-                const mentions = this.filterMentions(squad, message.member, message.mentions.users.array());
+                const mentions = this.filterMentionsInside(squad, message.member, message.mentions.users.array());
                 if (mentions.length === 0) {
                     throw new CommandError(`This command will only work if you mention a person, like ${message.author}.`);
                 }
@@ -409,7 +409,12 @@ class SquadModule extends BaseModule {
         return member;
     }
 
-    filterMentions(squad, member, mentions) {
+    filterMentionsOutside(squad, member, mentions) {
+        const client = this.bot.getClient();
+        return mentions.filter(m => squad.members.indexOf(m.id) === -1 && member.id !== m.id && client.user.id !== m.id);
+    }
+
+    filterMentionsInside(squad, member, mentions) {
         const client = this.bot.getClient();
         return mentions.filter(m => squad.members.indexOf(m.id) > -1 && member.id !== m.id && client.user.id !== m.id);
     }
