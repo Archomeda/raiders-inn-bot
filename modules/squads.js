@@ -133,7 +133,7 @@ class SquadModule extends BaseModule {
         return {
             id: 'request',
             command: config.get('modules.squads.command_request'),
-            cooldown: 'none',
+            cooldown: 'user',
             help: 'Requests a new squad channel for raiding. You can only request a new channel if you are not part of one already.',
             short_help: 'Requests a new squad channel for raiding',
             channel_type: 'text',
