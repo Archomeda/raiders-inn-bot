@@ -21,7 +21,7 @@ class CommandSource extends CommandBase {
     }
 
     onCommand(message, params) {
-        const modules = this._module.bot.getModules();
+        const modules = this.module.bot.getModules();
         const commandPrefix = config.get('discord.command_prefix');
 
         if (params.length > 0) {
@@ -82,7 +82,7 @@ class CommandSource extends CommandBase {
 
             let extraText = this.formatCommandChannelFilter(command);
             // TODO: Find a better way to detect server role assignments in a DM
-            if (!this._module.checkCommandPermission(message, command)) {
+            if (!this.module.checkCommandPermission(message, command)) {
                 extraText += '*';
             }
 
@@ -109,7 +109,7 @@ class CommandSource extends CommandBase {
         });
         let extraText = this.formatCommandChannelFilter(command);
         // TODO: Find a better way to detect server role assignments in a DM
-        if (!this._module.checkCommandPermission(message, command)) {
+        if (!this.module.checkCommandPermission(message, command)) {
             extraText += (extraText ? ', ' : '') + 'might be restricted';
         }
 

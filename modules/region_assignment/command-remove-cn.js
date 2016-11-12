@@ -3,9 +3,9 @@
 const
     config = require('config'),
 
-    CommandAssignment = require('./command-assignment');
+    CommandAssignmentBase = require('./command-assignment-base');
 
-class CommandRemoveCN extends CommandAssignment {
+class CommandRemoveCN extends CommandAssignmentBase {
     constructor(module) {
         super(module);
 

@@ -28,6 +28,10 @@ class CommandBase {
         throw new TypeError('must override method');
     }
 
+    get module() {
+        return this._module;
+    }
+
     get permissionId() {
         return `${this._module.filename}.${this.id}`;
     }

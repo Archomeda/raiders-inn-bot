@@ -6,11 +6,12 @@ const
     CommandBase = require('../command-base'),
     CommandError = require('../errors/CommandError');
 
-class CommandAssignment extends CommandBase {
+class CommandAssignmentBase extends CommandBase {
     constructor(module) {
         super(module);
 
         this.cooldownType = 'user';
+        this.listenChannelTypes = 'text';
         this.listenChannels = config.get('modules.region_assignment.channels');
     }
 
@@ -53,4 +54,4 @@ class CommandAssignment extends CommandBase {
     }
 }
 
-module.exports = CommandAssignment;
+module.exports = CommandAssignmentBase;

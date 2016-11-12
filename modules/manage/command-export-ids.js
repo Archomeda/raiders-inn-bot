@@ -17,7 +17,7 @@ class CommandExportIds extends CommandBase {
     }
 
     onCommand(message, params) {
-        const client = this._module.bot.getClient();
+        const client = this.module.bot.getClient();
         let result = [];
         for (let server of client.guilds.array()) {
             result.push(`=== ${server.name}: ${server.id} ===`);

@@ -10,7 +10,7 @@ const
     CommandRemoveCN = require('./command-remove-cn'),
     CommandListNumbers = require('./command-list-numbers');
 
-class ModuleRaids extends ModuleBase {
+class ModuleRegionAssignment extends ModuleBase {
     constructor(bot) {
         super(bot);
 
@@ -23,7 +23,8 @@ class ModuleRaids extends ModuleBase {
             new CommandRemoveCN(this),
             new CommandListNumbers(this)
         ];
+        this.name = 'Region Assignment';
     }
 }
 
-module.exports = ModuleRaids;
+module.exports = ModuleRegionAssignment;

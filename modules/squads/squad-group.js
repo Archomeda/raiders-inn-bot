@@ -228,11 +228,13 @@ class SquadGroup {
         if (index > -1) {
             this._members.splice(index, 1);
             return this.setPermissions(member).then(() => {
-                const voiceChannel = member.guild.channels.get(kickUsersToChannel);
-                if (voiceChannel) {
-                    return member.setVoiceChannel(voiceChannel);
-                } else {
-                    console.warn('Error: user was not moved automatically because the target voice channel could not be found');
+                if (member.voiceChannelID) {
+                    const voiceChannel = member.guild.channels.get(kickUsersToChannel);
+                    if (voiceChannel) {
+                        return member.setVoiceChannel(voiceChannel);
+                    } else {
+                        console.warn('Error: user was not moved automatically because the target voice channel could not be found');
+                    }
                 }
             });
         }

@@ -13,12 +13,16 @@ class ModuleBase {
             throw new TypeError('cannot construct ModuleBase instances directly');
         }
 
-        this.bot = bot;
         this.name = new.target.name.replace(/(.*?)(Module)?/, '$1');
+        this._bot = bot;
         this._commands = [];
 
         this.onMessage = this.onMessage.bind(this);
         this.bot.getClient().on('message', this.onMessage);
+    }
+
+    get bot() {
+        return this._bot;
     }
 
     get commands() {
