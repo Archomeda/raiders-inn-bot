@@ -52,7 +52,7 @@ modules:
     enabled: true
     # The channels accepts an array of channel ids, an empty array means that it listens to all channels
     channels: []
-    command_numbers: numbers
+    command_list_numbers: numbers
     eu:
       enabled: true
       command_assign: eu
