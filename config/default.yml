@@ -45,7 +45,7 @@ modules:
   # Provides raid related stuff
   raids:
     enabled: true
-    command_reset: reset
+    command_reset_time: reset
 
   # Provides region assignment related stuff
   region_assignment:
