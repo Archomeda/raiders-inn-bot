@@ -2,8 +2,10 @@
 
 const
     config = require('config'),
-    NodeCache = require('node-cache')
-    Promise = require('bluebird');
+    NodeCache = require('node-cache'),
+    Promise = require('bluebird'),
+
+    RestrictPermissionsMiddleware = require('../middleware/internal/RestrictPermissionsMiddleware');
 
 const cache = new NodeCache();
 
@@ -29,39 +31,67 @@ class Module {
         return this._commands;
     }
 
+    registerCommand(command) {
+        const middleware = [];
+        const defaultMiddleware = config.get('discord.command_middleware');
+        for (let name in defaultMiddleware) {
+            if (defaultMiddleware.hasOwnProperty(name)) {
+                const options = defaultMiddleware[name];
+                const middlewareClass = require(`../middleware/${name}`);
+                middleware.push(new middlewareClass(options));
+            }
+        }
+
+        const permissions = config.get('permissions');
+        middleware.push(new RestrictPermissionsMiddleware({ permissions }));
+        command.defaultMiddleware = middleware;
+        this._commands.push(command);
+    }
+
     onMessage(message) {
-        const [command, params] = this.parseCommandString(message);
+        let response;
+        let [command, params] = this.parseCommandString(message);
 
         // If the command is empty, we ignore the message
         if (!command) {
             return;
         }
 
-        // If the command is executed from a disabled channel type, we ignore the message
-        if (!this.checkCommandChannelType(message, command)) {
-            return;
-        }
-
-        // If the command is not executed from a specific channel, we ignore the message
-        if (!this.checkCommandChannel(message, command)) {
-            return;
-        }
-
-        // Check the command cooldowns
-        switch (this.checkCommandCooldowns(message, command)) {
-            case 'warn-command-global':
-                return message.reply('This command has already been executed recently. Please wait a bit before executing it again.');
-            case 'warn-command-user':
-                return message.reply(`You've already executed this command recently. Please wait a bit before executing it again.`);
-            case 'warn-user':
-                return message.reply(`You've already executed a command recently. Please wait a bit before executing another.`);
-            case false:
+        // Go through all the applied middleware before executing the command
+        let middlewareResult = { message, command, params };
+        try {
+            for (let middleware of command.middleware) {
+                middlewareResult = middleware.onCommand(middlewareResult);
+                if (!middlewareResult || !middlewareResult._next) {
+                    // No result or don't continue (aka we have a captured response)
+                    break;
+                }
+            }
+            if (!middlewareResult) {
+                // Middleware cancelled the command execution without an error
                 return;
-        }
-
-        // If the user does not have the correct permissions, we warn the user
-        if (!this.checkCommandPermission(message, command)) {
-            return message.reply(`You don't have permission to access this command.`);
+            } else if (middlewareResult._next) {
+                message = middlewareResult.message;
+                command = middlewareResult.command;
+                params = middlewareResult.params;
+            } else {
+                response = middlewareResult.response;
+            }
+        } catch (err) {
+            if (err.name === 'MiddlewareError') {
+                // Middleware threw an error, do stuff with it
+                if (err.userMessage) {
+                    return message.reply(err.userMessage);
+                }
+                if (err.logger) {
+                    console[err.logger](`Middleware error: ${err.message}`);
+                }
+            } else {
+                // Unexpected error
+                console.warn(`Unexpected error: ${err.message}`);
+                console.warn(err.stack);
+            }
+            return;
         }
 
         // Depending on the delivery method, do stuff
@@ -103,12 +133,7 @@ class Module {
             if (typing) {
                 message.channel.startTyping();
             }
-            return Promise.try(() => command.onCommand(message, params))
-                .then(response => {
-                    // Update command cooldowns upon successful command execution
-                    this.updateCommandCooldowns(message, command);
-                    return response;
-                })
+            return Promise.try(() => response ? response : command.onCommand(message, params))
                 .catch(err => {
                     if (err.name === 'CommandError') {
                         console.log(`Caught CommandError on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
@@ -123,7 +148,40 @@ class Module {
                     if (typing) {
                         message.channel.stopTyping();
                     }
-                }).then(sendMessage);
+                }).then(response => {
+                    // Go through all the applied middleware after executing the command
+                    let middlewareResult = { message, command, params, response };
+                    try {
+                        for (let middleware of command.middleware) {
+                            middlewareResult = middleware.onResponse(middlewareResult);
+                            if (!middlewareResult) {
+                                // No result or don't continue
+                                break;
+                            }
+                        }
+                        if (!middlewareResult) {
+                            // Middleware cancelled the command execution without an error
+                            return;
+                        }
+                        response = middlewareResult.response;
+                    } catch (err) {
+                        if (err.name === 'MiddlewareError') {
+                            // Middleware threw an error, do stuff with it
+                            if (err.userMessage) {
+                                return message.reply(err.userMessage);
+                            }
+                            if (err.logger) {
+                                console[err.logger](`Middleware error: ${err.message}`);
+                            }
+                        } else {
+                            // Unexpected error
+                            console.warn(`Unexpected error: ${err.message}`);
+                            console.warn(err.stack);
+                        }
+                        return;
+                    }
+                    return sendMessage(response);
+                });
         }
     }
 
@@ -154,95 +212,6 @@ class Module {
 
         // Return the parsed command with parameters
         return [command, params];
-    }
-
-    checkCommandChannelType(message, command) {
-        return command.listenChannelTypes.includes(message.channel.type);
-    }
-
-    checkCommandChannel(message, command) {
-        // If the channels array is empty, all channels are allowed
-        return command.listenChannels.length === 0 || command.listenChannels.includes(message.channel.id);
-    }
-
-    getCommandCooldownCacheName(message, command) {
-        return command.cooldownType === 'user' ? `command-cooldown-${command.name}-${message.author.id}` : `command-cooldown-${command.name}`;
-    }
-
-    getUserCooldownCacheName(message) {
-        return `user-cooldown-${message.author.id}`;
-    }
-
-    checkCommandCooldowns(message, command) {
-        if (command.cooldownType !== 'none') {
-            const commandCooldownCacheName = this.getCommandCooldownCacheName(message, command);
-            const commandCooldown = cache.get(commandCooldownCacheName);
-            if (commandCooldown) {
-                if (!commandCooldown.warning) {
-                    cache.set(commandCooldownCacheName, { warning: true }, (cache.getTtl(commandCooldownCacheName) - Date.now()) / 1000);
-                    return `warn-command-${command.cooldown}`;
-                }
-                return false;
-            }
-            const userCooldownCacheName = this.getUserCooldownCacheName(message);
-            const userCooldown = cache.get(userCooldownCacheName);
-            if (userCooldown) {
-                if (!userCooldown.warning) {
-                    cache.set(userCooldownCacheName, { warning: true }, (cache.getTtl(userCooldownCacheName) - Date.now()) / 1000);
-                    return `warn-user`;
-                }
-                return false;
-            }
-        }
-        return true;
-    }
-
-    updateCommandCooldowns(message, command) {
-        if (command.cooldownType !== 'none') {
-            cache.set(this.getCommandCooldownCacheName(message, command), {}, config.get('discord.command_cooldown'));
-            cache.set(this.getUserCooldownCacheName(message), {}, config.get('discord.user_cooldown'));
-        }
-    }
-
-    isPermissionInList(list, command) {
-        return list.some(p => command.match(new RegExp(`^${p.replace('.', '\\.').replace('*', '.*')}$`)));
-    }
-
-    checkCommandPermission(message, command) {
-        const permissions = config.get('permissions');
-        let commandAllowed;
-        for (let name in permissions) {
-            if (permissions.hasOwnProperty(name)) {
-                // Check for each permission group to see if the user is added as a user or as a role
-                const group = permissions[name];
-                if ((group.user_ids && group.user_ids.indexOf(message.author.id) > -1) ||
-                    (message.member && group.role_ids && _.intersection(group.role_ids, message.member.roles.keyArray()).length > 0)) {
-                    if (this.isPermissionInList(group.blacklist, command.permissionId)) {
-                        // Command explicitly disallowed
-                        commandAllowed = false;
-                        break;
-                    } else if (this.isPermissionInList(group.whitelist, command.permissionId)) {
-                        // Command explicitly allowed
-                        commandAllowed = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if (commandAllowed === undefined) {
-            // Check default group
-            if (permissions.default.blacklist.length > 0) {
-                // Check blacklist
-                commandAllowed = !this.isPermissionInList(permissions.default.blacklist, command.permissionId);
-            } else if (permissions.default.whitelist.length > 0) {
-                // Check whitelist
-                commandAllowed = this.isPermissionInList(permissions.default.whitelist, command.permissionId);
-            } else {
-                // Blacklist and whitelist are empty, assume allow
-                commandAllowed = true;
-            }
-        }
-        return commandAllowed;
     }
 }
 

@@ -4,7 +4,7 @@ const
     config = require('config'),
 
     CommandSquadBase = require('./CommandSquadBase'),
-    CommandError = require('../errors/CommandError');
+    CommandError = require('../../errors/CommandError');
 
 class CommandLeader extends CommandSquadBase {
     constructor(module) {

@@ -3,7 +3,7 @@
 const
     SquadGroup = require('./SquadGroup'),
     Command = require('../Command'),
-    CommandError = require('../errors/CommandError');
+    CommandError = require('../../errors/CommandError');
 
 class CommandSquadBase extends Command {
     constructor(module) {

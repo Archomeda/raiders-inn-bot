@@ -1,7 +1,9 @@
 'use strict';
 
 const
-    _ = require('lodash');
+    _ = require('lodash'),
+
+    ensureArray = require('../utils/array').ensureArray;
 
 class Command {
     constructor(module) {
@@ -17,11 +19,12 @@ class Command {
         this._aliases = [];
         this.helpText = null;
         this.shortHelpText = null;
-        this._cooldownType = 'global';
+        // TODO: change the supported delivery types to something else (middleware maybe?)
         this._supportedDeliveryTypes = ['text'];
-        this._listenChannels = [];
-        this._listenChannelTypes = ['dm', 'text'];
         this._params = [];
+
+        this._defaultMiddleware = [];
+        this._middleware = [];
     }
 
     onCommand(message, params) {
@@ -40,12 +43,7 @@ class Command {
         return this._aliases;
     }
     set aliases(aliases) {
-        if (!aliases) {
-            aliases = [];
-        } else if (!Array.isArray(aliases)) {
-            aliases = [aliases];
-        }
-        this._aliases = aliases;
+        this._aliases = ensureArray(aliases);
     }
 
     get cooldownType() {
@@ -65,9 +63,7 @@ class Command {
         if (!types) {
             throw new TypeError('types cannot be null or undefined');
         }
-        if (!Array.isArray(types)) {
-            types = [types];
-        }
+        types = ensureArray(types);
         types = _.intersection(types, ['dm', 'text', 'mention']);
         if (types.length === 0) {
             throw new TypeError('types is empty or contained only incompatible types');
@@ -79,12 +75,7 @@ class Command {
         return this._listenChannels;
     }
     set listenChannels(channels) {
-        if (!channels) {
-            channels = [];
-        } else if (!Array.isArray(channels)) {
-            channels = [channels];
-        }
-        this._listenChannels = channels;
+        this._listenChannels = ensureArray(channels);
     }
 
     get listenChannelTypes() {
@@ -94,9 +85,7 @@ class Command {
         if (!types) {
             throw new TypeError('types cannot be null or undefined');
         }
-        if (!Array.isArray(types)) {
-            types = [types];
-        }
+        types = ensureArray(types);
         types = _.intersection(types, ['dm', 'text']);
         if (types.length === 0) {
             throw new TypeError('types is empty or contained only incompatible types');
@@ -108,12 +97,18 @@ class Command {
         return this._params;
     }
     set params(params) {
-        if (!params) {
-            params = [];
-        } else if (!Array.isArray(params)) {
-            params = [params];
-        }
+        params = ensureArray(params);
         this._params = params.filter(p => p.name);
+    }
+
+    get middleware() {
+        return this._defaultMiddleware.concat(this._middleware);
+    }
+    set defaultMiddleware(middleware) {
+        this._defaultMiddleware = ensureArray(middleware);
+    }
+    set middleware(middleware) {
+        this._middleware = ensureArray(middleware);
     }
 }
 

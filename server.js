@@ -21,19 +21,19 @@ const bot = {
 };
 
 Promise.map(Object.keys(moduleConfigs), m => {
-    const moduleConfig = moduleConfigs[m];
-    if (!moduleConfig.enabled) return;
+    if (!moduleConfigs[m].enabled) return;
     return new Promise(resolve => {
         try {
             const Module = require(`./modules/${m}`);
             if (Module.prototype instanceof ModuleBase) {
-                modules.push(new Module(bot, moduleConfig, m));
+                modules.push(new Module(bot));
                 console.log(`Module '${m}' loaded`);
             } else {
                 console.warn(`Module '${m}' does not export a class that extends ModuleBase, skipping`);
             }
         } catch(err) {
             console.warn(`Module '${m}' could not be loaded: ${err.message}`);
+            console.warn(err.stack);
         }
         resolve();
     })

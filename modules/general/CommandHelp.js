@@ -5,7 +5,9 @@ const
 
     Command = require('../Command'),
     CommandParam = require('../CommandParam'),
-    CommandError = require('../errors/CommandError');
+    CommandError = require('../../errors/CommandError'),
+    CacheMiddleware = require('../../middleware/CacheMiddleware'),
+    RestrictPermissionMiddleware = require('../../middleware/internal/RestrictPermissionsMiddleware');
 
 class CommandHelp extends Command {
     constructor(module) {
@@ -15,9 +17,10 @@ class CommandHelp extends Command {
         this.name = config.get('modules.general.command_help');
         this.helpText = 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.';
         this.shortHelpText = 'Shows information about how to use commands';
-        this.cooldownType = 'none';
         this.supportedDeliveryTypes = config.get('modules.general.deliver_help');
         this.params = new CommandParam('command', 'The command', true);
+
+        this.middleware = new CacheMiddleware();
     }
 
     onCommand(message, params) {
@@ -56,13 +59,22 @@ class CommandHelp extends Command {
 
     formatCommandChannelFilter(command) {
         let text = [];
-        if (command.listenChannelTypes.includes('dm') && command.listenChannelTypes.length === 1) {
-            text.push('DM only');
-        } else if (command.listenChannelTypes.includes('text') && command.listenChannelTypes.length === 1) {
-            if (command.listenChannels.length > 0) {
-                text.push('specific server channels only');
-            } else {
-                text.push('server channels only');
+        const middleware = command.middleware.find(m => m.name === 'RestrictChannelsMiddleware');
+        if (middleware) {
+            // Restricted channels is applied
+            if (middleware.options.types.length === 1) {
+                switch (middleware.options.types[0]) {
+                    case 'dm':
+                        text.push('DM only');
+                        break;
+                    case 'text':
+                        if (middleware.options.channels.length > 0) {
+                            text.push('specific server channels only');
+                        } else {
+                            text.push('server channels only');
+                        }
+                        break;
+                }
             }
         }
         if (command.supportedDeliveryTypes.includes('mention')) {
@@ -82,7 +94,7 @@ class CommandHelp extends Command {
 
             let extraText = this.formatCommandChannelFilter(command);
             // TODO: Find a better way to detect server role assignments in a DM
-            if (!this.module.checkCommandPermission(message, command)) {
+            if (!RestrictPermissionMiddleware.isCommandAllowed(message, command)) {
                 extraText += '*';
             }
 
@@ -109,7 +121,7 @@ class CommandHelp extends Command {
         });
         let extraText = this.formatCommandChannelFilter(command);
         // TODO: Find a better way to detect server role assignments in a DM
-        if (!this.module.checkCommandPermission(message, command)) {
+        if (!RestrictPermissionMiddleware.isCommandAllowed(message, command)) {
             extraText += (extraText ? ', ' : '') + 'might be restricted';
         }
 

@@ -3,7 +3,8 @@
 const
     config = require('config'),
 
-    Command = require('../Command');
+    Command = require('../Command'),
+    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandWelcome extends Command {
     constructor(module) {
@@ -13,9 +14,9 @@ class CommandWelcome extends Command {
         this.name = config.get('modules.general.command_welcome');
         this.helpText = 'Welcomes people to the server and directs them to the read-first channel.';
         this.shortHelpText = 'Welcomes people to the server';
-        this.cooldownType = 'user';
         this.supportedDeliveryTypes = 'mention';
-        this.listenChannelTypes = 'text';
+
+        this.middleware = new RestrictChannelsMiddleware({ types: 'text' });
     }
 
     onCommand(message, params) {

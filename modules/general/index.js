@@ -11,12 +11,10 @@ class ModuleGeneral extends Module {
     constructor(bot) {
         super(bot);
 
-        this._commands = [
-            new CommandHelp(this),
-            new CommandSource(this),
-            new CommandWelcome(this),
-            new CommandWiki(this)
-        ];
+        this.registerCommand(new CommandHelp(this));
+        this.registerCommand(new CommandSource(this));
+        this.registerCommand(new CommandWelcome(this));
+        this.registerCommand(new CommandWiki(this));
     }
 }
 

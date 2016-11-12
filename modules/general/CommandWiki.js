@@ -7,7 +7,9 @@ const
 
     Command = require('../Command'),
     CommandParam = require('../CommandParam'),
-    CommandError = require('../errors/CommandError');
+    CommandError = require('../../errors/CommandError'),
+    CacheMiddleware = require('../../middleware/CacheMiddleware'),
+    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 const wiki = new MWBot({
     apiUrl: 'https://wiki.guildwars2.com/api.php'
@@ -21,9 +23,12 @@ class CommandWiki extends Command {
         this.name = config.get('modules.general.command_wiki');
         this.helpText = 'Searches the Guild Wars 2 Wiki for an article and returns a summary and the article link if found.';
         this.shortHelpText = 'Searches the Guild Wars 2 Wiki for an article';
-        this.cooldownType = 'user';
-        this.listenChannelTypes = 'text';
         this.params = new CommandParam('terms', 'Search terms');
+
+        this.middleware = [
+            new RestrictChannelsMiddleware({ types: 'text' }),
+            new CacheMiddleware()
+        ];
     }
 
     onCommand(message, params) {

@@ -13,11 +13,11 @@ discord:
   token: your-token-should-be-here
   # Command prefix; in case there is another bot running you can change the prefix of this bot's commands
   command_prefix: "!"
-  # Time to wait in seconds before the same command can be executed again
-  # (depending on the command this can be saved per user or globally)
-  command_cooldown: 60
-  # Time for a user to wait in seconds before the next command can be executed
-  user_cooldown: 3
+  # The default middleware to use for every command (available middleware can be found in ./middleware)
+  command_middleware:
+    # Throttles the time to wait between every command execution for every user
+    UserThrottleMiddleware:
+      duration: 2
 
 #####
 # Generally every command can be configured with the command_* properties
