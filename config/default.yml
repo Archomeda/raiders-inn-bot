@@ -50,9 +50,9 @@ modules:
   # Provides region assignment related stuff
   region_assignment:
     enabled: true
+    command_list_numbers: numbers
     # The channels accepts an array of channel ids, an empty array means that it listens to all channels
     channels: []
-    command_list_numbers: numbers
     eu:
       enabled: true
       command_assign: eu
