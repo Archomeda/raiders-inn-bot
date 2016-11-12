@@ -3,15 +3,15 @@
 const
     config = require('config'),
 
-    SquadGroup = require('./squad-group'),
-    ModuleBase = require('../module-base'),
-    CommandRequest = require('./command-request'),
-    CommandLeader = require('./command-leader'),
-    CommandInvite = require('./command-invite'),
-    CommandKick = require('./command-kick'),
-    CommandTransfer = require('./command-transfer'),
-    CommandLeave = require('./command-leave'),
-    CommandDisband = require('./command-disband');
+    SquadGroup = require('./SquadGroup'),
+    ModuleBase = require('../Module'),
+    CommandRequest = require('./CommandRequest'),
+    CommandLeader = require('./CommandLeader'),
+    CommandInvite = require('./CommandInvite'),
+    CommandKick = require('./CommandKick'),
+    CommandTransfer = require('./CommandTransfer'),
+    CommandLeave = require('./CommandLeave'),
+    CommandDisband = require('./CommandDisband');
 
 class ModuleSquads extends ModuleBase {
     constructor(bot) {

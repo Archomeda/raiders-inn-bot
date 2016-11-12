@@ -3,7 +3,7 @@
 const
     config = require('config'),
 
-    CommandAssignmentBase = require('./command-assignment-base');
+    CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandAssignNA extends CommandAssignmentBase {
     constructor(module) {

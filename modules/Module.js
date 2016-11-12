@@ -7,10 +7,10 @@ const
 
 const cache = new NodeCache();
 
-class ModuleBase {
+class Module {
     constructor(bot) {
-        if (new.target === ModuleBase) {
-            throw new TypeError('cannot construct ModuleBase instances directly');
+        if (new.target === Module) {
+            throw new TypeError('cannot construct Module instances directly');
         }
 
         this.name = new.target.name.replace(/(.*?)(Module)?/, '$1');
@@ -246,4 +246,4 @@ class ModuleBase {
     }
 }
 
-module.exports = ModuleBase;
+module.exports = Module;

@@ -3,9 +3,9 @@
 const
     config = require('config'),
 
-    CommandBase = require('../command-base');
+    Command = require('../Command');
 
-class CommandSource extends CommandBase {
+class CommandSource extends Command {
     constructor(module) {
         super(module);
 

@@ -7,7 +7,7 @@ const
     config = require('config'),
     Discord = require('discord.js'),
     Promise = require('bluebird'),
-    ModuleBase = require('./modules/module-base');
+    ModuleBase = require('./modules/Module');
 
 console.log('Starting bot...');
 

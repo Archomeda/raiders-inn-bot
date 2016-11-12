@@ -1,10 +1,10 @@
 'use strict';
 
 const
-    ModuleBase = require('../module-base'),
-    CommandResetTime = require('./command-reset-time');
+    Module = require('../Module'),
+    CommandResetTime = require('./CommandResetTime');
 
-class ModuleRaids extends ModuleBase {
+class ModuleRaids extends Module {
     constructor(bot) {
         super(bot);
 

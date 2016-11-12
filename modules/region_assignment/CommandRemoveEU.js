@@ -3,7 +3,7 @@
 const
     config = require('config'),
 
-    CommandAssignmentBase = require('./command-assignment-base');
+    CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandRemoveEU extends CommandAssignmentBase {
     constructor(module) {

@@ -1,10 +1,10 @@
 'use strict';
 
 const
-    ModuleBase = require('../module-base'),
-    CommandExportIds = require('./command-export-ids');
+    Module = require('../Module'),
+    CommandExportIds = require('./CommandExportIds');
 
-class ModuleManage extends ModuleBase {
+class ModuleManage extends Module {
     constructor(bot) {
         super(bot);
 

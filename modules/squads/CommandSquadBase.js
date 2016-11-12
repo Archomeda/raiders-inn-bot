@@ -1,11 +1,11 @@
 'use strict';
 
 const
-    SquadGroup = require('./squad-group'),
-    CommandBase = require('../command-base'),
+    SquadGroup = require('./SquadGroup'),
+    Command = require('../Command'),
     CommandError = require('../errors/CommandError');
 
-class CommandSquadBase extends CommandBase {
+class CommandSquadBase extends Command {
     constructor(module) {
         super(module);
 

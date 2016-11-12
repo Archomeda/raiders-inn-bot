@@ -3,7 +3,7 @@
 const
     config = require('config'),
 
-    CommandBase = require('../command-base'),
+    CommandBase = require('../Command'),
     CommandError = require('../errors/CommandError');
 
 class CommandAssignmentBase extends CommandBase {

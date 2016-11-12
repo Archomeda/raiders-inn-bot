@@ -3,11 +3,11 @@
 const
     config = require('config'),
 
-    CommandBase = require('../command-base'),
-    CommandParam = require('../command-param'),
+    Command = require('../Command'),
+    CommandParam = require('../CommandParam'),
     CommandError = require('../errors/CommandError');
 
-class CommandSource extends CommandBase {
+class CommandHelp extends Command {
     constructor(module) {
         super(module);
 
@@ -120,4 +120,4 @@ class CommandSource extends CommandBase {
     }
 }
 
-module.exports = CommandSource;
+module.exports = CommandHelp;

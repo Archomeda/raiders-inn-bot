@@ -4,9 +4,9 @@ const
     config = require('config'),
     moment = require('moment-timezone'),
 
-    CommandBase = require('../command-base');
+    Command = require('../Command');
 
-class CommandResetTime extends CommandBase {
+class CommandResetTime extends Command {
     constructor(module) {
         super(module);
 

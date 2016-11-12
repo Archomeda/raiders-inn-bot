@@ -4,7 +4,7 @@ const
     _ = require('lodash'),
     config = require('config'),
 
-    CommandSquadBase = require('./command-squad-base'),
+    CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../errors/CommandError');
 
 class CommandInvite extends CommandSquadBase {

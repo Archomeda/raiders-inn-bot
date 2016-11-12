@@ -1,14 +1,14 @@
 'use strict';
 
 const
-    ModuleBase = require('../module-base'),
-    CommandAssignEU = require('./command-assign-eu'),
-    CommandAssignNA = require('./command-assign-na'),
-    CommandAssignCN = require('./command-assign-cn'),
-    CommandRemoveEU = require('./command-remove-eu'),
-    CommandRemoveNA = require('./command-remove-na'),
-    CommandRemoveCN = require('./command-remove-cn'),
-    CommandListNumbers = require('./command-list-numbers');
+    ModuleBase = require('../Module'),
+    CommandAssignEU = require('./CommandAssignEU'),
+    CommandAssignNA = require('./CommandAssignNA'),
+    CommandAssignCN = require('./CommandAssignCN'),
+    CommandRemoveEU = require('./CommandRemoveEU'),
+    CommandRemoveNA = require('./CommandRemoveNA'),
+    CommandRemoveCN = require('./CommandRemoveCN'),
+    CommandListNumbers = require('./CommandListNumbers');
 
 class ModuleRegionAssignment extends ModuleBase {
     constructor(bot) {

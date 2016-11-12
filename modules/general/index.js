@@ -1,13 +1,13 @@
 'use strict';
 
 const
-    ModuleBase = require('../module-base'),
-    CommandHelp = require('./command-help'),
-    CommandSource = require('./command-source'),
-    CommandWelcome = require('./command-welcome'),
-    CommandWiki = require('./command-wiki');
+    Module = require('../Module'),
+    CommandHelp = require('./CommandHelp'),
+    CommandSource = require('./CommandSource'),
+    CommandWelcome = require('./CommandWelcome'),
+    CommandWiki = require('./CommandWiki');
 
-class ModuleGeneral extends ModuleBase {
+class ModuleGeneral extends Module {
     constructor(bot) {
         super(bot);
 

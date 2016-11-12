@@ -3,8 +3,8 @@
 const
     config = require('config'),
 
-    SquadGroup = require('./squad-group'),
-    CommandSquadBase = require('./command-squad-base'),
+    SquadGroup = require('./SquadGroup'),
+    CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../errors/CommandError');
 
 class CommandRequest extends CommandSquadBase {

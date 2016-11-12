@@ -3,10 +3,10 @@
 const
     _ = require('lodash');
 
-class CommandBase {
+class Command {
     constructor(module) {
-        if (new.target === CommandBase) {
-            throw new TypeError('cannot construct CommandBase instances directly');
+        if (new.target === Command) {
+            throw new TypeError('cannot construct Command instances directly');
         }
 
         this._module = module;
@@ -117,4 +117,4 @@ class CommandBase {
     }
 }
 
-module.exports = CommandBase;
+module.exports = Command;

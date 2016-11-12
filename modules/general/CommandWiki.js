@@ -5,15 +5,15 @@ const
     config = require('config'),
     toMarkdown = require('to-markdown'),
 
-    CommandBase = require('../command-base'),
-    CommandParam = require('../command-param'),
+    Command = require('../Command'),
+    CommandParam = require('../CommandParam'),
     CommandError = require('../errors/CommandError');
 
 const wiki = new MWBot({
     apiUrl: 'https://wiki.guildwars2.com/api.php'
 });
 
-class CommandWiki extends CommandBase {
+class CommandWiki extends Command {
     constructor(module) {
         super(module);
 
