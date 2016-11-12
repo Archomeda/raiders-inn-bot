@@ -40,7 +40,7 @@ modules:
   # Provides stuff for managing the bot
   manage:
     enabled: true
-    command_listids: listids
+    command_export_ids: exportids
 
   # Provides raid related stuff
   raids:
