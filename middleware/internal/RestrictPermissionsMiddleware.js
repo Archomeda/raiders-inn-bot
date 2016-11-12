@@ -10,8 +10,7 @@ class RestrictPermissionsMiddleware extends Middleware {
     constructor(options) {
         super(Middleware);
         const defaultOptions = {
-            permissions: {},
-            customFunc: null
+            permissions: {}
         };
         this.options = Object.assign({}, defaultOptions, options);
     }
@@ -63,9 +62,6 @@ class RestrictPermissionsMiddleware extends Middleware {
             }
         }
 
-        if (allowed && this.options.customFunc) {
-            allowed = this.options.customFunc(message, command, params);
-        }
         return allowed;
     }
 

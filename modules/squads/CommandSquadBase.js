@@ -1,16 +1,30 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+
     SquadGroup = require('./SquadGroup'),
     Command = require('../Command'),
-    CommandError = require('../../errors/CommandError');
+    CommandError = require('../../errors/CommandError'),
+    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandSquadBase extends Command {
     constructor(module) {
         super(module);
 
-        this.cooldownType = 'none';
-        this.listenChannelTypes = 'text';
+        this.middleware = new RestrictChannelsMiddleware({
+            types: 'text',
+            channels: this.middlewareChannels
+        });
+    }
+
+    middlewareChannels(message, command, params) {
+        // TODO: allow all available squad channels for people with roles with permanent access
+        const squad = command.getSquadByMember(message.member);
+        if (squad) {
+            return [squad.textChannel];
+        }
+        return null;
     }
 
     reorderSquadChannels(guild, afterTextChannel, afterVoiceChannel) {

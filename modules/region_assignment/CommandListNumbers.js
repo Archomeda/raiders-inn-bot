@@ -3,7 +3,8 @@
 const
     config = require('config'),
 
-    Command = require('../Command');
+    Command = require('../Command'),
+    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandListNumbers extends Command {
     constructor(module) {
@@ -13,8 +14,8 @@ class CommandListNumbers extends Command {
         this.name = config.get('modules.region_assignment.command_list_numbers');
         this.helpText = 'Gets the amount of users assigned to each region.';
         this.shortHelpText = 'Gets the amount of users assigned to each region';
-        this.cooldownType = 'global';
-        this.listenChannelTypes = 'text';
+
+        this.middleware = new RestrictChannelsMiddleware({ types: 'text' });
     }
 
     onCommand(message, params) {

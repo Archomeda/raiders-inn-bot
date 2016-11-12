@@ -4,15 +4,17 @@ const
     config = require('config'),
 
     CommandBase = require('../Command'),
-    CommandError = require('../../errors/CommandError');
+    CommandError = require('../../errors/CommandError'),
+    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandAssignmentBase extends CommandBase {
     constructor(module) {
         super(module);
 
-        this.cooldownType = 'user';
-        this.listenChannelTypes = 'text';
-        this.listenChannels = config.get('modules.region_assignment.channels');
+        this.middleware = new RestrictChannelsMiddleware({
+            types: 'text',
+            channels: config.get('modules.region_assignment.channels')
+        });
     }
 
     isRegionEnabled(region) {

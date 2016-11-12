@@ -3,9 +3,11 @@
 const
     _ = require('lodash'),
     config = require('config'),
+    Promise = require('bluebird'),
 
     CommandSquadBase = require('./CommandSquadBase'),
-    CommandError = require('../../errors/CommandError');
+    CommandError = require('../../errors/CommandError'),
+    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandInvite extends CommandSquadBase {
     constructor(module) {
@@ -15,7 +17,12 @@ class CommandInvite extends CommandSquadBase {
         this.name = config.get('modules.squads.command_invite');
         this.helpText = 'Invites one or more mentioned users to the squad.';
         this.shortHelpText = 'Invites one or more mentioned users to the squad';
-        this.listenChannels = config.get('modules.squads.channels');
+
+        // Overwrite the CommandSquadBase middleware since those are different
+        this.middleware = new RestrictChannelsMiddleware({
+            types: 'text',
+            channels: config.get('modules.squads.channels')
+        });
     }
 
     onCommand(message, params) {

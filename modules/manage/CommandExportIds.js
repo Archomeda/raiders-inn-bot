@@ -12,7 +12,6 @@ class CommandExportIds extends Command {
         this.id = 'listids';
         this.name = config.get('modules.manage.command_export_ids');
         this.helpText = 'Assembles all the available ids of this bot into a file.';
-        this.cooldownType = 'user';
         this.supportedDeliveryTypes = 'dm';
     }
 
