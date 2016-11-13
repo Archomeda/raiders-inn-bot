@@ -46,53 +46,6 @@ class Command {
         this._aliases = ensureArray(aliases);
     }
 
-    get cooldownType() {
-        return this._cooldownType;
-    }
-    set cooldownType(type) {
-        if (!new Set(['global', 'user', 'none']).has(type)) {
-            throw new TypeError('type is not global, user or none');
-        }
-        this._cooldownType = type;
-    }
-
-    get supportedDeliveryTypes() {
-        return this._supportedDeliveryTypes;
-    }
-    set supportedDeliveryTypes(types) {
-        if (!types) {
-            throw new TypeError('types cannot be null or undefined');
-        }
-        types = ensureArray(types);
-        types = _.intersection(types, ['dm', 'text', 'mention']);
-        if (types.length === 0) {
-            throw new TypeError('types is empty or contained only incompatible types');
-        }
-        this._supportedDeliveryTypes = types;
-    }
-
-    get listenChannels() {
-        return this._listenChannels;
-    }
-    set listenChannels(channels) {
-        this._listenChannels = ensureArray(channels);
-    }
-
-    get listenChannelTypes() {
-        return this._listenChannelTypes;
-    }
-    set listenChannelTypes(types) {
-        if (!types) {
-            throw new TypeError('types cannot be null or undefined');
-        }
-        types = ensureArray(types);
-        types = _.intersection(types, ['dm', 'text']);
-        if (types.length === 0) {
-            throw new TypeError('types is empty or contained only incompatible types');
-        }
-        this._listenChannelTypes = types;
-    }
-
     get params() {
         return this._params;
     }

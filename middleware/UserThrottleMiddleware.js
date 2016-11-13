@@ -10,21 +10,21 @@ const cache = new NodeCache();
 
 class UserThrottleMiddleware extends Middleware {
     constructor(options) {
-        super(Middleware);
+        super(options);
         const defaultOptions = {
             duration: 2
         };
         this.options = Object.assign({}, defaultOptions, options);
     }
 
-    onCommand(obj) {
-        const cacheName = `throttle-${obj.message.author.id}`;
-        const allowed = !cache.get(cacheName);
-        if (allowed) {
-            cache.set(cacheName, {}, this.options.duration);
-            return this.nextCommand(obj);
+    onCommand(response) {
+        const cacheName = `throttle-${response.message.author.id}`;
+        if (cache.get(cacheName)) {
+            const username = `${response.message.author.username}#${response.message.author.discriminator}`;
+            throw new MiddlewareError(`User has been throttled (command: ${this.name}, user: ${username})`, 'log');
         }
-        throw new MiddlewareError(`User has been throttled (command: ${obj.command.name}, user: ${obj.message.author.username}#${obj.message.author.discriminator})`, 'log');
+        cache.set(cacheName, {}, this.options.duration);
+        return response;
     }
 }
 

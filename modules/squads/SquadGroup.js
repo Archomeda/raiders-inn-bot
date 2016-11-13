@@ -187,7 +187,7 @@ class SquadGroup {
                 newPermissions = { READ_MESSAGES: true, CONNECT: true };
             }
             return this.setPermissions(oldLeader, newPermissions).then(() => {
-                return this.setPermissions(member, { READ_MESSAGES: true, MANAGE_MESSAGES: true, CONNECT: true });
+                return this.setPermissions(member, { READ_MESSAGES: true, SEND_MESSAGES: true, CONNECT: true });
             });
         } else {
             if (this._members.indexOf(this._leader) === -1) {

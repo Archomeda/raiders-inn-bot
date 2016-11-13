@@ -176,6 +176,13 @@ modules:
         - sheep
         - stag
 
+  # Provides miscellaneous utilities
+  utilities:
+    enabled: true
+    command_roll: roll
+    roll_max_dice: 100
+    roll_max_rolls: 10
+
 #####
 # The permissions are set up in a hierarchical way. If a person is a member of more than 1 group,
 # the first matched command in either blacklist or whitelist in a group (top-down) from the list below gets priority.

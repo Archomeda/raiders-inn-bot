@@ -8,22 +8,23 @@ const
 
 class RestrictPermissionsMiddleware extends Middleware {
     constructor(options) {
-        super(Middleware);
+        super(options);
         const defaultOptions = {
             permissions: {}
         };
         this.options = Object.assign({}, defaultOptions, options);
     }
 
-    onCommand(obj) {
-        const allowed = this.isCommandAllowed(obj.message, obj.command, obj.params);
-        if (allowed) {
-            return this.nextCommand(obj);
+    onCommand(response) {
+        if (!this.isCommandAllowed(response.message, response.command, response.params)) {
+            const username = `${response.message.author.username}#${response.message.author.discriminator}`;
+            throw new MiddlewareError(
+                `Access to command denied by permissions (command: ${response.command.name}, user ${username}`,
+                'log',
+                `You don't have permission to access this command.`
+            );
         }
-        throw new MiddlewareError(`Access to command denied by permissions (command: ${obj.command.name}, user ${obj.message.author.username}#${obj.message.author.discriminator}`,
-            'log',
-            `You don't have permission to access this command.`
-        );
+        return response;
     }
 
     isCommandAllowed(message, command, params) {

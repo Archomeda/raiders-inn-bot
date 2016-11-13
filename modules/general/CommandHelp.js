@@ -7,6 +7,7 @@ const
     CommandParam = require('../CommandParam'),
     CommandError = require('../../errors/CommandError'),
     CacheMiddleware = require('../../middleware/CacheMiddleware'),
+    ReplyMethodMiddleware = require('../../middleware/ReplyMethodMiddleware'),
     RestrictPermissionMiddleware = require('../../middleware/internal/RestrictPermissionsMiddleware');
 
 class CommandHelp extends Command {
@@ -17,10 +18,12 @@ class CommandHelp extends Command {
         this.name = config.get('modules.general.command_help');
         this.helpText = 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.';
         this.shortHelpText = 'Shows information about how to use commands';
-        this.supportedDeliveryTypes = config.get('modules.general.deliver_help');
         this.params = new CommandParam('command', 'The command', true);
 
-        this.middleware = new CacheMiddleware();
+        this.middleware = [
+            new ReplyMethodMiddleware({ method: config.get('modules.general.deliver_help') }),
+            new CacheMiddleware()
+        ];
     }
 
     onCommand(message, params) {
@@ -40,7 +43,7 @@ class CommandHelp extends Command {
             }
 
             if (!command) {
-                throw new CommandError(`The command \`${commandPrefix}${commandName}\` is not recognized.` +
+                throw new CommandError(`The command \`${commandPrefix}${commandName}\` is not recognized. ` +
                     `Type \`${commandPrefix}${this.name}\` to see the list of commands.`);
             }
             return `\n${this.formatCommandHelp(message, command)}`;
@@ -59,7 +62,8 @@ class CommandHelp extends Command {
 
     formatCommandChannelFilter(command) {
         let text = [];
-        const middleware = command.middleware.find(m => m.name === 'RestrictChannelsMiddleware');
+
+        let middleware = command.middleware.find(m => m.name === 'RestrictChannelsMiddleware');
         if (middleware) {
             // Restricted channels is applied
             if (middleware.options.types.length === 1) {
@@ -77,8 +81,17 @@ class CommandHelp extends Command {
                 }
             }
         }
-        if (command.supportedDeliveryTypes.includes('mention')) {
-            text.push('mentionable');
+
+        middleware = command.middleware.find(m => m.name === 'MentionsMiddleware');
+        if (middleware) {
+            // Mentions are allowed
+            if (middleware.options.types.includes('mention')) {
+                if (middleware.options.types.length === 1) {
+                    text.push('strictly mentionable');
+                } else {
+                    text.push('mentionable');
+                }
+            }
         }
         return text.join(', ');
     }

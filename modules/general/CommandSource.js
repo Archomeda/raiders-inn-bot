@@ -3,7 +3,8 @@
 const
     config = require('config'),
 
-    Command = require('../Command');
+    Command = require('../Command'),
+    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandSource extends Command {
     constructor(module) {
@@ -13,6 +14,8 @@ class CommandSource extends Command {
         this.name = config.get('modules.general.command_source');
         this.helpText = 'Shows the link to the source code of this bot.';
         this.shortHelpText = 'Shows the link to the source code of this bot';
+
+        this.middleware = new MentionsMiddleware({ types: ['reply', 'mention'] });
     }
 
     onCommand(message, params) {

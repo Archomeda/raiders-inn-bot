@@ -3,7 +3,8 @@
 const
     config = require('config'),
 
-    Command = require('../Command');
+    Command = require('../Command'),
+    ReplyMethodMiddleware = require('../../middleware/ReplyMethodMiddleware');
 
 class CommandExportIds extends Command {
     constructor(module) {
@@ -12,7 +13,10 @@ class CommandExportIds extends Command {
         this.id = 'listids';
         this.name = config.get('modules.manage.command_export_ids');
         this.helpText = 'Assembles all the available ids of this bot into a file.';
-        this.supportedDeliveryTypes = 'dm';
+
+        this.middleware = [
+            new ReplyMethodMiddleware({ method: 'dm' }),
+        ];
     }
 
     onCommand(message, params) {

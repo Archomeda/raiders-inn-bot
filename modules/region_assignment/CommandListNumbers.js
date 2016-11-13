@@ -4,6 +4,7 @@ const
     config = require('config'),
 
     Command = require('../Command'),
+    MentionsMiddleware = require('../../middleware/MentionsMiddleware'),
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandListNumbers extends Command {
@@ -15,7 +16,10 @@ class CommandListNumbers extends Command {
         this.helpText = 'Gets the amount of users assigned to each region.';
         this.shortHelpText = 'Gets the amount of users assigned to each region';
 
-        this.middleware = new RestrictChannelsMiddleware({ types: 'text' });
+        this.middleware = [
+            new RestrictChannelsMiddleware({ types: 'text' }),
+            new MentionsMiddleware({ types: ['reply', 'mention'] })
+        ];
     }
 
     onCommand(message, params) {

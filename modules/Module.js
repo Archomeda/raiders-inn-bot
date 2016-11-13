@@ -4,7 +4,9 @@ const
     config = require('config'),
     NodeCache = require('node-cache'),
     Promise = require('bluebird'),
+    random = require('random-js')(),
 
+    CommandResponse = require('./CommandResponse'),
     RestrictPermissionsMiddleware = require('../middleware/internal/RestrictPermissionsMiddleware');
 
 const cache = new NodeCache();
@@ -49,7 +51,6 @@ class Module {
     }
 
     onMessage(message) {
-        let response;
         let [command, params] = this.parseCommandString(message);
 
         // If the command is empty, we ignore the message
@@ -57,132 +58,75 @@ class Module {
             return;
         }
 
-        // Go through all the applied middleware before executing the command
-        let middlewareResult = { message, command, params };
-        try {
-            for (let middleware of command.middleware) {
-                middlewareResult = middleware.onCommand(middlewareResult);
-                if (!middlewareResult || !middlewareResult._next) {
-                    // No result or don't continue (aka we have a captured response)
-                    break;
+        let typing = false;
+        let response = new CommandResponse(message, command, params);
+        // Call middleware onCommand
+        this.callMiddlewares('onCommand', response).then(response => {
+            if (!response.replyText) {
+                // We don't have a reply text yet, so we have to call our command
+                if (response.startTypingFunc) {
+                    response.startTypingFunc();
+                }
+                typing = true;
+                response.replyText = response.command.onCommand(response.message, response.params);
+                if (response.replyText && response.replyText.then) {
+                    // Clear the promises
+                    return Promise.resolve(response.replyText.then(text => response.replyText = text)).return(response);
                 }
             }
-            if (!middlewareResult) {
-                // Middleware cancelled the command execution without an error
-                return;
-            } else if (middlewareResult._next) {
-                message = middlewareResult.message;
-                command = middlewareResult.command;
-                params = middlewareResult.params;
-            } else {
-                response = middlewareResult.response;
-            }
-        } catch (err) {
+            return response;
+        }).catch(err => {
+            let text = null;
             if (err.name === 'MiddlewareError') {
-                // Middleware threw an error, do stuff with it
-                if (err.userMessage) {
-                    return message.reply(err.userMessage);
-                }
+                // Some middleware has broken our chain, filter error message
                 if (err.logger) {
                     console[err.logger](`Middleware error: ${err.message}`);
                 }
+                text = err.userMessage ? err.userMessage : null;
+            } else if (err.name === 'CommandError') {
+                // Command error
+                console.log(`Caught CommandError on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
+                text = err.message;
             } else {
                 // Unexpected error
                 console.warn(`Unexpected error: ${err.message}`);
                 console.warn(err.stack);
+                text = `An unexpected error has occured, code ${random.hex(6).toUpperCase()}.`;
             }
-            return;
-        }
-
-        // Depending on the delivery method, do stuff
-        let sendMessage = () => { };
-        let done = false;
-        let typing = false;
-        if (!done && command.supportedDeliveryTypes.includes('mention')) {
-            // 1) Mention people
-
-            // Filter out ourselves
-            const mentions = message.mentions.users.filterArray(u => u.id !== this.bot.getClient().user.id);
-            if (mentions.length === 0 && command.supportedDeliveryTypes.length === 1) {
-                // There are no mentions and only mentioning is possible
-                return message.reply(`For this command to work, you have to mention someone with the '@' symbol, like ${this.bot.getClient().user}.`);
-            } else if (mentions.length > 0) {
-                // There are mentions, let's proceed
-                sendMessage = (mentions => {
-                    return response => response ? message.channel.sendMessage(`${mentions}, ${response}`) : null;
-                })(mentions.join(' '));
-                done = true;
-                typing = true;
+            const res = new CommandResponse(message, command, params);
+            res.replyText = text;
+            return res;
+        }).then(response => {
+            if (response.stopTypingFunc && typing) {
+                response.stopTypingFunc();
             }
-        }
-        if (!done && command.supportedDeliveryTypes.includes('text')) {
-            // 2) Reply directly to the command executor in the same channel
-            sendMessage = response => response ? message.reply(response) : null;
-            done = true;
-            typing = true;
-        }
-        if (!done && command.supportedDeliveryTypes.includes('dm')) {
-            // 3) Reply by DM
-            sendMessage = response => response ? message.author.sendMessage(response) : null;
-            done = true;
-            typing = message.channel.type === 'dm';
-        }
-
-        // Do stuff
-        if (done) {
-            if (typing) {
-                message.channel.startTyping();
+            if (!response.replyText) {
+                return response;
             }
-            return Promise.try(() => response ? response : command.onCommand(message, params))
-                .catch(err => {
-                    if (err.name === 'CommandError') {
-                        console.log(`Caught CommandError on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
-                        return err.message;
-                    } else {
-                        console.warn(`Unexpected error on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
-                        console.warn(err.stack);
-                        return `Failed to execute command: ${err.message}`;
+
+            // Call middleware onResponse
+            return this.callMiddlewares('onResponse', response).catch(err => {
+                if (err.name === 'MiddlewareError') {
+                    // Middleware threw an error, do stuff with it
+                    if (err.logger) {
+                        console[err.logger](`Middleware error: ${err.message}`);
                     }
-                })
-                .finally(() => {
-                    if (typing) {
-                        message.channel.stopTyping();
-                    }
-                }).then(response => {
-                    // Go through all the applied middleware after executing the command
-                    let middlewareResult = { message, command, params, response };
-                    try {
-                        for (let middleware of command.middleware) {
-                            middlewareResult = middleware.onResponse(middlewareResult);
-                            if (!middlewareResult) {
-                                // No result or don't continue
-                                break;
-                            }
-                        }
-                        if (!middlewareResult) {
-                            // Middleware cancelled the command execution without an error
-                            return;
-                        }
-                        response = middlewareResult.response;
-                    } catch (err) {
-                        if (err.name === 'MiddlewareError') {
-                            // Middleware threw an error, do stuff with it
-                            if (err.userMessage) {
-                                return message.reply(err.userMessage);
-                            }
-                            if (err.logger) {
-                                console[err.logger](`Middleware error: ${err.message}`);
-                            }
-                        } else {
-                            // Unexpected error
-                            console.warn(`Unexpected error: ${err.message}`);
-                            console.warn(err.stack);
-                        }
-                        return;
-                    }
-                    return sendMessage(response);
-                });
-        }
+                } else {
+                    // Unexpected error
+                    console.warn(`Unexpected error: ${err.message}`);
+                    console.warn(err.stack);
+                }
+            }).return(response);
+        }).then(response => {
+            if (response.replyText) {
+                let mentions = response.mentions.map(u => u.toString()).join(' ');
+                let replyText = response.replyText.replace('{mentions}', mentions);
+                if (replyText === response.replyText) {
+                    replyText = `${mentions}, ${replyText}`;
+                }
+                return response.replyFunc(replyText);
+            }
+        });
     }
 
     parseCommandString(message) {
@@ -212,6 +156,20 @@ class Module {
 
         // Return the parsed command with parameters
         return [command, params];
+    }
+
+    callMiddlewares(funcName, response) {
+        if (response.command.middleware.length === 0) {
+            return Promise.resolve(response);
+        }
+
+        return new Promise((resolve, reject) => {
+            Promise.mapSeries(response.command.middleware, middleware => {
+                if (!response.breakMiddleware) {
+                    response = middleware[funcName].call(middleware, response);
+                }
+            }).then(() => resolve(response)).catch(err => reject(err));
+        });
     }
 }
 

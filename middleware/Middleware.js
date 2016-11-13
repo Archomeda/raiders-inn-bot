@@ -8,31 +8,12 @@ class Middleware {
         this.name = this.constructor.name;
     }
 
-    onCommand(obj) {
+    onCommand(response) {
         throw new TypeError('must override method');
     }
 
-    nextCommand(obj) {
-        return {
-            message: obj.message,
-            command: obj.command,
-            params: obj.params,
-            _next: true
-        };
-    }
-
-    onResponse(obj) {
-        return this.nextResponse(obj);
-    }
-
-    nextResponse(obj) {
-        return {
-            message: obj.message,
-            command: obj.command,
-            params: obj.params,
-            response: obj.response,
-            _next: true
-        };
+    onResponse(response) {
+        return response;
     }
 }
 

@@ -7,7 +7,7 @@ const
 
 class RestrictChannelsMiddleware extends Middleware {
     constructor(options) {
-        super(Middleware);
+        super(options);
         const defaultOptions = {
             types: ['text', 'dm'],
             channels: []
@@ -19,19 +19,19 @@ class RestrictChannelsMiddleware extends Middleware {
         }
     }
 
-    onCommand(obj) {
+    onCommand(response) {
         let allowed = true;
-        allowed = allowed && this.options.types.includes(obj.message.channel.type);
+        allowed = allowed && this.options.types.includes(response.message.channel.type);
         let channels = this.options.channels;
         if (typeof channels === 'function') {
-            channels = channels(obj.message, obj.command, obj.params);
+            channels = channels(response.message, response.command, response.params);
         }
-        allowed = allowed && channels && (channels.length === 0 || channels.includes(obj.message.channel.id));
-        if (allowed) {
-            return this.nextCommand(obj);
+        allowed = allowed && channels && (channels.length === 0 || channels.includes(response.message.channel.id));
+        if (!allowed) {
+            const channelName = response.message.channel.name ? response.message.channel.name : response.message.channel.type;
+            throw new MiddlewareError(`Wrong channel for command (command: ${response.command.name}, channel: #${channelName})`, 'log');
         }
-        const channelName = obj.message.channel.name ? obj.message.channel.name : obj.message.channel.type;
-        throw new MiddlewareError(`Wrong channel for command (command: ${obj.command.name}, channel: #${channelName})`, 'log');
+        return response;
     }
 }
 
