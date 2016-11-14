@@ -1,12 +1,12 @@
 'use strict';
 
 const
-    _ = require('lodash'),
+    config = require('config'),
 
     ensureArray = require('../utils/array').ensureArray;
 
 class Command {
-    constructor(module) {
+    constructor(module, commandConfig) {
         if (new.target === Command) {
             throw new TypeError('cannot construct Command instances directly');
         }
@@ -14,7 +14,8 @@ class Command {
         this._module = module;
 
         this.id = null;
-        this.name = null;
+        this.trigger = null;
+        this._config = commandConfig;
         // TODO: implement aliases support in modules
         this._aliases = [];
         this.helpText = null;
@@ -25,12 +26,20 @@ class Command {
         this._middleware = [];
     }
 
-    onCommand(message, params) {
+    toString() {
+        return `${config.get('discord.command_prefix')}${this.trigger}`;
+    }
+
+    onCommand(response) {
         throw new TypeError('must override method');
     }
 
     get module() {
         return this._module;
+    }
+
+    get config() {
+        return this._config;
     }
 
     get permissionId() {

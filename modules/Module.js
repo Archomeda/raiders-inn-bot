@@ -12,13 +12,14 @@ const
 const cache = new NodeCache();
 
 class Module {
-    constructor(bot) {
+    constructor(bot, moduleConfig) {
         if (new.target === Module) {
             throw new TypeError('cannot construct Module instances directly');
         }
 
         this.name = new.target.name.replace(/(.*?)(Module)?/, '$1');
         this._bot = bot;
+        this._config = moduleConfig;
         this._commands = [];
 
         this.onMessage = this.onMessage.bind(this);
@@ -29,11 +30,20 @@ class Module {
         return this._bot;
     }
 
+    get config() {
+        return this._config;
+    }
+
     get commands() {
         return this._commands;
     }
 
     registerCommand(command) {
+        if (!command.config.enabled) {
+            return;
+        }
+        command.trigger = command.config.trigger;
+
         const middleware = [];
         const defaultMiddleware = config.get('discord.command_middleware');
         for (let name in defaultMiddleware) {
@@ -47,6 +57,15 @@ class Module {
         const permissions = config.get('permissions');
         middleware.push(new RestrictPermissionsMiddleware({ permissions }));
         command.defaultMiddleware = middleware;
+        if (command.config.channels && command.config.channels.length > 0) {
+            const restrictChannelsMiddlewareIndex = command.middleware.findIndex(m => m.name === 'RestrictChannelsMiddleware');
+            if (restrictChannelsMiddlewareIndex > -1) {
+                command.middleware[restrictChannelsMiddlewareIndex].options.channels =
+                    command.middleware[restrictChannelsMiddlewareIndex].options.channels.concat(command.config.channels);
+            } else {
+                command.middleware.push(new RestrictPermissionsMiddleware({ type: 'text', channels: command.config.channels }));
+            }
+        }
         this._commands.push(command);
     }
 
@@ -68,7 +87,7 @@ class Module {
                     response.startTypingFunc();
                 }
                 typing = true;
-                response.replyText = response.command.onCommand(response.message, response.params);
+                response.replyText = response.command.onCommand(response);
                 if (response.replyText && response.replyText.then) {
                     // Clear the promises
                     return Promise.resolve(response.replyText.then(text => response.replyText = text)).return(response);
@@ -135,8 +154,8 @@ class Module {
         if (!messageMatch) {
             return [null, null];
         }
-        const name = messageMatch[1].toLowerCase();
-        const command = this.commands.find(command => command.name === name);
+        const trigger = messageMatch[1].toLowerCase();
+        const command = this.commands.find(command => command.trigger === trigger);
 
         // If the command is empty, we return nothing
         if (!command) {

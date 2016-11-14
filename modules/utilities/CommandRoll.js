@@ -1,7 +1,6 @@
 'use strict';
 
 const
-    config = require('config'),
     random = require('random-js')(),
 
     Command = require('../Command'),
@@ -9,11 +8,10 @@ const
     CommandError = require('../../errors/CommandError');
 
 class CommandRoll extends Command {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.id = 'roll';
-        this.name = config.get('modules.utilities.command_roll');
         this.helpText = 'Rolls one or more dice and gives the result.';
         this.shortHelpText = 'Rolls one or more dice';
         this.params = [
@@ -22,22 +20,22 @@ class CommandRoll extends Command {
         ];
     }
 
-    onCommand(message, params) {
+    onCommand(response) {
         let die = 6;
         let rolls = 1;
-        if (params) {
-            if (params.length > 0) {
-                const match = params[0].match(/d(\d+)/);
+        if (response.params) {
+            if (response.params.length > 0) {
+                const match = response.params[0].match(/d(\d+)/);
                 die = match ? parseInt(match[1]) || die : 0;
             }
-            if (params.length > 1) {
-                rolls = parseInt(params[1]) || rolls;
+            if (response.params.length > 1) {
+                rolls = parseInt(response.params[1]) || rolls;
             }
         }
-        if (!die || die < 2 || die > config.get('modules.utilities.roll_max_dice')) {
+        if (!die || die < 2 || die > this.config.roll_max_die) {
             throw new CommandError('The die has to be between d2 and d100.');
         }
-        if (!rolls || rolls < 1 || rolls > config.get('modules.utilities.roll_max_rolls')) {
+        if (!rolls || rolls < 1 || rolls > this.config.roll_max_rolls) {
             throw new CommandError('You can only roll between 1 and 10 times.');
         }
 
@@ -53,7 +51,7 @@ class CommandRoll extends Command {
             );
         };
 
-        message.channel.sendMessage(`${message.author} is rolling ${generateSymbols(0)}`).then(messageEdit => {
+        response.message.channel.sendMessage(`${response.message.author} is rolling ${generateSymbols(0)}`).then(messageEdit => {
             const update = ((message, result, receiver, i) => () => {
                 if (i < 5) {
                     message.edit(`${receiver} is rolling ${generateSymbols(i)}`);
@@ -62,7 +60,7 @@ class CommandRoll extends Command {
                 } else {
                     message.edit(`${receiver} has rolled ${result.join(', ')}.`);
                 }
-            })(messageEdit, result, message.author, 1);
+            })(messageEdit, result, response.message.author, 1);
             setTimeout(update, 600);
         });
     }

@@ -7,39 +7,27 @@ const
 
     CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../../errors/CommandError'),
-    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
+    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandInvite extends CommandSquadBase {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.id = 'invite';
-        this.name = config.get('modules.squads.command_invite');
         this.helpText = 'Invites one or more mentioned users to the squad.';
         this.shortHelpText = 'Invites one or more mentioned users to the squad';
 
-        // Overwrite the CommandSquadBase middleware since those are different
-        this.middleware = new RestrictChannelsMiddleware({
-            types: 'text',
-            channels: config.get('modules.squads.channels')
-        });
+        this.middleware = new MentionsMiddleware({ types: 'mention' });
     }
 
-    onCommand(message, params) {
-        if (this.getSquadByChannel(message.channel)) {
-            throw new CommandError('This command does not work in squad channels. Please try again in the same channel as where you created the squad.');
-        }
-        const squad = this.getSquadByMember(message.member);
+    onCommand(response) {
+        const squad = this.getSquadByMember(response.message.member);
         if (!squad) {
             throw new CommandError(`You are not part of a squad. ` +
-                `You can create one by typing \`${config.get('discord.command_prefix')}${config.get('modules.squads.command_request')}\`.`);
+                `You can create one by typing \`${config.get('discord.command_prefix')}${this.module.config.commands.request.trigger}\`.`);
         }
-        this.checkLeader(squad, message.member);
-        const mentions = this.filterMentionsOutside(squad, message.member, message.mentions.users.array());
-        if (mentions.length === 0) {
-            throw new CommandError(`This command will only work if you mention one or more people, like ${message.author}.`);
-        }
-        return Promise.mapSeries(mentions, user => message.guild.fetchMember(user))
+        this.checkLeader(squad, response.message.member);
+        return Promise.mapSeries(response.mentions, user => response.message.guild.fetchMember(user))
             .then(members => {
                 const invitableMembers = members.filter(member => !this.getSquadByMember(member));
                 const uninvitableMembers = _.difference(members, invitableMembers);
@@ -47,8 +35,8 @@ class CommandInvite extends CommandSquadBase {
                 if (invitableMembers.length > 0) {
                     return squad.addMembers(invitableMembers)
                         .then(() => {
-                            const textChannel = message.guild.channels.get(squad.textChannel);
-                            return textChannel.sendMessage(`${message.member} has invited ${invitableMembers.join(', ')} to the squad.`)
+                            const textChannel = response.message.guild.channels.get(squad.textChannel);
+                            return textChannel.sendMessage(`${response.message.member} has invited ${invitableMembers.join(', ')} to the squad.`)
                         })
                         .then(() => {
                             return `The following people have been invited: ${invitableMembers.join(', ')}.` +

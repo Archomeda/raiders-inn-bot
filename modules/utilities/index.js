@@ -5,12 +5,10 @@ const
     CommandRoll = require('./CommandRoll');
 
 class ModuleUtilities extends ModuleBase {
-    constructor(bot) {
-        super(bot);
+    constructor(bot, moduleConfig) {
+        super(bot, moduleConfig);
 
-        this._commands = [
-            new CommandRoll(this)
-        ];
+        this.registerCommand(new CommandRoll(this, moduleConfig.commands.roll));
     }
 }
 

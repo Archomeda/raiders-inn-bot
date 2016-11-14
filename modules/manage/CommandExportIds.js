@@ -1,25 +1,20 @@
 'use strict';
 
 const
-    config = require('config'),
-
     Command = require('../Command'),
     ReplyMethodMiddleware = require('../../middleware/ReplyMethodMiddleware');
 
 class CommandExportIds extends Command {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
-        this.id = 'listids';
-        this.name = config.get('modules.manage.command_export_ids');
+        this.id = 'export_ids';
         this.helpText = 'Assembles all the available ids of this bot into a file.';
 
-        this.middleware = [
-            new ReplyMethodMiddleware({ method: 'dm' }),
-        ];
+        this.middleware = new ReplyMethodMiddleware({ method: 'dm' });
     }
 
-    onCommand(message, params) {
+    onCommand(response) {
         const client = this.module.bot.getClient();
         let result = [];
         for (let server of client.guilds.array()) {
@@ -47,7 +42,7 @@ class CommandExportIds extends Command {
             }
             result.push('\n');
         }
-        message.author.sendFile(Buffer.from(result.join('\n')), 'ids.txt');
+        response.message.author.sendFile(Buffer.from(result.join('\n')), 'ids.txt');
     }
 }
 

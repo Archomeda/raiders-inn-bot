@@ -5,12 +5,10 @@ const
     CommandResetTime = require('./CommandResetTime');
 
 class ModuleRaids extends Module {
-    constructor(bot) {
-        super(bot);
+    constructor(bot, moduleConfig) {
+        super(bot, moduleConfig);
 
-        this._commands = [
-            new CommandResetTime(this)
-        ];
+        this.registerCommand(new CommandResetTime(this, moduleConfig.commands.reset_time));
     }
 }
 

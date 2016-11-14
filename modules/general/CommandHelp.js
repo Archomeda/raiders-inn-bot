@@ -11,31 +11,30 @@ const
     RestrictPermissionMiddleware = require('../../middleware/internal/RestrictPermissionsMiddleware');
 
 class CommandHelp extends Command {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.id = 'help';
-        this.name = config.get('modules.general.command_help');
         this.helpText = 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.';
         this.shortHelpText = 'Shows information about how to use commands';
         this.params = new CommandParam('command', 'The command', true);
 
         this.middleware = [
-            new ReplyMethodMiddleware({ method: config.get('modules.general.deliver_help') }),
+            new ReplyMethodMiddleware({ method: 'dm' }),
             new CacheMiddleware()
         ];
     }
 
-    onCommand(message, params) {
+    onCommand(response) {
         const modules = this.module.bot.getModules();
         const commandPrefix = config.get('discord.command_prefix');
 
-        if (params.length > 0) {
+        if (response.params.length > 0) {
             // Reply with help for a specific command
-            const commandName = params[0].replace(new RegExp(`^${commandPrefix}?(.*)$`), '$1');
+            const commandTrigger = response.params[0].replace(new RegExp(`^${commandPrefix}?(.*)$`), '$1');
             let command;
             for (module of modules) {
-                const foundCommand = module.commands.find(command => command.name == commandName);
+                const foundCommand = module.commands.find(command => command.trigger == commandTrigger);
                 if (foundCommand) {
                     command = foundCommand;
                     break;
@@ -43,15 +42,15 @@ class CommandHelp extends Command {
             }
 
             if (!command) {
-                throw new CommandError(`The command \`${commandPrefix}${commandName}\` is not recognized. ` +
-                    `Type \`${commandPrefix}${this.name}\` to see the list of commands.`);
+                throw new CommandError(`The command \`${command}\` is not recognized. ` +
+                    `Type \`${this}\` to see the list of commands.`);
             }
-            return `\n${this.formatCommandHelp(message, command)}`;
+            return `\n${this.formatCommandHelp(response.message, command)}`;
         } else {
             // Reply with general help
             const help = [];
             modules.forEach(module => {
-                const moduleHelp = this.formatModuleHelp(message, module);
+                const moduleHelp = this.formatModuleHelp(response.message, module);
                 if (moduleHelp) {
                     help.push(moduleHelp);
                 }
@@ -99,7 +98,7 @@ class CommandHelp extends Command {
     formatModuleHelp(message, module) {
         const commands = [];
         module.commands.forEach(command => {
-            const commandText = `\`${config.get('discord.command_prefix')}${command.name}\``;
+            const commandText = `\`${command}\``;
             const helpText = command.shortHelpText;
             if (!helpText) {
                 return;
@@ -121,7 +120,7 @@ class CommandHelp extends Command {
     }
 
     formatCommandHelp(message, command) {
-        let invocation = `${config.get('discord.command_prefix')}${command.name} `;
+        let invocation = `${command} `;
         const helpText = command.helpText;
         const params = [];
 

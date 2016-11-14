@@ -8,13 +8,13 @@ const
     CommandWiki = require('./CommandWiki');
 
 class ModuleGeneral extends Module {
-    constructor(bot) {
-        super(bot);
+    constructor(bot, moduleConfig) {
+        super(bot, moduleConfig);
 
-        this.registerCommand(new CommandHelp(this));
-        this.registerCommand(new CommandSource(this));
-        this.registerCommand(new CommandWelcome(this));
-        this.registerCommand(new CommandWiki(this));
+        this.registerCommand(new CommandHelp(this, moduleConfig.commands.help));
+        this.registerCommand(new CommandSource(this, moduleConfig.commands.source));
+        this.registerCommand(new CommandWelcome(this, moduleConfig.commands.welcome));
+        this.registerCommand(new CommandWiki(this, moduleConfig.commands.wiki));
     }
 }
 

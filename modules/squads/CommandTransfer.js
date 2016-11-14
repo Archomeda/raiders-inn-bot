@@ -1,29 +1,29 @@
 'use strict';
 
 const
-    config = require('config'),
-
     CommandSquadBase = require('./CommandSquadBase'),
-    CommandError = require('../../errors/CommandError');
+    CommandError = require('../../errors/CommandError'),
+    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandTransfer extends CommandSquadBase {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.id = 'transfer';
-        this.name = config.get('modules.squads.command_transfer');
         this.helpText = 'Transfers squad leader status to the mentioned user. This only works in a squad channel.';
         this.shortHelpText = 'Transfers squad leader status to the mentioned user';
+
+        this.middleware = new MentionsMiddleware({ types: 'mention' });
     }
 
-    onCommand(message, params) {
-        const squad = this.checkSquadChannel(message.channel);
-        this.checkLeader(squad, message.member);
-        const mentions = this.filterMentionsInside(squad, message.member, message.mentions.users.array());
+    onCommand(response) {
+        const squad = this.checkSquadChannel(response.message.channel);
+        this.checkLeader(squad, response.message.member);
+        const mentions = this.filterMentionsInside(squad, response.message.member, response.message.mentions.users.array());
         if (mentions.length === 0) {
-            throw new CommandError(`This command will only work if you mention a person, like ${message.author}.`);
+            throw new CommandError(`This command will only work if you mention a person, like ${response.message.author}.`);
         }
-        return message.guild.fetchMember(mentions[0]).then(member => {
+        return response.message.guild.fetchMember(mentions[0]).then(member => {
             return squad.setLeader(member).then(() => `The squad leader is now ${member}.`);
         });
     }

@@ -1,32 +1,10 @@
 'use strict';
 
 const
-    config = require('config'),
-
     CommandBase = require('../Command'),
-    CommandError = require('../../errors/CommandError'),
-    RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
+    CommandError = require('../../errors/CommandError');
 
 class CommandAssignmentBase extends CommandBase {
-    constructor(module) {
-        super(module);
-
-        this.middleware = new RestrictChannelsMiddleware({
-            types: 'text',
-            channels: config.get('modules.region_assignment.channels')
-        });
-    }
-
-    isRegionEnabled(region) {
-        return config.get(`modules.region_assignment.${region}.enabled`);
-    }
-
-    checkRegionEnabled(region) {
-        if (!this.isRegionEnabled(region)) {
-            throw new CommandError(`Region ${region.toUpperCase()} is currently not available.`);
-        }
-    }
-
     checkGuild(member) {
         if (!member.guild) {
             if (member.presence.status === 'offline') {
@@ -38,19 +16,17 @@ class CommandAssignmentBase extends CommandBase {
     }
 
     assignRegionRole(member, region) {
-        this.checkRegionEnabled(region);
         this.checkGuild(member);
 
-        const role = member.guild.roles.get(config.get(`modules.region_assignment.${region}.role`));
+        const role = member.guild.roles.get(this.module.config.roles[region]);
         return member.addRole(role)
             .then(() => `You should have been **assigned** to **${role.name}**. If not, please contact one of the staff members.`);
     }
 
     removeRegionRole(member, region) {
-        this.checkRegionEnabled(region);
         this.checkGuild(member);
 
-        const role = member.guild.roles.get(config.get(`modules.region_assignment.${region}.role`));
+        const role = member.guild.roles.get(this.module.config.roles[region]);
         return member.removeRole(role)
             .then(() => `You should have been **removed** from **${role.name}**. If not, please contact one of the staff members.`);
     }

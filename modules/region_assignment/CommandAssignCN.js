@@ -1,22 +1,19 @@
 'use strict';
 
 const
-    config = require('config'),
-
     CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandAssignCN extends CommandAssignmentBase {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.id = 'assign_cn';
-        this.name = config.get('modules.region_assignment.cn.command_assign');
         this.helpText = 'This allows you to assign yourself to the CN region.';
         this.shortHelpText = 'Assign yourself to the CN region';
     }
 
-    onCommand(message, params) {
-        return this.assignRegionRole(message.member, 'cn');
+    onCommand(response) {
+        return this.assignRegionRole(response.message.member, 'cn');
     }
 }
 

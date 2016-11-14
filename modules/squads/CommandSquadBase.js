@@ -1,6 +1,7 @@
 'use strict';
 
 const
+    _ = require('lodash'),
     Promise = require('bluebird'),
 
     SquadGroup = require('./SquadGroup'),
@@ -9,20 +10,27 @@ const
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandSquadBase extends Command {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.middleware = new RestrictChannelsMiddleware({
             types: 'text',
-            channels: this.middlewareChannels
+            channels: this.middlewareChannels.bind(this)
         });
     }
 
     middlewareChannels(message, command, params) {
-        // TODO: allow all available squad channels for people with roles with permanent access
+        // Check direct squad members
         const squad = command.getSquadByMember(message.member);
         if (squad) {
             return [squad.textChannel];
+        }
+
+        // Check for permanent access
+        if (this.module.config.roles_with_permanent_access) {
+            if (_.intersection(this.module.config.roles_with_permanent_access, message.member.roles.keyArray()).length > 0) {
+                return this.module.squads.map(s => s.textChannel);
+            }
         }
         return null;
     }
@@ -80,16 +88,6 @@ class CommandSquadBase extends Command {
             throw new CommandError('Only squad leaders can execute this command.');
         }
         return member;
-    }
-
-    filterMentionsOutside(squad, member, mentions) {
-        const client = this.module.bot.getClient();
-        return mentions.filter(m => !squad.members.includes(m.id) && member.id !== m.id/* && client.user.id !== m.id*/);
-    }
-
-    filterMentionsInside(squad, member, mentions) {
-        const client = this.module.bot.getClient();
-        return mentions.filter(m => squad.members.includes(m.id) && member.id !== m.id/* && client.user.id !== m.id*/);
     }
 }
 

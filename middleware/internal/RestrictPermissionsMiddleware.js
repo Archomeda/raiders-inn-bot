@@ -19,7 +19,7 @@ class RestrictPermissionsMiddleware extends Middleware {
         if (!this.isCommandAllowed(response.message, response.command, response.params)) {
             const username = `${response.message.author.username}#${response.message.author.discriminator}`;
             throw new MiddlewareError(
-                `Access to command denied by permissions (command: ${response.command.name}, user ${username}`,
+                `Access to command denied by permissions (command: ${response.command.trigger}, user ${username}`,
                 'log',
                 `You don't have permission to access this command.`
             );

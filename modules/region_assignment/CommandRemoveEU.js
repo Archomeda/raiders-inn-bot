@@ -1,22 +1,19 @@
 'use strict';
 
 const
-    config = require('config'),
-
     CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandRemoveEU extends CommandAssignmentBase {
-    constructor(module) {
-        super(module);
+    constructor(module, commandConfig) {
+        super(module, commandConfig);
 
         this.id = 'remove_eu';
-        this.name = config.get('modules.region_assignment.eu.command_remove');
         this.helpText = 'This allows you to remove yourself from the EU region.';
         this.shortHelpText = 'Remove yourself from the EU region';
     }
 
-    onCommand(message, params) {
-        return this.removeRegionRole(message.member, 'eu');
+    onCommand(response) {
+        return this.removeRegionRole(response.message.member, 'eu');
     }
 }
 

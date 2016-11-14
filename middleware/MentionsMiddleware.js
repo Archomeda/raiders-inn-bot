@@ -3,7 +3,7 @@
 const
     Middleware = require('./Middleware'),
     MiddlewareError = require('../errors/MiddlewareError'),
-    ensureArray = require('../utils/array').ensureArray
+    ensureArray = require('../utils/array').ensureArray;
 
 class MentionsMiddleware extends Middleware {
     constructor(options) {
@@ -29,7 +29,7 @@ class MentionsMiddleware extends Middleware {
             if (response.mentions.length === 0) {
                 const channelName = response.message.channel.name ? response.message.channel.name : response.message.channel.type;
                 throw new MiddlewareError(
-                    `No mentions given for command (command: ${response.command.name}, channel #${channelName})`,
+                    `No mentions given for command (command: ${response.command.trigger}, channel #${channelName})`,
                     'log',
                     'For this command to work, you have to `@mention` people.'
                 );

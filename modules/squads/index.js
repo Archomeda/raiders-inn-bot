@@ -1,8 +1,6 @@
 'use strict';
 
 const
-    config = require('config'),
-
     SquadGroup = require('./SquadGroup'),
     ModuleBase = require('../Module'),
     CommandRequest = require('./CommandRequest'),
@@ -14,18 +12,16 @@ const
     CommandDisband = require('./CommandDisband');
 
 class ModuleSquads extends ModuleBase {
-    constructor(bot) {
-        super(bot);
+    constructor(bot, moduleConfig) {
+        super(bot, moduleConfig);
 
-        this._commands = [
-            new CommandRequest(this),
-            new CommandLeader(this),
-            new CommandInvite(this),
-            new CommandKick(this),
-            new CommandTransfer(this),
-            new CommandLeave(this),
-            new CommandDisband(this)
-        ];
+        this.registerCommand(new CommandRequest(this, moduleConfig.commands.request));
+        this.registerCommand(new CommandLeader(this, moduleConfig.commands.leader));
+        this.registerCommand(new CommandInvite(this, moduleConfig.commands.invite));
+        this.registerCommand(new CommandKick(this, moduleConfig.commands.kick));
+        this.registerCommand(new CommandTransfer(this, moduleConfig.commands.transfer));
+        this.registerCommand(new CommandLeave(this, moduleConfig.commands.leave));
+        this.registerCommand(new CommandDisband(this, moduleConfig.commands.disband));
 
         this.squads = [];
         this.timeouts = {};
@@ -64,7 +60,7 @@ class ModuleSquads extends ModuleBase {
                     textChannel.sendMessage(`${oldMember} has left the voice channel.`);
                     if (oldVoiceChannel.members.size === 0) {
                         // No one is in the voice channel
-                        const time = config.get('modules.squads.disband_empty_squad_after');
+                        const time = this.config.disband_empty_squad_after;
                         this.scheduleSquadExpire(oldMember.guild, oldSquad, time * 60 * 1000);
                         textChannel.sendMessage('Everyone has left the voice channel. ' +
                             `Disbanding squad in ${time} minutes if no one joins.`);
@@ -102,10 +98,10 @@ class ModuleSquads extends ModuleBase {
                             const voiceChannel = guild.channels.get(squad.voiceChannel);
                             if (voiceChannel.members.size === 0) {
                                 // No one is in the voice channel
-                                this.scheduleSquadExpire(guild, squad, config.get('modules.squads.disband_restored_squad_after') * 60 * 1000);
+                                this.scheduleSquadExpire(guild, squad, this.config.disband_restored_squad_after * 60 * 1000);
                                 textChannel.sendMessage("I'm very sorry that I was away for awhile, but I'm back! " +
                                     'It would seem that no one is in the voice channel, ' +
-                                    `so I will clean up this squad in ${config.get('modules.squads.disband_restored_squad_after')} minutes if it stays that way.`);
+                                    `so I will clean up this squad in ${this.config.disband_restored_squad_after} minutes if it stays that way.`);
                             } else {
                                 textChannel.sendMessage("I'm very sorry that I was away for awhile, but I'm back!");
                             }
