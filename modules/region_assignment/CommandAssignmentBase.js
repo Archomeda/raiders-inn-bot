@@ -1,0 +1,35 @@
+'use strict';
+
+const
+    CommandBase = require('../Command'),
+    CommandError = require('../../errors/CommandError');
+
+class CommandAssignmentBase extends CommandBase {
+    checkGuild(member) {
+        if (!member.guild) {
+            if (member.presence.status === 'offline') {
+                throw new CommandError("You are not yet fully registered on the server. There is a limitation that requires you to change your status to online. Please try again afterwards.");
+            } else {
+                throw new CommandError("You are not yet fully registered on the server. Please contact one of the staff members to help you out.");
+            }
+        }
+    }
+
+    assignRegionRole(member, region) {
+        this.checkGuild(member);
+
+        const role = member.guild.roles.get(this.module.config.roles[region]);
+        return member.addRole(role)
+            .then(() => `You should have been **assigned** to **${role.name}**. If not, please contact one of the staff members.`);
+    }
+
+    removeRegionRole(member, region) {
+        this.checkGuild(member);
+
+        const role = member.guild.roles.get(this.module.config.roles[region]);
+        return member.removeRole(role)
+            .then(() => `You should have been **removed** from **${role.name}**. If not, please contact one of the staff members.`);
+    }
+}
+
+module.exports = CommandAssignmentBase;

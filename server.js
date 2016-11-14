@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 'use strict';
 
+require('babel-polyfill');
+
 const
     config = require('config'),
     Discord = require('discord.js'),
     Promise = require('bluebird'),
-    BaseModule = require('./modules/base_module');
+    ModuleBase = require('./modules/Module');
 
 console.log('Starting bot...');
 
@@ -19,19 +21,19 @@ const bot = {
 };
 
 Promise.map(Object.keys(moduleConfigs), m => {
-    const moduleConfig = moduleConfigs[m];
-    if (!moduleConfig.enabled) return;
+    if (!moduleConfigs[m]) return;
     return new Promise(resolve => {
         try {
             const Module = require(`./modules/${m}`);
-            if (Module.prototype instanceof BaseModule) {
-                modules.push(new Module(bot, moduleConfig, m));
+            if (Module.prototype instanceof ModuleBase) {
+                modules.push(new Module(bot, moduleConfigs[m]));
                 console.log(`Module '${m}' loaded`);
             } else {
-                console.warn(`Module '${m}' does not export a class that extends BaseModule, skipping`);
+                console.warn(`Module '${m}' does not export a class that extends ModuleBase, skipping`);
             }
         } catch(err) {
             console.warn(`Module '${m}' could not be loaded: ${err.message}`);
+            console.warn(err.stack);
         }
         resolve();
     })

@@ -38,10 +38,11 @@ class SquadGroup {
         squad._voiceChannel = channel.id;
         const textChannel = channel.guild.channels.find('name', textChannelTemplate.replace('{name}', this.makeTextChannelName(squad._name)));
         squad._textChannel = textChannel ? textChannel.id : null;
-        squad._members = channel.permissionOverwrites.filter(overwrite => overwrite.type === 'member').map(u => u.id);
+        squad._members = textChannel.permissionOverwrites.filter(overwrite => overwrite.type === 'member').map(u => u.id);
         squad._leader = squad._members.find(member => {
-            const permissions = channel.permissionsFor(member);
-            return permissions && permissions.hasPermission('SEND_MESSAGES', true);
+            // Using an undocumented function to check the member overwrites on a channel explicitly
+            const permissions = textChannel.overwritesFor(member);
+            return permissions && (permissions.member[0].allowData & 0x00000800); // SEND_MESSAGES
         });
 
         if (!squad._voiceChannel || !squad._textChannel) {
@@ -228,11 +229,13 @@ class SquadGroup {
         if (index > -1) {
             this._members.splice(index, 1);
             return this.setPermissions(member).then(() => {
-                const voiceChannel = member.guild.channels.get(kickUsersToChannel);
-                if (voiceChannel) {
-                    return member.setVoiceChannel(voiceChannel);
-                } else {
-                    console.warn('Error: user was not moved automatically because the target voice channel could not be found');
+                if (member.voiceChannelID) {
+                    const voiceChannel = member.guild.channels.get(kickUsersToChannel);
+                    if (voiceChannel) {
+                        return member.setVoiceChannel(voiceChannel);
+                    } else {
+                        console.warn('Error: user was not moved automatically because the target voice channel could not be found');
+                    }
                 }
             });
         }

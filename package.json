@@ -14,6 +14,7 @@
     "url": "https://github.com/Archomeda/raiders-inn-bot.git"
   },
   "dependencies": {
+    "babel-polyfill": "^6.16.0",
     "bluebird": "^3.4.6",
     "config": "^1.24.0",
     "discord.js": "^10.0.1",
