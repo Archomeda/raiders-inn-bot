@@ -20,7 +20,7 @@ class CommandWelcome extends Command {
     }
 
     onCommand(response) {
-        const welcomeChannel = response.message.guild.channels.get(this.config.get.target_channel);
+        const welcomeChannel = response.message.guild.channels.get(this.config.target_channel);
         return (
             `Hey there {mentions}, welcome to The Raiders Inn! ` +
             `Be sure to head over to ${welcomeChannel} to get started. ` +
