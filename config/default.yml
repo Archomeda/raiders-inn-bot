@@ -13,77 +13,110 @@ discord:
   token: your-token-should-be-here
   # Command prefix; in case there is another bot running you can change the prefix of this bot's commands
   command_prefix: "!"
-  # Time to wait in seconds before the same command can be executed again
-  # (depending on the command this can be saved per user or globally)
-  command_cooldown: 60
-  # Time for a user to wait in seconds before the next command can be executed
-  user_cooldown: 3
+  # The default middleware to use for every command (available middleware can be found in ./middleware)
+  command_middleware:
+    # Throttles the time to wait between every command execution for every user
+    UserThrottleMiddleware:
+      duration: 2
 
 #####
-# Generally every command can be configured with the command_* properties
-# When a deliver_* property is available, you can change the delivery method to:
-#  - 'dm' (DM)
-#  - 'text' (reply to the same text channel)
-#  - 'mention' (mention the mentioned person instead of the author of the message, if available)
+# Every command in a module can be enabled and disabled separately.
+# The command to trigger on can be changed as well.
+# You can restrict the channel where a command can be used in by adding the channel ids as shown in the help command.
 #####
 modules:
   # Provides general stuff that probably should stay enabled
   general:
-    enabled: true
-    command_help: help
-    deliver_help: dm
-    command_source: source
-    command_welcome: welcome
-    welcome_channel: welcome-channel-id
-    command_wiki: wiki
+    commands:
+      help:
+        trigger: help
+        enabled: true
+        #channels:
+        #  - first-channel-id
+        #  - second-channel-id
+      source:
+        trigger: source
+        enabled: true
+      welcome:
+        trigger: welcome
+        enabled: true
+        # The target channel is the channel id where to bot should redirect welcomed people to
+        target_channel: welcome-channel-id
+      wiki:
+        trigger: wiki
+        enabled: true
 
   # Provides stuff for managing the bot
   manage:
-    enabled: true
-    command_listids: listids
+    commands:
+      export_ids:
+        trigger: exportids
+        enabled: true
 
   # Provides raid related stuff
   raids:
-    enabled: true
-    command_reset: reset
+    commands:
+      reset_time:
+        trigger: reset
+        enabled: true
 
   # Provides region assignment related stuff
   region_assignment:
-    enabled: true
-    # The channels accepts an array of channel ids, an empty array means that it listens to all channels
-    channels: []
-    command_numbers: numbers
-    eu:
-      enabled: true
-      command_assign: eu
-      command_remove: -eu
-      role: eu-role-id
-    na:
-      enabled: true
-      command_assign: na
-      command_remove: -na
-      role: na-role-id
-    cn:
-      enabled: true
-      command_assign: cn
-      command_remove: -cn
-      role: cn-role-id
+    commands:
+      list_numbers:
+        trigger: numbers
+        enabled: true
+      assign_eu:
+        trigger: eu
+        enabled: true
+      assign_na:
+        trigger: na
+        enabled: true
+      assign_cn:
+        trigger: cn
+        enabled: true
+      remove_eu:
+        trigger: -eu
+        enabled: true
+      remove_na:
+        trigger: -na
+        enabled: true
+      remove_cn:
+        trigger: -cn
+        enabled: true
+    # The role ids to use for assigning people to specific regions
+    roles:
+      eu:
+      na:
+      cn:
 
   # Provides squad managing
   squads:
-    enabled: true
-    # The channels accepts an array of channel ids, an empty array means that it listens to all channels
-    channels: []
+    commands:
+      request:
+        trigger: requestsquad
+        enabled: true
+      leader:
+        trigger: leader
+        enabled: true
+      invite:
+        trigger: invite
+        enabled: true
+      kick:
+        trigger: kick
+        enabled: true
+      transfer:
+        trigger: transfer
+        enabled: true
+      leave:
+        trigger: leave
+        enabled: true
+      disband:
+        trigger: disband
+        enabled: true
     # Roles with permanent access accepts an array of role ids that will always have access to each created squad channel
     # An empty array means that no roles have permanent access
     roles_with_permanent_access: []
-    command_request: requestsquad
-    command_leader: leader
-    command_invite: invite
-    command_kick: kick
-    command_transfer: transfer
-    command_leave: leave
-    command_disband: disband
     # The squad channels are placed directly after these channels
     squads_after_textchannel: text-channel-id
     squads_after_voicechannel: voice-channel-id
@@ -178,10 +211,12 @@ modules:
 
   # Provides miscellaneous utilities
   utilities:
-    enabled: true
-    command_roll: roll
-    roll_max_dice: 100
-    roll_max_rolls: 10
+    commands:
+      roll:
+        trigger: roll
+        enabled: true
+        max_die: 100
+        max_rolls: 10
 
 #####
 # The permissions are set up in a hierarchical way. If a person is a member of more than 1 group,
@@ -204,6 +239,7 @@ permissions:
     blacklist: []
     whitelist:
       - "*"
+
   moderator:
     user_ids: []
     role_ids: []
