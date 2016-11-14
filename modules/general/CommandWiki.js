@@ -33,6 +33,9 @@ class CommandWiki extends Command {
 
     onCommand(response) {
         const terms = response.params[0];
+        if (!terms) {
+            return;
+        }
 
         // Search with nearmatch first
         return wiki.request({

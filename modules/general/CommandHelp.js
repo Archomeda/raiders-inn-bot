@@ -62,7 +62,7 @@ class CommandHelp extends Command {
     formatCommandChannelFilter(command) {
         let text = [];
 
-        let middleware = command.middleware.find(m => m.name === 'RestrictChannelsMiddleware');
+        let middleware = command.allMiddleware.find(m => m.name === 'RestrictChannelsMiddleware');
         if (middleware) {
             // Restricted channels is applied
             if (middleware.options.types.length === 1) {
@@ -81,7 +81,7 @@ class CommandHelp extends Command {
             }
         }
 
-        middleware = command.middleware.find(m => m.name === 'MentionsMiddleware');
+        middleware = command.allMiddleware.find(m => m.name === 'MentionsMiddleware');
         if (middleware) {
             // Mentions are allowed
             if (middleware.options.types.includes('mention')) {

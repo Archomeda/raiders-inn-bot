@@ -61,11 +61,17 @@ class Command {
         this._params = params.filter(p => p.name);
     }
 
-    get middleware() {
+    get allMiddleware() {
         return this._defaultMiddleware.concat(this._middleware);
+    }
+    get defaultMiddleware() {
+        return this._defaultMiddleware;
     }
     set defaultMiddleware(middleware) {
         this._defaultMiddleware = ensureArray(middleware);
+    }
+    get middleware() {
+        return this._middleware;
     }
     set middleware(middleware) {
         this._middleware = ensureArray(middleware);

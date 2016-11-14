@@ -7,6 +7,7 @@ const
     random = require('random-js')(),
 
     CommandResponse = require('./CommandResponse'),
+    RestrictChannelsMiddleware = require('../middleware/RestrictChannelsMiddleware'),
     RestrictPermissionsMiddleware = require('../middleware/internal/RestrictPermissionsMiddleware');
 
 const cache = new NodeCache();
@@ -44,28 +45,32 @@ class Module {
         }
         command.trigger = command.config.trigger;
 
-        const middleware = [];
-        const defaultMiddleware = config.get('discord.command_middleware');
-        for (let name in defaultMiddleware) {
-            if (defaultMiddleware.hasOwnProperty(name)) {
-                const options = defaultMiddleware[name];
+        const defaultMiddleware = [];
+        const configMiddleware = config.get('discord.command_middleware');
+        for (let name in configMiddleware) {
+            if (configMiddleware.hasOwnProperty(name)) {
+                const options = configMiddleware[name];
                 const middlewareClass = require(`../middleware/${name}`);
-                middleware.push(new middlewareClass(options));
+                defaultMiddleware.push(new middlewareClass(options));
             }
         }
 
         const permissions = config.get('permissions');
-        middleware.push(new RestrictPermissionsMiddleware({ permissions }));
-        command.defaultMiddleware = middleware;
+        defaultMiddleware.push(new RestrictPermissionsMiddleware({ permissions }));
+        command.defaultMiddleware = defaultMiddleware;
+
         if (command.config.channels && command.config.channels.length > 0) {
-            const restrictChannelsMiddlewareIndex = command.middleware.findIndex(m => m.name === 'RestrictChannelsMiddleware');
-            if (restrictChannelsMiddlewareIndex > -1) {
-                command.middleware[restrictChannelsMiddlewareIndex].options.channels =
-                    command.middleware[restrictChannelsMiddlewareIndex].options.channels.concat(command.config.channels);
+            const commandMiddleware = command.middleware;
+            const i = commandMiddleware.findIndex(m => m.name === 'RestrictChannelsMiddleware');
+            if (i > -1) {
+                commandMiddleware[i].options.channels =
+                    commandMiddleware[i].options.channels.concat(command.config.channels);
             } else {
-                command.middleware.push(new RestrictPermissionsMiddleware({ type: 'text', channels: command.config.channels }));
+                commandMiddleware.push(new RestrictChannelsMiddleware({ types: 'text', channels: command.config.channels }));
             }
+            command.middleware = commandMiddleware;
         }
+
         this._commands.push(command);
     }
 
@@ -79,7 +84,7 @@ class Module {
 
         let typing = false;
         let response = new CommandResponse(message, command, params);
-        // Call middleware onCommand
+        // Call allMiddleware onCommand
         this.callMiddlewares('onCommand', response).then(response => {
             if (!response.replyText) {
                 // We don't have a reply text yet, so we have to call our command
@@ -97,7 +102,7 @@ class Module {
         }).catch(err => {
             let text = null;
             if (err.name === 'MiddlewareError') {
-                // Some middleware has broken our chain, filter error message
+                // Some allMiddleware has broken our chain, filter error message
                 if (err.logger) {
                     console[err.logger](`Middleware error: ${err.message}`);
                 }
@@ -123,7 +128,7 @@ class Module {
                 return response;
             }
 
-            // Call middleware onResponse
+            // Call allMiddleware onResponse
             return this.callMiddlewares('onResponse', response).catch(err => {
                 if (err.name === 'MiddlewareError') {
                     // Middleware threw an error, do stuff with it
@@ -174,16 +179,16 @@ class Module {
         }
 
         // Return the parsed command with parameters
-        return [command, params];
+        return [command, params.filter(p => p)];
     }
 
     callMiddlewares(funcName, response) {
-        if (response.command.middleware.length === 0) {
+        if (response.command.allMiddleware.length === 0) {
             return Promise.resolve(response);
         }
 
         return new Promise((resolve, reject) => {
-            Promise.mapSeries(response.command.middleware, middleware => {
+            Promise.mapSeries(response.command.allMiddleware, middleware => {
                 if (!response.breakMiddleware) {
                     response = middleware[funcName].call(middleware, response);
                 }

@@ -38,6 +38,15 @@ class MentionsMiddleware extends Middleware {
             // Just reply
             response.mentions = [response.message.author];
         }
+
+        // Remove the mentioned users from the params
+        const mentionRegex = response.mentions.map(m => new RegExp(`(\s+${m}|${m}|${m}\s+)`));
+        response.params = response.params.map(p => {
+            for (let regex of mentionRegex) {
+                p = p.replace(regex, '');
+            }
+            return p;
+        });
         return response;
     }
 }

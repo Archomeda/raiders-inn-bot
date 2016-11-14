@@ -17,6 +17,7 @@ class CommandInvite extends CommandSquadBase {
         this.helpText = 'Invites one or more mentioned users to the squad.';
         this.shortHelpText = 'Invites one or more mentioned users to the squad';
 
+        // Overwrite middleware
         this.middleware = new MentionsMiddleware({ types: 'mention' });
     }
 

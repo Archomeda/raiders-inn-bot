@@ -72,7 +72,7 @@ class RestrictPermissionsMiddleware extends Middleware {
 
     static isCommandAllowed(message, command) {
         // Find RestrictPermissionsMiddleware instance on command
-        const middleware = command.middleware.find(m => m.name === 'RestrictPermissionsMiddleware');
+        const middleware = command.allMiddleware.find(m => m.name === 'RestrictPermissionsMiddleware');
         if (!middleware) {
             return true;
         }
