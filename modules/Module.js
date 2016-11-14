@@ -84,7 +84,7 @@ class Module {
 
         let typing = false;
         let response = new CommandResponse(message, command, params);
-        // Call allMiddleware onCommand
+        // Call middleware onCommand
         this.callMiddlewares('onCommand', response).then(response => {
             if (!response.replyText) {
                 // We don't have a reply text yet, so we have to call our command
@@ -102,7 +102,7 @@ class Module {
         }).catch(err => {
             let text = null;
             if (err.name === 'MiddlewareError') {
-                // Some allMiddleware has broken our chain, filter error message
+                // Some middleware has broken our chain, filter error message
                 if (err.logger) {
                     console[err.logger](`Middleware error: ${err.message}`);
                 }
@@ -128,7 +128,7 @@ class Module {
                 return response;
             }
 
-            // Call allMiddleware onResponse
+            // Call middleware onResponse
             return this.callMiddlewares('onResponse', response).catch(err => {
                 if (err.name === 'MiddlewareError') {
                     // Middleware threw an error, do stuff with it
@@ -145,7 +145,7 @@ class Module {
             if (response.replyText) {
                 let mentions = response.mentions.map(u => u.toString()).join(' ');
                 let replyText = response.replyText.replace('{mentions}', mentions);
-                if (replyText === response.replyText) {
+                if (replyText === response.replyText && response.message.channel.type === 'text') {
                     replyText = `${mentions}, ${replyText}`;
                 }
                 return response.replyFunc(replyText);
