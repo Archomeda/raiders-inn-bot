@@ -2,7 +2,7 @@
 
 const
     SquadGroup = require('./SquadGroup'),
-    ModuleBase = require('../Module'),
+    Module = require('../Module'),
     CommandRequest = require('./CommandRequest'),
     CommandLeader = require('./CommandLeader'),
     CommandInvite = require('./CommandInvite'),
@@ -11,7 +11,7 @@ const
     CommandLeave = require('./CommandLeave'),
     CommandDisband = require('./CommandDisband');
 
-class ModuleSquads extends ModuleBase {
+class ModuleSquads extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 

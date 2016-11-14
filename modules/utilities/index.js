@@ -1,10 +1,10 @@
 'use strict';
 
 const
-    ModuleBase = require('../Module'),
+    Module = require('../Module'),
     CommandRoll = require('./CommandRoll');
 
-class ModuleUtilities extends ModuleBase {
+class ModuleUtilities extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 

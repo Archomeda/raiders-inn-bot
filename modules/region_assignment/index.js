@@ -1,7 +1,7 @@
 'use strict';
 
 const
-    ModuleBase = require('../Module'),
+    Module = require('../Module'),
     CommandAssignEU = require('./CommandAssignEU'),
     CommandAssignNA = require('./CommandAssignNA'),
     CommandAssignCN = require('./CommandAssignCN'),
@@ -10,7 +10,7 @@ const
     CommandRemoveCN = require('./CommandRemoveCN'),
     CommandListNumbers = require('./CommandListNumbers');
 
-class ModuleRegionAssignment extends ModuleBase {
+class ModuleRegionAssignment extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 
