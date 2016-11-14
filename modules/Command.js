@@ -19,8 +19,6 @@ class Command {
         this._aliases = [];
         this.helpText = null;
         this.shortHelpText = null;
-        // TODO: change the supported delivery types to something else (middleware maybe?)
-        this._supportedDeliveryTypes = ['text'];
         this._params = [];
 
         this._defaultMiddleware = [];
