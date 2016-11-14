@@ -28,7 +28,23 @@ class RestrictChannelsMiddleware extends Middleware {
         allowed = allowed && channels && (channels.length === 0 || channels.includes(response.message.channel.id));
         if (!allowed) {
             const channelName = response.message.channel.name ? response.message.channel.name : response.message.channel.type;
-            throw new MiddlewareError(`Wrong channel for command (command: ${response.command.trigger}, channel: #${channelName})`, 'log');
+            let userMessage;
+            if (response.message.guild) {
+                const targetChannels = channels.map(c => {
+                    const channel = response.message.guild.channels.get(c);
+                    if (channel) {
+                        return channel.toString();
+                    }
+                }).filter(c => c);
+                userMessage = `This command only works in the following channels: ${targetChannels.join(' ')}.`;
+            } else {
+                userMessage = `This command does not work here.`;
+            }
+            throw new MiddlewareError(
+                `Wrong channel for command (command: ${response.command.trigger}, channel: #${channelName})`,
+                'log',
+                userMessage
+            );
         }
         return response;
     }

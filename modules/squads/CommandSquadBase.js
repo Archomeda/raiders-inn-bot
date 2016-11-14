@@ -18,6 +18,10 @@ class CommandSquadBase extends Command {
     }
 
     middlewareChannels(message, command, params) {
+        if (!message.member) {
+            return null;
+        }
+
         // Check direct squad members
         const squad = command.getSquadByMember(message.member);
         if (squad) {
