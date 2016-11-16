@@ -65,6 +65,8 @@ modules:
     commands:
       list_numbers:
         trigger: numbers
+        # Besides the region specific roles, you can also include the numbers of other roles (array of ids)
+        include_roles: []
         enabled: true
       assign_eu:
         trigger: eu

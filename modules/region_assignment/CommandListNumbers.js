@@ -19,13 +19,19 @@ class CommandListNumbers extends Command {
     }
 
     onCommand(response) {
-        const regionLines = ['eu', 'na', 'cn']
+        const roles = ['eu', 'na', 'cn', 'unassigned']
             .filter(region => this.module.config.roles[region])
-            .map(region => response.message.guild.roles.get(this.module.config.roles[region]))
-            .map(role => role ? `:small_blue_diamond: ${role.name}: ${role.members.size} ${role.members.size === 1 ? 'person' : 'people'}` : null)
+            .map(region => this.module.config.roles[region])
+            .concat(this.config.include_roles);
+
+        const lines = roles.map(roleId => response.message.guild.roles.get(roleId))
+            .filter(role => role)
+            .map(role => role ? `:small_blue_diamond: ${role.name} - ${role.members.size} ${role.members.size === 1 ? 'person' : 'people'}` : null)
             .filter(region => region)
             .join('\n');
-        return `We currently have:\n${regionLines}`;
+
+        const total = response.message.guild.memberCount;
+        return `We currently have ${total} ${total === 1 ? 'person' : 'people'}:\n${lines}`;
     }
 }
 
