@@ -5,10 +5,9 @@ const
     ReplyMethodMiddleware = require('../../middleware/ReplyMethodMiddleware');
 
 class CommandExportIds extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'export_ids';
         this.helpText = 'Assembles all the available ids of this bot into a file.';
 
         this.middleware = new ReplyMethodMiddleware({ method: 'dm' });

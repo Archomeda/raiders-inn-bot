@@ -27,7 +27,6 @@ class RestrictChannelsMiddleware extends Middleware {
         );
         allowed = allowed && channels && (channels.length === 0 || channels.includes(response.message.channel.id));
         if (!allowed) {
-            const channelName = response.message.channel.name ? response.message.channel.name : response.message.channel.type;
             let userMessage;
             if (response.message.guild) {
                 const targetChannels = channels.map(c => {
@@ -40,8 +39,10 @@ class RestrictChannelsMiddleware extends Middleware {
             } else {
                 userMessage = `This command does not work here.`;
             }
+            const username = `${response.message.author.username}#${response.message.author.discriminator}`;
+            const channelName = response.message.channel.name ? response.message.channel.name : response.message.channel.type;
             throw new MiddlewareError(
-                `Wrong channel for command (command: ${response.command.trigger}, channel: #${channelName})`,
+                `Wrong channel for command (user ${username}, command: ${response.command.trigger}, channel: #${channelName})`,
                 'log',
                 userMessage
             );

@@ -8,7 +8,7 @@ class ModuleRaids extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 
-        this.registerCommand(new CommandResetTime(this, moduleConfig.commands.reset_time));
+        this.registerCommand(new CommandResetTime(this));
     }
 }
 

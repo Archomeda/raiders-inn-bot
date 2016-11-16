@@ -7,10 +7,9 @@ const
     MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandResetTime extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'reset_time';
         this.helpText = 'Shows the current raid reset time and how much time there is left until the reset happens. This will also show a link to the wiki containing all Guild Wars 2 reset times.';
         this.shortHelpText = 'Shows the raid reset time';
 

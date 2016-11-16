@@ -5,10 +5,9 @@ const
     CommandError = require('../../errors/CommandError');
 
 class CommandLeader extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'leader';
         this.helpText = 'Gets the current leader of the squad. This only works in a squad channel.';
         this.shortHelpText = 'Gets the current leader of the squad';
     }

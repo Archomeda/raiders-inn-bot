@@ -4,10 +4,9 @@ const
     CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandRemoveNA extends CommandAssignmentBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'remove_na';
         this.helpText = 'This allows you to remove yourself from the NA region.';
         this.shortHelpText = 'Remove yourself from the NA region';
     }

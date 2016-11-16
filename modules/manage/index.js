@@ -8,7 +8,7 @@ class ModuleManage extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 
-        this.registerCommand(new CommandExportIds(this, moduleConfig.commands.export_ids));
+        this.registerCommand(new CommandExportIds(this));
     }
 }
 

@@ -11,10 +11,9 @@ const
     RestrictPermissionMiddleware = require('../../middleware/internal/RestrictPermissionsMiddleware');
 
 class CommandHelp extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'help';
         this.helpText = 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.';
         this.shortHelpText = 'Shows information about how to use commands';
         this.params = new CommandParam('command', 'The command', true);

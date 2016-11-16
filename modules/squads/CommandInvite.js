@@ -10,10 +10,9 @@ const
     MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandInvite extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'invite';
         this.helpText = 'Invites one or more mentioned users to the squad.';
         this.shortHelpText = 'Invites one or more mentioned users to the squad';
 

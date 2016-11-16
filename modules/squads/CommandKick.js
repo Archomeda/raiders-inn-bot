@@ -8,10 +8,9 @@ const
     MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandKick extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'kick';
         this.helpText = 'Kicks one or more mentioned users from the squad. This only works in a squad channel.';
         this.shortHelpText = 'Kicks one or more mentioned users from the squad';
 

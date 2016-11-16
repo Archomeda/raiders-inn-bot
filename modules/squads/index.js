@@ -15,13 +15,13 @@ class ModuleSquads extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 
-        this.registerCommand(new CommandRequest(this, moduleConfig.commands.request));
-        this.registerCommand(new CommandLeader(this, moduleConfig.commands.leader));
-        this.registerCommand(new CommandInvite(this, moduleConfig.commands.invite));
-        this.registerCommand(new CommandKick(this, moduleConfig.commands.kick));
-        this.registerCommand(new CommandTransfer(this, moduleConfig.commands.transfer));
-        this.registerCommand(new CommandLeave(this, moduleConfig.commands.leave));
-        this.registerCommand(new CommandDisband(this, moduleConfig.commands.disband));
+        this.registerCommand(new CommandRequest(this));
+        this.registerCommand(new CommandLeader(this));
+        this.registerCommand(new CommandInvite(this));
+        this.registerCommand(new CommandKick(this));
+        this.registerCommand(new CommandTransfer(this));
+        this.registerCommand(new CommandLeave(this));
+        this.registerCommand(new CommandDisband(this));
 
         this.squads = [];
         this.timeouts = {};

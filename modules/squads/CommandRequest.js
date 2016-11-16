@@ -10,10 +10,9 @@ const
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandRequest extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'request';
         this.helpText = 'Requests a new squad channel for raiding. You can only request a new channel if you are not part of one already.';
         this.shortHelpText = 'Requests a new squad channel for raiding';
 

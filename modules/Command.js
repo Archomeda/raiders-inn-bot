@@ -2,20 +2,21 @@
 
 const
     config = require('config'),
+    snakeCase = require('change-case').snakeCase,
 
     ensureArray = require('../utils/array').ensureArray;
 
 class Command {
-    constructor(module, commandConfig) {
+    constructor(module) {
         if (new.target === Command) {
             throw new TypeError('cannot construct Command instances directly');
         }
 
         this._module = module;
 
-        this.id = null;
+        this.id = snakeCase(new.target.name.replace(/(.*?)(Command)?/, '$1'));
         this.trigger = null;
-        this._config = commandConfig;
+        this._config = this._module.config.commands[this.id];
         // TODO: implement aliases support in modules
         this._aliases = [];
         this.helpText = null;
@@ -43,7 +44,7 @@ class Command {
     }
 
     get permissionId() {
-        return `${this._module.filename}.${this.id}`;
+        return `${snakeCase(this._module.name)}.${this.id}`;
     }
 
     get aliases() {

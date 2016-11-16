@@ -6,10 +6,9 @@ const
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandWelcome extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'welcome';
         this.helpText = 'Welcomes people to the server and directs them to the read-first channel.';
         this.shortHelpText = 'Welcomes people to the server';
 

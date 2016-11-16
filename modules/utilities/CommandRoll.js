@@ -8,10 +8,9 @@ const
     CommandError = require('../../errors/CommandError');
 
 class CommandRoll extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'roll';
         this.helpText = 'Rolls one or more dice and gives the result.';
         this.shortHelpText = 'Rolls one or more dice';
         this.params = [

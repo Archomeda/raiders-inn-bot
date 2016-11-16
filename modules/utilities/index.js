@@ -8,7 +8,7 @@ class ModuleUtilities extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 
-        this.registerCommand(new CommandRoll(this, moduleConfig.commands.roll));
+        this.registerCommand(new CommandRoll(this));
     }
 }
 

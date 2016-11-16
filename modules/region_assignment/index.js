@@ -14,13 +14,13 @@ class ModuleRegionAssignment extends Module {
     constructor(bot, moduleConfig) {
         super(bot, moduleConfig);
 
-        this.registerCommand(new CommandAssignEU(this, moduleConfig.commands.assign_eu));
-        this.registerCommand(new CommandAssignNA(this, moduleConfig.commands.assign_na));
-        this.registerCommand(new CommandAssignCN(this, moduleConfig.commands.assign_cn));
-        this.registerCommand(new CommandRemoveEU(this, moduleConfig.commands.remove_eu));
-        this.registerCommand(new CommandRemoveNA(this, moduleConfig.commands.remove_na));
-        this.registerCommand(new CommandRemoveCN(this, moduleConfig.commands.remove_cn));
-        this.registerCommand(new CommandListNumbers(this, moduleConfig.commands.list_numbers));
+        this.registerCommand(new CommandAssignEU(this));
+        this.registerCommand(new CommandAssignNA(this));
+        this.registerCommand(new CommandAssignCN(this));
+        this.registerCommand(new CommandRemoveEU(this));
+        this.registerCommand(new CommandRemoveNA(this));
+        this.registerCommand(new CommandRemoveCN(this));
+        this.registerCommand(new CommandListNumbers(this));
         this.name = 'Region Assignment';
     }
 }

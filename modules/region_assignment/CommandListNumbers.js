@@ -6,10 +6,9 @@ const
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandListNumbers extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'list_numbers';
         this.helpText = 'Gets the amount of users assigned to each region.';
         this.shortHelpText = 'Gets the amount of users assigned to each region';
 

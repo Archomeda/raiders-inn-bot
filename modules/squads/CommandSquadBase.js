@@ -8,8 +8,8 @@ const
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandSquadBase extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
         this.middleware = new RestrictChannelsMiddleware({
             types: 'text',

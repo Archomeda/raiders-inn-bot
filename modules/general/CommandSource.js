@@ -5,10 +5,9 @@ const
     MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandSource extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'source';
         this.helpText = 'Shows the link to the source code of this bot.';
         this.shortHelpText = 'Shows the link to the source code of this bot';
 

@@ -5,10 +5,9 @@ const
     CommandError = require('../../errors/CommandError');
 
 class CommandDisband extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'disband';
         this.helpText = 'Disbands the current squad you are the leader of. This only works in a squad channel.';
         this.shortHelpText = 'Disbands your squad';
     }

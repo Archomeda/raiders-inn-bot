@@ -6,10 +6,9 @@ const
     MentionsMiddleware = require('../../middleware/MentionsMiddleware');
 
 class CommandTransfer extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'transfer';
         this.helpText = 'Transfers squad leader status to the mentioned user. This only works in a squad channel.';
         this.shortHelpText = 'Transfers squad leader status to the mentioned user';
 

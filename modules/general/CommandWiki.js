@@ -16,10 +16,9 @@ const wiki = new MWBot({
 });
 
 class CommandWiki extends Command {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'wiki';
         this.helpText = 'Searches the Guild Wars 2 Wiki for an article and returns a summary and the article link if found.';
         this.shortHelpText = 'Searches the Guild Wars 2 Wiki for an article';
         this.params = new CommandParam('terms', 'Search terms');

@@ -4,10 +4,9 @@ const
     CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandAssignEU extends CommandAssignmentBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'assign_eu';
         this.helpText = 'This allows you to assign yourself to the EU region.';
         this.shortHelpText = 'Assign yourself to the EU region';
     }

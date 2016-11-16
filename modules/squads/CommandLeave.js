@@ -5,10 +5,9 @@ const
     CommandError = require('../../errors/CommandError');
 
 class CommandLeave extends CommandSquadBase {
-    constructor(module, commandConfig) {
-        super(module, commandConfig);
+    constructor(module) {
+        super(module);
 
-        this.id = 'leave';
         this.helpText = 'Leaves the current squad you are in. This only works in a squad channel.';
         this.shortHelpText = 'Leaves your current squad';
     }
