@@ -84,11 +84,15 @@ modules:
       remove_cn:
         trigger: -cn
         enabled: true
+    hooks:
+      automatic_assignment:
+        enabled: true
     # The role ids to use for assigning people to specific regions
     roles:
       eu:
       na:
       cn:
+      unassigned:
 
   # Provides squad managing
   squads:

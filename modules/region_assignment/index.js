@@ -8,7 +8,8 @@ const
     CommandRemoveEU = require('./CommandRemoveEU'),
     CommandRemoveNA = require('./CommandRemoveNA'),
     CommandRemoveCN = require('./CommandRemoveCN'),
-    CommandListNumbers = require('./CommandListNumbers');
+    CommandListNumbers = require('./CommandListNumbers'),
+    HookAutomaticAssignment = require('./HookAutomaticAssignment');
 
 class ModuleRegionAssignment extends Module {
     constructor(bot, moduleConfig) {
@@ -21,6 +22,7 @@ class ModuleRegionAssignment extends Module {
         this.registerCommand(new CommandRemoveNA(this));
         this.registerCommand(new CommandRemoveCN(this));
         this.registerCommand(new CommandListNumbers(this));
+        this.registerHook(new HookAutomaticAssignment(this));
         this.name = 'Region Assignment';
     }
 }

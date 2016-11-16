@@ -22,9 +22,9 @@ class Module {
         this._bot = bot;
         this._config = moduleConfig;
         this._commands = [];
+        this._hooks = [];
 
-        this.onMessage = this.onMessage.bind(this);
-        this.bot.getClient().on('message', this.onMessage);
+        this.bot.getClient().on('message', this.onMessage.bind(this));
     }
 
     get bot() {
@@ -37,6 +37,10 @@ class Module {
 
     get commands() {
         return this._commands;
+    }
+
+    get hooks() {
+        return this._hooks;
     }
 
     registerCommand(command) {
@@ -72,6 +76,19 @@ class Module {
         }
 
         this._commands.push(command);
+    }
+
+    registerHook(hook) {
+        if (!hook.config.enabled) {
+            return;
+        }
+        const client = this.bot.getClient();
+        for (let hookName in hook.hooks) {
+            if (hook.hooks.hasOwnProperty(hookName)) {
+                client.on(hookName, hook.hooks[hookName].bind(hook));
+            }
+        }
+        this._hooks.push(hook);
     }
 
     onMessage(message) {
