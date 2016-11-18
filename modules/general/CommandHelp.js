@@ -2,6 +2,8 @@
 
 const
     config = require('config'),
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
 
     Command = require('../Command'),
     CommandParam = require('../CommandParam'),
@@ -13,10 +15,11 @@ const
 class CommandHelp extends Command {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Shows information about how to use commands, with optionally a command as argument to get more detailed information.';
-        this.shortHelpText = 'Shows information about how to use commands';
-        this.params = new CommandParam('command', 'The command', true);
+        i18next.loadNamespacesAsync('general').then(() => {
+            this.helpText = i18next.t('general:help.help');
+            this.shortHelpText = i18next.t('general:help.short-help');
+            this.params = new CommandParam('command', i18next.t('general:help.param-command'), true);
+        });
 
         this.middleware = [
             new ReplyMethodMiddleware({ method: 'dm' }),
@@ -41,10 +44,9 @@ class CommandHelp extends Command {
             }
 
             if (!command) {
-                throw new CommandError(`The command \`${commandTrigger}\` is not recognized. ` +
-                    `Type \`${this}\` to see the list of commands.`);
+                throw new CommandError(i18next.t('general:help.response-command-not-recognized', { command: commandTrigger, help: this.toString() }));
             }
-            return `\n${this.formatCommandHelp(response.message, command)}`;
+            return i18next.t('general:help.response-single-help', { help: this.formatCommandHelp(response.message, command) });
         } else {
             // Reply with general help
             const help = [];
@@ -54,7 +56,7 @@ class CommandHelp extends Command {
                     help.push(moduleHelp);
                 }
             });
-            return `\n${help.join('\n\n')}\n\nCommands marked with an asterisk might be restricted.`;
+            return i18next.t('general:help.response-all-help', { help: help.join('\n\n') });
         }
     }
 
@@ -67,13 +69,13 @@ class CommandHelp extends Command {
             if (middleware.options.types.length === 1) {
                 switch (middleware.options.types[0]) {
                     case 'dm':
-                        text.push('DM only');
+                        text.push(i18next.t('general:help.command-restriction-dm'));
                         break;
                     case 'text':
                         if (middleware.options.channels.length > 0) {
-                            text.push('specific server channels only');
+                            text.push(i18next.t('general:help.command-restriction-specific-channels'));
                         } else {
-                            text.push('server channels only');
+                            text.push(i18next.t('general:help.command-restriction-channels'));
                         }
                         break;
                 }
@@ -84,9 +86,9 @@ class CommandHelp extends Command {
         if (middleware) {
             // Mentions are allowed
             if (middleware.options.strict) {
-                text.push('strictly mentionable');
+                text.push(i18next.t('general:help.command-restriction-mentions-only'));
             } else {
-                text.push('mentionable');
+                text.push(i18next.t('general:help.command-restriction-mentions'));
             }
         }
         return text.join(', ');
@@ -107,37 +109,45 @@ class CommandHelp extends Command {
                 extraText += '*';
             }
 
-            const text = extraText ? `${commandText} - ${helpText} *(${extraText})*` : `${commandText} - ${helpText}`;
-            commands.push(text);
+            if (extraText) {
+                commands.push(i18next.t('general:help.module-command-help-extra', { command: commandText, help: helpText, extra: extraText }));
+            } else {
+                commands.push(i18next.t('general:help.module-command-help', { command: commandText, help: helpText }));
+            }
         });
         if (commands.length === 0) {
             return;
         }
-        return `__**${module.name}**__\n${commands.join('\n')}`;
+        return i18next.t('general:help.module-help', { name: module.name, commands: commands.join('\n') });
     }
 
     formatCommandHelp(message, command) {
-        let invocation = `${command} `;
+        let invocation = `${command}`;
         const helpText = command.helpText;
         const params = [];
 
         command.params.forEach(param => {
             const paramText = `\`${param.name}\``;
             const helpText = param.helpText;
-            const text = param.isOptional ? `${paramText} - ${helpText} *(optional)*` : `${paramText} - ${helpText}`;
-            params.push(text);
-            invocation += (param.isOptional ? '[' : '') + param.name + (param.isOptional ? ']' : '') + ' ';
+            const extraText = param.isOptional ? i18next.t('general:help.command-param-restriction-optional') : '';
+
+            if (extraText) {
+                params.push(i18next.t('general:help.command-param-help-extra', { param: paramText, help: helpText, extra: extraText }));
+            } else {
+                params.push(i18next.t('general:help.command-param-help', { param: paramText, help: helpText }));
+            }
+            invocation += ' ' + (param.isOptional ? i18next.t('general:help.command-param-optional-format', { param: param.name }) : param.name);
         });
         let extraText = this.formatCommandChannelFilter(command);
         // TODO: Find a better way to detect server role assignments in a DM
         if (!RestrictPermissionMiddleware.isCommandAllowed(message, command)) {
-            extraText += (extraText ? ', ' : '') + 'might be restricted';
+            extraText += (extraText ? ', ' : '') + i18next.t('general:help.command-restriction-permissions');
         }
 
         if (extraText) {
-            return `\`\`\`${invocation}\`\`\`\n**(${extraText})**\n${helpText}\n\n${params.join('\n')}`;
+            return i18next.t('general:help.command-help-extra', { command: invocation, help: helpText, params: params.join('\n'), extra: extraText });
         }
-        return `\`\`\`${invocation}\`\`\`\n${helpText}\n\n${params.join('\n')}`;
+        return i18next.t('general:help.command-help', { command: invocation, help: helpText, params: params.join('\n') });
     }
 }
 

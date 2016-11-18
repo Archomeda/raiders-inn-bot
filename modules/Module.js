@@ -4,6 +4,7 @@ const
     config = require('config'),
     NodeCache = require('node-cache'),
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
     random = require('random-js')(),
 
     CommandResponse = require('./CommandResponse'),
@@ -17,6 +18,7 @@ class Module {
         if (new.target === Module) {
             throw new TypeError('cannot construct Module instances directly');
         }
+        i18next.loadNamespaces('module');
 
         this.name = new.target.name.replace(/(.*?)(Module)?/, '$1');
         this._bot = bot;
@@ -132,11 +134,10 @@ class Module {
                 // Unexpected error
                 console.warn(`Unexpected error: ${err.message}`);
                 console.warn(err.stack);
-                text = `An unexpected error has occured, code ${random.hex(6).toUpperCase()}.`;
+                text = i18next.t('module:command-error', { code: random.hex(6).toUpperCase() });
             }
-            const res = new CommandResponse(message, command, params);
-            res.replyText = text;
-            return res;
+            response.replyText = text;
+            return response;
         }).then(response => {
             if (response.stopTypingFunc && typing) {
                 response.stopTypingFunc();
@@ -162,7 +163,7 @@ class Module {
             if (response.replyText) {
                 let mentions = response.replyTo.map(u => u.toString()).join(' ');
                 let replyText = response.replyText.replace('{mentions}', mentions);
-                if (replyText === response.replyText && response.message.channel.type === 'text') {
+                if (replyText === response.replyText && (response.replyMethod !== 'dm' && response.message.channel.type !== 'dm')) {
                     replyText = `${mentions}, ${replyText}`;
                 }
                 return response.replyFunc(replyText);

@@ -8,6 +8,8 @@
 # The reason is that the ids are too big for Node to handle properly as a number.
 # Saving it as a string explicitly works around this issue.
 
+language: en-US
+
 discord:
   # The bot's token can found on the bot's application page on discordapp.com/developers/applications/me
   token: your-token-should-be-here

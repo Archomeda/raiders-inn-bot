@@ -16,6 +16,7 @@ class ReplyMethodMiddleware extends Middleware {
         switch (this.options.method) {
             case 'dm':
                 response.replyFunc = response.message.author.sendMessage.bind(response.message.author);
+                response.replyMethod = 'dm';
                 if (response.message.channel.type === 'dm') {
                     response.startTypingFunc = response.message.channel.startTyping.bind(response.message.channel);
                     response.stopTypingFunc = response.message.channel.stopTyping.bind(response.message.channel);
