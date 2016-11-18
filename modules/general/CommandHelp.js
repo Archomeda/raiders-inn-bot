@@ -41,7 +41,7 @@ class CommandHelp extends Command {
             }
 
             if (!command) {
-                throw new CommandError(`The command \`${command}\` is not recognized. ` +
+                throw new CommandError(`The command \`${commandTrigger}\` is not recognized. ` +
                     `Type \`${this}\` to see the list of commands.`);
             }
             return `\n${this.formatCommandHelp(response.message, command)}`;
