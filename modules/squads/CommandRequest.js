@@ -44,7 +44,7 @@ class CommandRequest extends CommandSquadBase {
             })
             .then(() => squad.setLeader(response.message.member))
             .then(() => {
-                setTimeout(() => this.onSquadExpired(response.message.guild, squad), this.module.config.disband_new_squad_after * 60 * 1000);
+                setTimeout(() => this.module.onSquadExpired(response.message.guild, squad), this.module.config.disband_new_squad_after * 60 * 1000);
                 const textChannel = response.message.guild.channels.get(squad.textChannel);
                 const voiceChannel = response.message.guild.channels.get(squad.voiceChannel);
 
