@@ -21,5 +21,10 @@
     "response-command-not-recognized": "The command '{{command}}' is not recognized. Type `{{help}}` to see the list of commands.",
     "response-single-help": "{{help}}",
     "response-all-help": "{{help}}\n\nCommands marked with an asterisk might be restricted."
+  },
+  "source": {
+    "help": "Shows the link to the source code of this bot.",
+    "short-help": "Shows the link to the source code of this bot",
+    "response": "{mentions}, you can find the source code at {{- url}}."
   }
 }
