@@ -2,7 +2,7 @@
 
 const
     Command = require('../Command'),
-    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
+    ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware');
 
 class CommandSource extends Command {
     constructor(module) {
@@ -11,7 +11,7 @@ class CommandSource extends Command {
         this.helpText = 'Shows the link to the source code of this bot.';
         this.shortHelpText = 'Shows the link to the source code of this bot';
 
-        this.middleware = new MentionsMiddleware({ types: ['reply', 'mention'] });
+        this.middleware = new ReplyToMentionedUsersMiddleware();
     }
 
     onCommand(response) {

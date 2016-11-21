@@ -5,7 +5,7 @@ const
 
     CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../../errors/CommandError'),
-    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
+    MentionsOnlyMiddleware = require('../../middleware/MentionsOnlyMiddleware');
 
 class CommandKick extends CommandSquadBase {
     constructor(module) {
@@ -14,7 +14,7 @@ class CommandKick extends CommandSquadBase {
         this.helpText = 'Kicks one or more mentioned users from the squad. This only works in a squad channel.';
         this.shortHelpText = 'Kicks one or more mentioned users from the squad';
 
-        this.middleware = new MentionsMiddleware({ types: 'mention' });
+        this.middleware = new MentionsOnlyMiddleware();
     }
 
     onCommand(response) {

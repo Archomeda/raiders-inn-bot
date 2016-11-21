@@ -7,7 +7,7 @@ const
 
     CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../../errors/CommandError'),
-    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
+    MentionsOnlyMiddleware = require('../../middleware/MentionsOnlyMiddleware');
 
 class CommandInvite extends CommandSquadBase {
     constructor(module) {
@@ -17,7 +17,7 @@ class CommandInvite extends CommandSquadBase {
         this.shortHelpText = 'Invites one or more mentioned users to the squad';
 
         // Overwrite middleware
-        this.middleware = new MentionsMiddleware({ types: 'mention' });
+        this.middleware = new MentionsOnlyMiddleware();
     }
 
     onCommand(response) {

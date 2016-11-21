@@ -2,7 +2,7 @@
 
 const
     Command = require('../Command'),
-    MentionsMiddleware = require('../../middleware/MentionsMiddleware'),
+    ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware'),
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 class CommandWelcome extends Command {
@@ -14,7 +14,7 @@ class CommandWelcome extends Command {
 
         this.middleware = [
             new RestrictChannelsMiddleware({ types: 'text' }),
-            new MentionsMiddleware({ types: 'mention' })
+            new ReplyToMentionedUsersMiddleware({ strict: true })
         ];
     }
 

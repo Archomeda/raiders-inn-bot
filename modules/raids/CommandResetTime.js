@@ -4,7 +4,7 @@ const
     moment = require('moment-timezone'),
 
     Command = require('../Command'),
-    MentionsMiddleware = require('../../middleware/MentionsMiddleware');
+    ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware');
 
 class CommandResetTime extends Command {
     constructor(module) {
@@ -13,7 +13,7 @@ class CommandResetTime extends Command {
         this.helpText = 'Shows the current raid reset time and how much time there is left until the reset happens. This will also show a link to the wiki containing all Guild Wars 2 reset times.';
         this.shortHelpText = 'Shows the raid reset time';
 
-        this.middleware = new MentionsMiddleware({ types: ['reply', 'mention'] });
+        this.middleware = new ReplyToMentionedUsersMiddleware();
     }
 
     onCommand(response) {

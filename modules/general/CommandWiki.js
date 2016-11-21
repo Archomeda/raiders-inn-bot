@@ -8,7 +8,7 @@ const
     CommandParam = require('../CommandParam'),
     CommandError = require('../../errors/CommandError'),
     CacheMiddleware = require('../../middleware/CacheMiddleware'),
-    MentionsMiddleware = require('../../middleware/MentionsMiddleware'),
+    ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware'),
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
 
 const wiki = new MWBot({
@@ -25,7 +25,7 @@ class CommandWiki extends Command {
 
         this.middleware = [
             new RestrictChannelsMiddleware({ types: 'text' }),
-            new MentionsMiddleware({ types: ['reply', 'mention'] }),
+            new ReplyToMentionedUsersMiddleware(),
             new CacheMiddleware()
         ];
     }

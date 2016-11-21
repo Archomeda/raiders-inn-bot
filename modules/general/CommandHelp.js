@@ -80,15 +80,13 @@ class CommandHelp extends Command {
             }
         }
 
-        middleware = command.allMiddleware.find(m => m.name === 'MentionsMiddleware');
+        middleware = command.allMiddleware.find(m => m.name === 'ReplyToMentionedUsersMiddleware');
         if (middleware) {
             // Mentions are allowed
-            if (middleware.options.types.includes('mention')) {
-                if (middleware.options.types.length === 1) {
-                    text.push('strictly mentionable');
-                } else {
-                    text.push('mentionable');
-                }
+            if (middleware.options.strict) {
+                text.push('strictly mentionable');
+            } else {
+                text.push('mentionable');
             }
         }
         return text.join(', ');

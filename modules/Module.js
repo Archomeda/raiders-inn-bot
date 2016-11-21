@@ -160,7 +160,7 @@ class Module {
             }).return(response);
         }).then(response => {
             if (response.replyText) {
-                let mentions = response.mentions.map(u => u.toString()).join(' ');
+                let mentions = response.replyTo.map(u => u.toString()).join(' ');
                 let replyText = response.replyText.replace('{mentions}', mentions);
                 if (replyText === response.replyText && response.message.channel.type === 'text') {
                     replyText = `${mentions}, ${replyText}`;
