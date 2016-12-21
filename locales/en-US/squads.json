@@ -22,5 +22,11 @@
     "short-help": "Gets the current leader of the squad",
     "response-no-leader": "This squad has currently no leader.",
     "response": "This squad is led by {{- leader}}."
+  },
+  "leave": {
+    "help": "Leaves the current squad you are in. This only works in a squad channel.",
+    "short-help": "Leaves your current squad",
+    "response-leader": "You can't leave the squad because you're the squad leader. You have to either transfer your squad leader status with `{{command_transfer}}` or disband the squad entirely with `{{command_disband}}`.",
+    "message-left": "{{- member}} has left the squad."
   }
 }
