@@ -1,6 +1,8 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
     MWBot = require('mwbot'),
     toMarkdown = require('to-markdown'),
 
@@ -18,10 +20,11 @@ const wiki = new MWBot({
 class CommandWiki extends Command {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Searches the Guild Wars 2 Wiki for an article and returns a summary and the article link if found.';
-        this.shortHelpText = 'Searches the Guild Wars 2 Wiki for an article';
-        this.params = new CommandParam('terms', 'Search terms');
+        i18next.loadNamespacesAsync('general').then(() => {
+            this.helpText = i18next.t('general:wiki.help');
+            this.shortHelpText = i18next.t('general:wiki.short-help');
+            this.params = new CommandParam('command', i18next.t('general:wiki.param-terms'), true);
+        });
 
         this.middleware = [
             new RestrictChannelsMiddleware({ types: 'text' }),
@@ -82,9 +85,9 @@ class CommandWiki extends Command {
                 text = this.formatWikiText(text).split('\n')[0].trim();
                 const url = encodeURI(`https://wiki.guildwars2.com/wiki/${title}`);
                 if (text) {
-                    text += `\n\nMore: ${url}`;
+                    text = i18next.t('general:wiki.response-with-intro', { text, url });
                 } else {
-                    text = `${title}: ${url}`;
+                    text = i18next.t('general:wiki.response-title-only', { title, url });
                 }
                 return text;
             }
@@ -93,9 +96,9 @@ class CommandWiki extends Command {
             // Capture errors and construct proper fail message
             switch (err.message) {
                 case 'not found':
-                    throw new CommandError('Your request did not come up with any results. Try using different search terms.');
+                    throw new CommandError(i18next.t('general:wiki.response-not-found'));
                 case 'no title':
-                    throw new CommandError('Please provide a wiki article title or search terms.');
+                    throw new CommandError(i18next.t('general:wiki.no-title'));
                 default:
                     throw err;
             }

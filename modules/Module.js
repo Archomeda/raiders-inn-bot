@@ -118,6 +118,26 @@ class Module {
                 }
             }
             return response;
+        }).then(response => {
+            if (!response.replyText) {
+                return response;
+            }
+
+            // Call middleware onResponse
+            return this.callMiddlewares('onResponse', response).catch(err => {
+                if (err.name === 'MiddlewareError') {
+                    // Middleware threw an error, do stuff with it
+                    if (err.logger) {
+                        console[err.logger](`Middleware error: ${err.message}`);
+                    }
+                } else {
+                    // Unexpected error
+                    console.warn(`Unexpected error: ${err.message}`);
+                    console.warn(err.stack);
+                }
+            }).then(() => {
+                response.replyText = this.replaceMention(response.replyText, response.replyTo, response.replyMethod, response.message.channel.type);
+            }).return(response);
         }).catch(err => {
             let text = null;
             if (err.name === 'MiddlewareError') {
@@ -136,39 +156,26 @@ class Module {
                 console.warn(err.stack);
                 text = i18next.t('module:command-error', { code: random.hex(6).toUpperCase() });
             }
-            response.replyText = text;
+            response.replyText = this.replaceMention(text, message.author, response.replyMethod, response.message.channel.type);
             return response;
         }).then(response => {
             if (response.stopTypingFunc && typing) {
                 response.stopTypingFunc();
             }
-            if (!response.replyText) {
-                return response;
-            }
 
-            // Call middleware onResponse
-            return this.callMiddlewares('onResponse', response).catch(err => {
-                if (err.name === 'MiddlewareError') {
-                    // Middleware threw an error, do stuff with it
-                    if (err.logger) {
-                        console[err.logger](`Middleware error: ${err.message}`);
-                    }
-                } else {
-                    // Unexpected error
-                    console.warn(`Unexpected error: ${err.message}`);
-                    console.warn(err.stack);
-                }
-            }).return(response);
-        }).then(response => {
             if (response.replyText) {
-                let mentions = response.replyTo.map(u => u.toString()).join(' ');
-                let replyText = response.replyText.replace('{mentions}', mentions);
-                if (replyText === response.replyText && (response.replyMethod !== 'dm' && response.message.channel.type !== 'dm')) {
-                    replyText = `${mentions}, ${replyText}`;
-                }
-                return response.replyFunc(replyText);
+                return response.replyFunc(response.replyText);
             }
         });
+    }
+
+    replaceMention(text, mentions, method, channelType) {
+        let mentions_ = Array.isArray(mentions) ? mentions.map(u => u.toString()).join(' ') : mentions.toString();
+        let replyText = text.replace('{mentions}', mentions_);
+        if (replyText === text && (method !== 'dm' && channelType !== 'dm')) {
+            replyText = `${mentions}, ${replyText}`;
+        }
+        return replyText;
     }
 
     parseCommandString(message) {
