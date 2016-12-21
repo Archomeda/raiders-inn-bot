@@ -6,8 +6,8 @@
     "param-rolls": "The number of rolls (1 - 10)",
 
     "response": "{{- member}} has rolled {{result}}.",
-    "response-die-out-of-range": "The die has to be between d2 and d100.",
-    "response-rolls-out-of-range": "You can only roll between 1 and 10 times.",
+    "response-die-out-of-range": "{mentions}, the die has to be between d2 and d100.",
+    "response-rolls-out-of-range": "{mentions}, you can only roll between 1 and 10 times.",
     "response-rolling": "{{- member}} is rolling {{symbols}}"
   }
 }
