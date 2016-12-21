@@ -1,15 +1,19 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+
     CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../../errors/CommandError');
 
 class CommandDisband extends CommandSquadBase {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Disbands the current squad you are the leader of. This only works in a squad channel.';
-        this.shortHelpText = 'Disbands your squad';
+        i18next.loadNamespacesAsync('squads').then(() => {
+            this.helpText = i18next.t('squads:disband.help');
+            this.shortHelpText = i18next.t('squads:disband.short-help');
+        });
     }
 
     onCommand(response) {

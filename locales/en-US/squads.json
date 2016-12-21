@@ -1,0 +1,6 @@
+{
+  "disband": {
+    "help": "Disbands the current squad you are the leader of. This only works in a squad channel.",
+    "short-help": "Disbands your squad"
+  }
+}
