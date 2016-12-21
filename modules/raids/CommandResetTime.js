@@ -2,6 +2,8 @@
 
 const
     moment = require('moment-timezone'),
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
 
     Command = require('../Command'),
     ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware');
@@ -9,9 +11,10 @@ const
 class CommandResetTime extends Command {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Shows the current raid reset time and how much time there is left until the reset happens. This will also show a link to the wiki containing all Guild Wars 2 reset times.';
-        this.shortHelpText = 'Shows the raid reset time';
+        i18next.loadNamespacesAsync('raids').then(() => {
+            this.helpText = i18next.t('raids:reset-time.help');
+            this.shortHelpText = i18next.t('raids:reset-time.short-help');
+        });
 
         this.middleware = new ReplyToMentionedUsersMiddleware();
     }
@@ -29,10 +32,12 @@ class CommandResetTime extends Command {
             'Australia - Sydney',
             'Asia - Tokyo'
         ];
-        return `Reset will happen **${moment().to(nextReset)}**.\n\n` +
-            `Raid rewards reset every ${nextReset.format('dddd [at] H:mm')} UTC. Other timezones:\n` +
-            timezones.map(time => `:small_blue_diamond: ${time}: ${nextReset.clone().tz(time.replace(' - ', '/').replace(' ', '_')).format('dddd [at] H:mm')}`).join('\n') + '\n\n' +
-            'For a full overview, check the wiki: https://wiki.guildwars2.com/wiki/Server_reset';
+        return i18next.t('raids:reset-time.response', {
+            next_reset: moment().to(nextReset),
+            reset: nextReset.format('dddd [at] H:mm'),
+            timezones: timezones.map(time => `🔹 ${time}: ${nextReset.clone().tz(time.replace(' - ', '/').replace(' ', '_')).format('dddd [at] H:mm')}`).join('\n'),
+            full_overview_url: 'https://wiki.guildwars2.com/wiki/Server_reset'
+        });
     }
 }
 
