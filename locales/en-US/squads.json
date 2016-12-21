@@ -16,5 +16,11 @@
     "help": "Kicks one or more mentioned users from the squad. This only works in a squad channel.",
     "short-help": "Kicks one or more mentioned users from the squad",
     "message-kick": "{{- leader}} has kicked {{- members}}."
+  },
+  "leader": {
+    "help": "Gets the current leader of the squad. This only works in a squad channel.",
+    "short-help": "Gets the current leader of the squad",
+    "response-no-leader": "This squad has currently no leader.",
+    "response": "This squad is led by {{- leader}}."
   }
 }
