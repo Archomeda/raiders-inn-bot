@@ -23,7 +23,7 @@ class CommandWiki extends Command {
         i18next.loadNamespacesAsync('general').then(() => {
             this.helpText = i18next.t('general:wiki.help');
             this.shortHelpText = i18next.t('general:wiki.short-help');
-            this.params = new CommandParam('command', i18next.t('general:wiki.param-terms'), true);
+            this.params = new CommandParam('terms', i18next.t('general:wiki.param-terms'), true);
         });
 
         this.middleware = [
