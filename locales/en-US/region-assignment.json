@@ -1,0 +1,37 @@
+{
+  "assignment-base": {
+    "response-not-fully-registered-offline": "{mentions}, you are not yet fully registered on the server. There is a limitation that requires you to change your status to online. Please try again afterwards.",
+    "response-not-fully-registered": "{mentions}, you are not yet fully registered on the server. Please contact one of the staff members to help you out.",
+    "response-already-assigned": "{mentions}, you are already assigned to **{{role}}**.",
+    "response-assigned": "{mentions}, done! You have been *assigned* to **{{role}}**.",
+    "response-assigned-error": "{mentions}, something might have gone wrong as it seems you have not been assigned to **{{role}}**. Please double check and contact a staff member if it didn't work.",
+    "response-already-removed": "{mentions}, you are not part of **{{role}}**.",
+    "response-removed": "{mentions}, done! You have been *removed* from **{{role}}**.",
+    "response-removed-no-server": "{mentions}, done! You have been *removed* from **{{role}}**. **PLease note that you are not assigned to any server right now.** This means people are less likely to find you, and you don't have access to the restricted server channels. It's entirely up to you, but it's important that you choose your server.",
+    "response-removed-error": "{mentions}, something might have gone wrong as it seems you have not been removed from **{{role}}**. Please double check and contact a staff member if it didn't work."
+  },
+  "assign-cn": {
+    "help": "This allows you to assign yourself to the CN region.",
+    "short-help": "Assign yourself to the CN region"
+  },
+  "assign-eu": {
+    "help": "This allows you to assign yourself to the EU region.",
+    "short-help": "Assign yourself to the EU region"
+  },
+  "assign-na": {
+    "help": "This allows you to assign yourself to the NA region.",
+    "short-help": "Assign yourself to the NA region"
+  },
+  "remove-cn": {
+    "help": "This allows you to remove yourself from the CN region.",
+    "short-help": "Assign yourself to the CN region"
+  },
+  "remove-eu": {
+    "help": "This allows you to remove yourself from the EU region.",
+    "short-help": "Remove yourself from the EU region"
+  },
+  "remove-na": {
+    "help": "This allows you to remove yourself from the NA region.",
+    "short-help": "Remove yourself from the NA region"
+  }
+}
