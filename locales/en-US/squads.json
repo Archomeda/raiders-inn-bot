@@ -11,5 +11,10 @@
     "response-invited-and-already-part-of-squad": "{mentions}, the following people have been invited: {{- members}}. {{- failed_members}} could not be invited because they are part of a squad already",
     "response-already-part-of-squad": "{mentions}, {{- members}} could not be invited because they are part of a squad already",
     "message-invited": "{{- leader}} has invited {{- members}} to the squad."
+  },
+  "kick": {
+    "help": "Kicks one or more mentioned users from the squad. This only works in a squad channel.",
+    "short-help": "Kicks one or more mentioned users from the squad",
+    "message-kick": "{{- leader}} has kicked {{- members}}."
   }
 }
