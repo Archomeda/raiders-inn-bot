@@ -4,6 +4,7 @@ const
     _ = require('lodash'),
     config = require('config'),
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
 
     CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../../errors/CommandError'),
@@ -12,9 +13,10 @@ const
 class CommandInvite extends CommandSquadBase {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Invites one or more mentioned users to the squad.';
-        this.shortHelpText = 'Invites one or more mentioned users to the squad';
+        i18next.loadNamespacesAsync('squads').then(() => {
+            this.helpText = i18next.t('squads:invite.help');
+            this.shortHelpText = i18next.t('squads:invite.short-help');
+        });
 
         // Overwrite middleware
         this.middleware = new MentionsOnlyMiddleware();
@@ -23,8 +25,9 @@ class CommandInvite extends CommandSquadBase {
     onCommand(response) {
         const squad = this.getSquadByMember(response.message.member);
         if (!squad) {
-            throw new CommandError(`You are not part of a squad. ` +
-                `You can create one by typing \`${config.get('discord.command_prefix')}${this.module.config.commands.request.trigger}\`.`);
+            throw new CommandError(i18next.t('squads:invite.response-not-part-of-squad', {
+                command_request: `${config.get('discord.command_prefix')}${this.module.config.commands.request.trigger}`
+            }));
         }
         this.checkLeader(squad, response.message.member);
         return Promise.mapSeries(response.mentions, user => response.message.guild.fetchMember(user))
@@ -36,14 +39,23 @@ class CommandInvite extends CommandSquadBase {
                     return squad.addMembers(invitableMembers)
                         .then(() => {
                             const textChannel = response.message.guild.channels.get(squad.textChannel);
-                            return textChannel.sendMessage(`${response.message.member} has invited ${invitableMembers.join(', ')} to the squad.`)
+                            return textChannel.sendMessage(i18next.t('squads:invite.message-invited', {
+                                leader: response.message.member.toString(),
+                                members: invitableMembers.join(', ')
+                            }));
                         })
                         .then(() => {
-                            return `The following people have been invited: ${invitableMembers.join(', ')}.` +
-                                (uninvitableMembers.length > 0 ? ` ${uninvitableMembers.join(', ')} could not be invited because they are part of a squad already.` : '');
+                            if (uninvitableMembers.length === 0) {
+                                return i18next.t('squads:invite.response-invited', { members: invitableMembers.join(', ') });
+                            } else {
+                                return i18next.t('squads.invite.response-invited-and-already-part-of-squad', {
+                                    members: invitableMembers.join(', '),
+                                    failed_members: uninvitableMembers.join(', ')
+                                });
+                            }
                         });
                 } else if (uninvitableMembers.length > 0) {
-                    return `${uninvitableMembers.join(', ')} could not be invited because they are part of a squad already.`;
+                    return i18next.t('squads.invite.response-already-part-of-squad', { members: uninvitableMembers.join(', ') });
                 }
             });
     }

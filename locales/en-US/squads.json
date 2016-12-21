@@ -2,5 +2,14 @@
   "disband": {
     "help": "Disbands the current squad you are the leader of. This only works in a squad channel.",
     "short-help": "Disbands your squad"
+  },
+  "invite": {
+    "help": "Invites one or more mentioned users to the squad.",
+    "short-help": "Invites one or more mentioned users to the squad",
+    "response-not-part-of-squad": "You are not part of a squad. You can create one by typing `{{command_request}}`.",
+    "response-invited": "{mentions}, the following people have been invited: {{- members}}.",
+    "response-invited-and-already-part-of-squad": "{mentions}, the following people have been invited: {{- members}}. {{- failed_members}} could not be invited because they are part of a squad already",
+    "response-already-part-of-squad": "{mentions}, {{- members}} could not be invited because they are part of a squad already",
+    "message-invited": "{{- leader}} has invited {{- members}} to the squad."
   }
 }
