@@ -33,5 +33,11 @@
   "remove-na": {
     "help": "This allows you to remove yourself from the NA region.",
     "short-help": "Remove yourself from the NA region"
+  },
+  "list-numbers": {
+    "help": "Gets the amount of users assigned to each region.",
+    "short-help": "Gets the amount of users assigned to each region",
+    "partial-response-role": "🔹 {{name}} - $t(people, { \"count\": {{count }} })",
+    "response": "{mentions}, we currently have $t(people, { \"count\": {{count}} }):\n{{roles}}"
   }
 }
