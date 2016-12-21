@@ -5,7 +5,8 @@ const
     CommandHelp = require('./CommandHelp'),
     CommandSource = require('./CommandSource'),
     CommandWelcome = require('./CommandWelcome'),
-    CommandWiki = require('./CommandWiki');
+    CommandWiki = require('./CommandWiki'),
+    HookWelcome = require('./HookWelcome');
 
 class ModuleGeneral extends Module {
     constructor(bot, moduleConfig) {
@@ -15,6 +16,7 @@ class ModuleGeneral extends Module {
         this.registerCommand(new CommandSource(this));
         this.registerCommand(new CommandWelcome(this));
         this.registerCommand(new CommandWiki(this));
+        this.registerHook(new HookWelcome(this));
     }
 }
 
