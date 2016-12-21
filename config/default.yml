@@ -38,13 +38,21 @@ modules:
         trigger: source
         enabled: true
       welcome:
+        # This command has been replaced with the welcome hook, and is therefore disabled by default and might be removed later
         trigger: welcome
-        enabled: true
+        enabled: false
         # The target channel is the channel id where to bot should redirect welcomed people to
         target_channel: welcome-channel-id
       wiki:
         trigger: wiki
         enabled: true
+    hooks:
+      welcome:
+        enabled: true
+        # The channel id where the welcome message should appear
+        channel: welcome-channel-id
+        # The target channel id where general information or rules are listed that new people are redirected to
+        target_channel: target-channel-id
 
   # Provides stuff for managing the bot
   manage:
