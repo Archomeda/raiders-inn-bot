@@ -1,4 +1,8 @@
 {
+  "squad-base": {
+    "response-no-squad-channel": "You can only execute this command in a squad channel.",
+    "response-no-leader": "Only squad leaders can execute this command."
+  },
   "disband": {
     "help": "Disbands the current squad you are the leader of. This only works in a squad channel.",
     "short-help": "Disbands your squad"
