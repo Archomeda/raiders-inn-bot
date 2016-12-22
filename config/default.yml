@@ -136,94 +136,12 @@ modules:
     # The squad channels are placed directly after these channels
     squads_after_textchannel: text-channel-id
     squads_after_voicechannel: voice-channel-id
-    # Since each squad has a text and a voice channel, they need to have a unique name
-    # {name} is replaced by the actual squad name
-    textchannel_template: sq-{name}
-    voicechannel_template: Squad {name}
     # The disband timers are minutes
     disband_new_squad_after: 20
     disband_empty_squad_after: 5
     disband_restored_squad_after: 10
     # When the kick or leave command is executed, this is the voice channel where those people are automatically moved to
     kick_users_to_channel: voice-channel-id
-    # The squad names are randomly generated from 1 adjective and 1 noun
-    squad_names:
-      adjectives:
-        - asuran
-        - charr
-        - human
-        - norn
-        - sylvan
-        - northern
-        - eastern
-        - southern
-        - western
-        - central
-        - lower
-        - upper
-        - dead
-        - mystic
-        - ash legion's
-        - blood legion's
-        - flame legion's
-        - iron legion's
-        - balthazar's
-        - dwayna's
-        - grenth's
-        - kormir's
-        - lyssa's
-        - melandru's
-        - hunter's
-        - lion's
-        - wolf's
-        - owl's
-        - raven's
-        - braham's
-        - caithe's
-        - eir's
-        - logan's
-        - garm's
-        - kasmeer's
-        - marjory's
-        - rox's
-        - rytlock's
-        - pyre's
-        - snaff's
-        - taimi's
-        - ventari's
-        - zojja's
-      nouns:
-        - bar
-        - commons
-        - district
-        - headquarters
-        - hearth
-        - inn
-        - plaza
-        - room
-        - shelter
-        - tavern
-        - ward
-        - ale
-        - beer
-        - brandy
-        - lager
-        - mead
-        - shandy
-        - wine
-        - bull
-        - bunny
-        - chicken
-        - cow
-        - doe
-        - dolyak
-        - frog
-        - marmox
-        - moose
-        - ram
-        - rat
-        - sheep
-        - stag
 
   # Provides miscellaneous utilities
   utilities:

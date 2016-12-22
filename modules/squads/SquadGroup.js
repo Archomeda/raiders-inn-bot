@@ -3,14 +3,21 @@
 const
     config = require('config'),
     random = require('random-js')(),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next'));
 
 const existingNames = [];
-const adjectives = config.get('modules.squads.squad_names.adjectives');
-const nouns = config.get('modules.squads.squad_names.nouns');
-const textChannelTemplate = config.get('modules.squads.textchannel_template');
-const voiceChannelTemplate = config.get('modules.squads.voicechannel_template');
 const kickUsersToChannel = config.get('modules.squads.kick_users_to_channel');
+let adjectives = [];
+let nouns = [];
+let textChannelTemplate = '';
+let voiceChannelTemplate = '';
+i18next.loadNamespacesAsync('squads').then(() => {
+    adjectives = i18next.getResource(i18next.language, 'squads', 'request.squad-name-adjectives') || [];
+    nouns = i18next.getResource(i18next.language, 'squads', 'request.squad-name-nouns') || [];
+    textChannelTemplate = i18next.t('squads:request.squad-name-template-text');
+    voiceChannelTemplate = i18next.t('squads:request.squad-name-template-voice');
+});
 
 class SquadGroup {
     constructor() {
@@ -85,7 +92,7 @@ class SquadGroup {
         if (!success) {
             i = existingNames.length + 1;
             do {
-                name = `Squad ${i}`;
+                name = i18next.t('squads:request.squad-name-template-number', { number: i });
                 success = existingNames.indexOf(name) === -1;
             } while (!success)
         }
