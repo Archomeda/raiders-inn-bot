@@ -1,21 +1,25 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+
     Command = require('../Command'),
     ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware');
 
 class CommandSource extends Command {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Shows the link to the source code of this bot.';
-        this.shortHelpText = 'Shows the link to the source code of this bot';
+        i18next.loadNamespacesAsync('general').then(() => {
+            this.helpText = i18next.t('general:source.help');
+            this.shortHelpText = i18next.t('general:source.short-help');
+        });
 
         this.middleware = new ReplyToMentionedUsersMiddleware();
     }
 
     onCommand(response) {
-        return 'You can find the source code at https://github.com/Archomeda/raiders-inn-bot.';
+        return i18next.t('general:source.response', { url: 'https://github.com/Archomeda/raiders-inn-bot' });
     }
 }
 

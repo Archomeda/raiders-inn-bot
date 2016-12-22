@@ -5,8 +5,11 @@ require('babel-polyfill');
 
 const
     config = require('config'),
+    Backend = require('i18next-node-fs-backend'),
     Discord = require('discord.js'),
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+
     ModuleBase = require('./modules/Module');
 
 console.log('Starting bot...');
@@ -15,10 +18,24 @@ const client = new Discord.Client();
 const moduleConfigs = config.get('modules');
 const modules = [];
 
+i18next.use(Backend).init({
+    lng: config.get('language'),
+    fallbackLng: false,
+    ns: 'common',
+    defaultNS: 'common',
+    load: 'currentOnly',
+    backend: {
+        loadPath: './locales/{{lng}}/{{ns}}.json',
+    }
+});
+
 const bot = {
     getClient() { return client; },
     getModules() { return modules; }
 };
+
+i18next.on('failedLoading', (lng, ns, msg) => console.warn(`Failed to load i18n namespace '${ns}' for ${lng}: ${msg}`));
+i18next.on('missingKey', (lng, ns, key, res) => console.warn(`Missing translation key '${key}' in namespace '${ns}' for ${lng}`));
 
 Promise.map(Object.keys(moduleConfigs), m => {
     if (!moduleConfigs[m]) return;

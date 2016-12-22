@@ -1,6 +1,9 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+
     Command = require('../Command'),
     ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware'),
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
@@ -8,9 +11,10 @@ const
 class CommandWelcome extends Command {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Welcomes people to the server and directs them to the read-first channel.';
-        this.shortHelpText = 'Welcomes people to the server';
+        i18next.loadNamespacesAsync('general').then(() => {
+            this.helpText = i18next.t('general:welcome.help');
+            this.shortHelpText = i18next.t('general:welcome.short-help');
+        });
 
         this.middleware = [
             new RestrictChannelsMiddleware({ types: 'text' }),
@@ -20,13 +24,7 @@ class CommandWelcome extends Command {
 
     onCommand(response) {
         const welcomeChannel = response.message.guild.channels.get(this.config.target_channel);
-        return (
-            `Hey there {mentions}, welcome to The Raiders Inn! ` +
-            `Be sure to head over to ${welcomeChannel} to get started. ` +
-            'You will find our rules and general information there. ' +
-            `Don't forget to assign yourself to a server!\n\n` +
-            'Enjoy your stay! :beers:'
-        );
+        return i18next.t('general:welcome.response', { welcome_channel: welcomeChannel.toString() });
     }
 }
 

@@ -1,6 +1,9 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+
     Command = require('../Command'),
     ReplyToMentionedUsersMiddleware = require('../../middleware/ReplyToMentionedUsersMiddleware'),
     RestrictChannelsMiddleware = require('../../middleware/RestrictChannelsMiddleware');
@@ -8,9 +11,10 @@ const
 class CommandListNumbers extends Command {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Gets the amount of users assigned to each region.';
-        this.shortHelpText = 'Gets the amount of users assigned to each region';
+        i18next.loadNamespacesAsync('region-assignment').then(() => {
+            this.helpText = i18next.t('region-assignment:list-numbers.help');
+            this.shortHelpText = i18next.t('region-assignment:list-numbers.short-help');
+        });
 
         this.middleware = [
             new RestrictChannelsMiddleware({ types: 'text' }),
@@ -26,12 +30,12 @@ class CommandListNumbers extends Command {
 
         const lines = roles.map(roleId => response.message.guild.roles.get(roleId))
             .filter(role => role)
-            .map(role => role ? `:small_blue_diamond: ${role.name} - ${role.members.size} ${role.members.size === 1 ? 'person' : 'people'}` : null)
+            .map(role => role ? i18next.t('region-assignment:list-numbers.partial-response-role', { name: role.name, count: role.members.size }) : null)
             .filter(region => region)
             .join('\n');
 
         const total = response.message.guild.memberCount;
-        return `We currently have ${total} ${total === 1 ? 'person' : 'people'}:\n${lines}`;
+        return i18next.t('region-assignment:list-numbers.response', { count: total, roles: lines });
     }
 }
 

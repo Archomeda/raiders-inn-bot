@@ -4,6 +4,7 @@ const
     config = require('config'),
     NodeCache = require('node-cache'),
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
     random = require('random-js')(),
 
     CommandResponse = require('./CommandResponse'),
@@ -17,6 +18,7 @@ class Module {
         if (new.target === Module) {
             throw new TypeError('cannot construct Module instances directly');
         }
+        i18next.loadNamespaces('module');
 
         this.name = new.target.name.replace(/(.*?)(Module)?/, '$1');
         this._bot = bot;
@@ -116,31 +118,7 @@ class Module {
                 }
             }
             return response;
-        }).catch(err => {
-            let text = null;
-            if (err.name === 'MiddlewareError') {
-                // Some middleware has broken our chain, filter error message
-                if (err.logger) {
-                    console[err.logger](`Middleware error: ${err.message}`);
-                }
-                text = err.userMessage ? err.userMessage : null;
-            } else if (err.name === 'CommandError') {
-                // Command error
-                console.log(`Caught CommandError on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
-                text = err.message;
-            } else {
-                // Unexpected error
-                console.warn(`Unexpected error: ${err.message}`);
-                console.warn(err.stack);
-                text = `An unexpected error has occured, code ${random.hex(6).toUpperCase()}.`;
-            }
-            const res = new CommandResponse(message, command, params);
-            res.replyText = text;
-            return res;
         }).then(response => {
-            if (response.stopTypingFunc && typing) {
-                response.stopTypingFunc();
-            }
             if (!response.replyText) {
                 return response;
             }
@@ -157,17 +135,47 @@ class Module {
                     console.warn(`Unexpected error: ${err.message}`);
                     console.warn(err.stack);
                 }
+            }).then(() => {
+                response.replyText = this.replaceMention(response.replyText, response.replyTo, response.replyMethod, response.message.channel.type);
             }).return(response);
-        }).then(response => {
-            if (response.replyText) {
-                let mentions = response.replyTo.map(u => u.toString()).join(' ');
-                let replyText = response.replyText.replace('{mentions}', mentions);
-                if (replyText === response.replyText && response.message.channel.type === 'text') {
-                    replyText = `${mentions}, ${replyText}`;
+        }).catch(err => {
+            let text = null;
+            if (err.name === 'MiddlewareError') {
+                // Some middleware has broken our chain, filter error message
+                if (err.logger) {
+                    console[err.logger](`Middleware error: ${err.message}`);
                 }
-                return response.replyFunc(replyText);
+                text = err.userMessage ? err.userMessage : null;
+            } else if (err.name === 'CommandError') {
+                // Command error
+                console.log(`Caught CommandError on '${message.content}' by '${message.author.username}#${message.author.discriminator}': ${err.message}`);
+                text = err.message;
+            } else {
+                // Unexpected error
+                console.warn(`Unexpected error: ${err.message}`);
+                console.warn(err.stack);
+                text = i18next.t('module:command-error', { code: random.hex(6).toUpperCase() });
+            }
+            response.replyText = this.replaceMention(text, message.author, response.replyMethod, response.message.channel.type);
+            return response;
+        }).then(response => {
+            if (response.stopTypingFunc && typing) {
+                response.stopTypingFunc();
+            }
+
+            if (response.replyText) {
+                return response.replyFunc(response.replyText);
             }
         });
+    }
+
+    replaceMention(text, mentions, method, channelType) {
+        let mentions_ = Array.isArray(mentions) ? mentions.map(u => u.toString()).join(' ') : mentions.toString();
+        let replyText = text.replace('{mentions}', mentions_);
+        if (replyText === text && (method !== 'dm' && channelType !== 'dm')) {
+            replyText = `${mentions}, ${replyText}`;
+        }
+        return replyText;
     }
 
     parseCommandString(message) {

@@ -2,6 +2,7 @@
 
 const
     _ = require('lodash'),
+    i18next = require('i18next'),
 
     Command = require('../Command'),
     CommandError = require('../../errors/CommandError'),
@@ -10,6 +11,7 @@ const
 class CommandSquadBase extends Command {
     constructor(module) {
         super(module);
+        i18next.loadNamespaces('squads');
 
         this.middleware = new RestrictChannelsMiddleware({
             types: 'text',
@@ -48,14 +50,14 @@ class CommandSquadBase extends Command {
     checkSquadChannel(channel) {
         const squad = this.getSquadByChannel(channel);
         if (!squad) {
-            throw new CommandError('You can only execute this command in a squad channel.');
+            throw new CommandError(i18next.t('squads:squad-base.response-no-squad-channel'));
         }
         return squad;
     }
 
     checkLeader(squad, member) {
         if (squad.leader !== member.id) {
-            throw new CommandError('Only squad leaders can execute this command.');
+            throw new CommandError(i18next.t('squads:squad-base.response-no-leader'));
         }
         return member;
     }

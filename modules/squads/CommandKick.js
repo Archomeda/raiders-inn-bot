@@ -2,6 +2,7 @@
 
 const
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
 
     CommandSquadBase = require('./CommandSquadBase'),
     CommandError = require('../../errors/CommandError'),
@@ -10,9 +11,10 @@ const
 class CommandKick extends CommandSquadBase {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Kicks one or more mentioned users from the squad. This only works in a squad channel.';
-        this.shortHelpText = 'Kicks one or more mentioned users from the squad';
+        i18next.loadNamespacesAsync('squads').then(() => {
+            this.helpText = i18next.t('squads:kick.help');
+            this.shortHelpText = i18next.t('squads:kick.short-help');
+        });
 
         this.middleware = new MentionsOnlyMiddleware();
     }
@@ -24,7 +26,10 @@ class CommandKick extends CommandSquadBase {
             .then(members => {
                 return squad.removeMembers(members).then(() => {
                     const textChannel = response.message.guild.channels.get(squad.textChannel);
-                    textChannel.sendMessage(`${response.message.member} has kicked ${members.join(', ')}.`);
+                    textChannel.sendMessage(i18next.t('squads:kick.message-kicked', {
+                        leader: response.message.member.toString(),
+                        members: members.join(', ')
+                    }));
                 });
             });
     }

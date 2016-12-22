@@ -3,6 +3,7 @@
 const
     config = require('config'),
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
 
     SquadGroup = require('./SquadGroup'),
     CommandSquadBase = require('./CommandSquadBase'),
@@ -12,9 +13,10 @@ const
 class CommandRequest extends CommandSquadBase {
     constructor(module) {
         super(module);
-
-        this.helpText = 'Requests a new squad channel for raiding. You can only request a new channel if you are not part of one already.';
-        this.shortHelpText = 'Requests a new squad channel for raiding';
+        i18next.loadNamespacesAsync('squads').then(() => {
+            this.helpText = i18next.t('squads:request.help');
+            this.shortHelpText = i18next.t('squads:request.short-help');
+        });
 
         // Overwrite middleware
         this.middleware = new RestrictChannelsMiddleware({ types: 'text' });
@@ -24,7 +26,7 @@ class CommandRequest extends CommandSquadBase {
         const existingSquad = this.getSquadByMember(response.message.member);
         if (existingSquad) {
             const textChannel = response.message.guild.channels.get(existingSquad.textChannel);
-            throw new CommandError(`You are part of a squad already! Please head over to ${textChannel}.`);
+            throw new CommandError(i18next.t('squads:request.response-already-part-of-squad', { channel: textChannel.toString() }));
         }
 
         const squad = new SquadGroup();
@@ -56,29 +58,23 @@ class CommandRequest extends CommandSquadBase {
                 const leave = this.module.config.commands.leave.trigger;
                 const command = c => `${config.get('discord.command_prefix')}${c}`;
 
-                return textChannel.sendMessage(
-                    `Welcome ${response.message.author} to your newly created squad **${squad.name}**.\n\n` +
-                    ':white_medium_small_square: :white_medium_small_square: The rules are simple: :white_medium_small_square: :white_medium_small_square:\n\n' +
-                    `The created text channel *${textChannel}* and voice channel *${voiceChannel.name}* are made specifically for your squad. ` +
-                    'They are invisible and can only be accessed by the people you invite (except staff). ' +
-                    'These channels are also **temporary**. ' +
-                    `They will be removed once everyone leaves the voice channel or when you type \`${command(disband)}\` manually. ` +
-                    'This means that **every message will be lost once the channels are deleted**.\n\n' +
-                    `You have **${this.module.config.disband_new_squad_after} minutes** to join the respective voice channel *${voiceChannel.name}*. ` +
-                    'If you have not joined the voice channel by then, this squad will be removed automatically by yours truly. ' +
-                    'You can always create a new squad afterwards.\n\n' +
-                    'Only the squad leader can manage the squad with the following commands:\n' +
-                    `:small_blue_diamond: \`${command(invite)}\` will invite one or more mentioned people (this only works in the same channel as where you created this squad).\n` +
-                    `:small_blue_diamond: \`${command(kick)}\` will kick one or more mentioned people.\n` +
-                    `:small_blue_diamond: \`${command(transfer)}\` will transfer squad leader status to the mentioned person.\n` +
-                    `:small_blue_diamond: \`${command(disband)}\` will disband this squad.\n\n` +
-                    `Everyone else can do \`${command(leader)}\` (which shows the current squad leader) and \`${command(leave)}\` (which will cause you to leave the squad).\n\n` +
-                    'Good luck and have fun! :beers:'
-                );
+                return textChannel.sendMessage(i18next.t('squads:request.message-rules', {
+                    leader: response.message.author.toString(),
+                    name: squad.name,
+                    text_channel: textChannel.toString(),
+                    voice_channel: voiceChannel.name,
+                    channel_expire: this.module.config.disband_new_squad_after,
+                    command_disband: command(disband),
+                    command_invite: command(invite),
+                    command_kick: command(kick),
+                    command_transfer: command(transfer),
+                    command_leader: command(leader),
+                    command_leave: command(leave)
+                }));
             })
             .then(() => {
                 const textChannel = response.message.guild.channels.get(squad.textChannel);
-                return `Your squad channel ${textChannel} has been created. Good luck!`;
+                return i18next.t('squads:request.response', { channel: textChannel.toString() });
             });
     }
 

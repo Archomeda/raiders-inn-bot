@@ -1,14 +1,18 @@
 'use strict';
 
 const
+    Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+
     CommandAssignmentBase = require('./CommandAssignmentBase');
 
 class CommandRemoveNA extends CommandAssignmentBase {
     constructor(module) {
         super(module);
-
-        this.helpText = 'This allows you to remove yourself from the NA region.';
-        this.shortHelpText = 'Remove yourself from the NA region';
+        i18next.loadNamespacesAsync('region-assignment').then(() => {
+            this.helpText = i18next.t('region-assignment:remove-na.help');
+            this.shortHelpText = i18next.t('region-assignment:remove-na.short-help');
+        });
     }
 
     onCommand(response) {

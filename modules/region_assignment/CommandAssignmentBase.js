@@ -1,19 +1,25 @@
 'use strict';
 
 const
-    _ = require('lodash'),
     Promise = require('bluebird'),
+    i18next = Promise.promisifyAll(require('i18next')),
+    _ = require('lodash'),
 
     Command = require('../Command'),
     CommandError = require('../../errors/CommandError');
 
 class CommandAssignmentBase extends Command {
+    constructor(module) {
+        super(module);
+        i18next.loadNamespaces('region-assignment');
+    }
+
     checkGuild(member) {
         if (!member.guild) {
             if (member.presence.status === 'offline') {
-                throw new CommandError("You are not yet fully registered on the server. There is a limitation that requires you to change your status to online. Please try again afterwards.");
+                throw new CommandError(i18next.t('region-assignment:assignment-base.response-not-fully-registered-offline'));
             } else {
-                throw new CommandError("You are not yet fully registered on the server. Please contact one of the staff members to help you out.");
+                throw new CommandError(i18next.t('region-assignment:assignment-base.response-not-fully-registered'));
             }
         }
     }
@@ -24,7 +30,7 @@ class CommandAssignmentBase extends Command {
         const role = this.module.config.roles[region];
         const roleInst = member.guild.roles.get(role);
         if (member.roles.has(role)) {
-            return `You are already assigned to ${roleInst.name}.`
+            return i18next.t('region-assignment:assignment-base.response-already-assigned', { role: roleInst.name });
         }
 
         const unassignedRole = this.module.config.roles.unassigned;
@@ -41,10 +47,9 @@ class CommandAssignmentBase extends Command {
             .then(member => {
                 const roleInst = member.guild.roles.get(role);
                 if (member.roles.has(role)) {
-                    return `Done! You have been **assigned** to **${roleInst.name}**.`;
+                    return i18next.t('region-assignment:assignment-base.response-assigned', { role: roleInst.name });
                 } else {
-                    return `Something might have gone wrong as it seems you have not been assigned to **${roleInst.name}**. ` +
-                        `Please double check and contact a staff member if it didn't work.`;
+                    return i18next.t('region-assignment:assignment-base.response-assigned-error', { role: roleInst.name });
                 }
             });
     }
@@ -55,7 +60,7 @@ class CommandAssignmentBase extends Command {
         const role = this.module.config.roles[region];
         const roleInst = member.guild.roles.get(role);
         if (!member.roles.has(role)) {
-            return `You are not part of ${roleInst.name}.`
+            return i18next.t('region-assignment:assignment-base.response-already-removed', { role: roleInst.name });
         }
 
         const unassignedRole = this.module.config.roles.unassigned;
@@ -77,16 +82,12 @@ class CommandAssignmentBase extends Command {
             .then(member => {
                 if (!member.roles.has(role)) {
                     if (member.roles.has(unassignedRole)) {
-                        return `Done! You have been **removed** from **${roleInst.name}**. ` +
-                            '**Please note that you are not assigned to any server right now.** ' +
-                            `This means people are less likely to find you, and you don't have access to the restricted server channels. ` +
-                            `It's entirely up to you, but it's important that you choose your server.`;
+                        return i18next.t('region-assignment:assignment-base.response-removed-no-server', { role: roleInst.name });
                     } else {
-                        return `Done! You have been **removed** from **${roleInst.name}**.`;
+                        return i18next.t('region-assignment:assignment-base.response-removed', { role: roleInst.name });
                     }
                 } else {
-                    return `Something might have gone wrong as it seems you have not been removed from **${roleInst.name}**. ` +
-                        `Please double check and contact a staff member if it didn't work.`;
+                    return i18next.t('region-assignment:assignment-base.response-removed-error', { role: roleInst.name });
                 }
             });
     }

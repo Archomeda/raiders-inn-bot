@@ -1,0 +1,4 @@
+{
+  "people": "{{count}} person",
+  "people_plural": "{{count}} people"
+}

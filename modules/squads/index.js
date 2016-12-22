@@ -1,6 +1,8 @@
 'use strict';
 
 const
+    i18next = require('i18next'),
+
     SquadGroup = require('./SquadGroup'),
     Module = require('../Module'),
     CommandRequest = require('./CommandRequest'),
@@ -57,13 +59,12 @@ class ModuleSquads extends Module {
                 if (!newSquad || oldSquad.voiceChannel !== newSquad.voiceChannel) {
                     // User has left the squad voice channel
                     const textChannel = oldMember.guild.channels.get(oldSquad.textChannel);
-                    textChannel.sendMessage(`${oldMember} has left the voice channel.`);
+                    textChannel.sendMessage(i18next.t('squads:squad-base.message-left-voice-channel', { member: oldMember.toString() }));
                     if (oldVoiceChannel.members.size === 0) {
                         // No one is in the voice channel
                         const time = this.config.disband_empty_squad_after;
                         this.scheduleSquadExpire(oldMember.guild, oldSquad, time * 60 * 1000);
-                        textChannel.sendMessage('Everyone has left the voice channel. ' +
-                            `Disbanding squad in ${time} minutes if no one joins.`);
+                        textChannel.sendMessage(i18next.t('squads:squad-base.message-empty-voice-channel', { expire: time }));
                     }
                 }
             }
@@ -72,7 +73,7 @@ class ModuleSquads extends Module {
                 if (!oldSquad || oldSquad.voiceChannel !== newSquad.voiceChannel) {
                     // User has joined the squad voice channel
                     const textChannel = newMember.guild.channels.get(newSquad.textChannel);
-                    textChannel.sendMessage(`${newMember} has joined the voice channel.`);
+                    textChannel.sendMessage(i18next.t('squads:squad-base.message-joined-voice-channel', { member: newMember.toString() }));
                 }
             }
         } catch (err) {
@@ -99,11 +100,9 @@ class ModuleSquads extends Module {
                             if (voiceChannel.members.size === 0) {
                                 // No one is in the voice channel
                                 this.scheduleSquadExpire(guild, squad, this.config.disband_restored_squad_after * 60 * 1000);
-                                textChannel.sendMessage("I'm very sorry that I was away for awhile, but I'm back! " +
-                                    'It would seem that no one is in the voice channel, ' +
-                                    `so I will clean up this squad in ${this.config.disband_restored_squad_after} minutes if it stays that way.`);
+                                textChannel.sendMessage(i18next.t('squads:squad-base.message-restored-cleanup', { expire: this.config.disband_restored_squad_after }));
                             } else {
-                                textChannel.sendMessage("I'm very sorry that I was away for awhile, but I'm back!");
+                                textChannel.sendMessage(i18next.t('squads:squad-base.message-restored'));
                             }
                             console.log(`Restored squad '${squad.name}'`);
                             this.squads.push(squad);
