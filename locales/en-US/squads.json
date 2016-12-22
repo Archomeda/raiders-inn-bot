@@ -35,5 +35,10 @@
     "response-already-part-of-squad": "You are part of a squad already! Please head over to {{- channel}}.",
     "response": "Your squad channel {{- channel}} has been created. Good luck!.",
     "message-rules": "Welcome {{- leader}} to your newly created squad **{{- name}}**.\n\n◽◽ The rules are simple: ◽◽\n\nThe created text channel *{{- text_channel}}* and voice channel *{{- voice_channel}}* are made specifically for your squad. They are invisible and can only be accessed by the people you invite (except staff). These channels are also **temporary**. They will be removed once everyone leaves the voice channel or when you type `{{command_disband}}` manually. This means that **every message will be lost once the channels are deleted**.\n\nYou have **{{channel_expire}} minutes** to join the respective voice channel *{{voice_channel}}*. If you have not joined the voice channel by then, this squad will be removed automatically by yours truly. You can always create a new squad afterwards.\n\nOnly the squad leader can manage the squad with the following commands:\n🔹 `{{command_invite}}` will invite one or more mentioned people (this only works in the same channel as where you created this squad).\n🔹 `{{command_kick}}` will kick one or more mentioned people.\n🔹 `{{command_transfer}}` will transfer squad leader status to the mentioned person.\n🔹 `{{command_disband}}` will disband this squad.\n\nEveryone else can do `{{command_leader}}` (which shows the current squad leader) and `{{command_leave}}` (which will cause you to leave the squad).\n\nGood luck and have fun! 🍻"
+  },
+  "transfer": {
+    "help": "Transfers squad leader status to the mentioned user. This only works in a squad channel.",
+    "short-help": "Transfers squad leader status to the mentioned user",
+    "message-transfer": "The squad leader is now {{- leader}}."
   }
 }
