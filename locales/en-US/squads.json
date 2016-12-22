@@ -1,7 +1,12 @@
 {
   "squad-base": {
     "response-no-squad-channel": "You can only execute this command in a squad channel.",
-    "response-no-leader": "Only squad leaders can execute this command."
+    "response-no-leader": "Only squad leaders can execute this command.",
+    "message-joined-voice-channel": "{{- member}} has joined the voice channel.",
+    "message-left-voice-channel": "{{- member}} has left the voice channel.",
+    "message-empty-voice-channel": "Everyone has left the voice channel. Disbanding squad in {{expire}} minutes if no one joins.",
+    "message-restored": "I'm very sorry that I was away for awhile, but I'm back!",
+    "message-restored-cleanup": "I'm very sorry that I was away for awhile, but I'm back! It would seem that no one is in the voice channel, so I will clean up this squad in {{expire}} minutes if it stays that way."
   },
   "disband": {
     "help": "Disbands the current squad you are the leader of. This only works in a squad channel.",
