@@ -40,6 +40,6 @@
     "help": "Welcomes people to the server and directs them to the read-first channel.",
     "short-help": "Welcomes people to the server",
     "response": "Hey there {mentions}, welcome to The Raiders Inn! Be sure to head over to {{- welcome_channel}} to get started. You will find our rules and general information there. Don't forget to assign yourself to a server!\n\nEnjoy your stay! 🍻",
-    "message": "{{member}} has joined The Raiders Inn! Welcome! Be sure to head over to {{- target_channel}} to get started. You will find our rules and general information there. Don't forget to assign yourself to a server!\n\nEnjoy your stay! 🍻"
+    "message": "{{- member}} has joined The Raiders Inn! Welcome! Be sure to head over to {{- target_channel}} to get started. You will find our rules and general information there. Don't forget to assign yourself to a server!\n\nEnjoy your stay! 🍻"
   }
 }
