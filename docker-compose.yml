@@ -1,0 +1,25 @@
+version: '2.1'
+services:
+  db:
+    image: mongo:3.4
+    restart: unless-stopped
+    volumes:
+      - ./storage/configdb:/data/configdb
+      - ./storage/db:/data/db
+  redis:
+    image: redis:3.2-alpine
+    restart: unless-stopped
+    volumes:
+      - ./storage/cache:/data
+  bot:
+    build: .
+    command: node server.js
+    restart: unless-stopped
+    volumes:
+      - ./config:/bot/config
+    links:
+      - db
+      - redis
+    environment:
+      MONGODB: mongodb://db/raiders-inn-discord-bot
+      REDIS: redis

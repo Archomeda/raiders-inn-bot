@@ -1,0 +1,57 @@
+{
+  "_meta": {
+    "name": "Guild Wars 2"
+  },
+  "common": {
+    "minute": "{{count}} minute",
+    "minute_plural": "{{count}} minutes"
+  },
+  "region-eu": {
+    "_meta": {
+      "name": "Europe region assignment",
+      "short-description": "Toggles the Europe region assignment",
+      "long-description": "If you're not assigned to the Europe region, this will assign you to it. If you're already assigned to the Europe region, this will remove your assignment."
+    },
+    "response-assigned": "You've been assigned to EU. If you change your mind, you can run the same command again to remove yourself from EU.",
+    "response-removed": "You've been removed from EU. If you change your mind, you can run the same command again to assign yourself to EU.",
+    "response-changes-applied": "The changes to your EU assignment have been applied."
+  },
+  "region-na": {
+    "_meta": {
+      "name": "North America region assignment",
+      "short-description": "Toggles the North America region assignment",
+      "long-description": "If you're not assigned to the North America region, this will assign you to it. If you're already assigned to the North America region, this will remove your assignment."
+    },
+    "response-assigned": "You've been assigned to NA. If you change your mind, you can run the same command again to remove yourself from NA.",
+    "response-removed": "You've been removed from NA. If you change your mind, you can run the same command again to assign yourself to NA.",
+    "response-changes-applied": "The changes to your NA assignment have been applied."
+  },
+  "wiki": {
+    "_meta": {
+      "name": "Wiki search",
+      "short-description": "Searches the Guild Wars 2 Wiki for an article",
+      "long-description": "Searches the Guild Wars 2 Wiki for an article and returns a summary and the article link if found.",
+      "param-terms": "Search terms"
+    },
+    "response-title": "{{title}}",
+    "response-description": "{{description}}",
+    "response-empty": "No detailed information found.",
+    "response-not-found": "Your request did not come up with any results. Try using different search terms.",
+    "response-no-title": "Please provide a wiki article title or search terms."
+  },
+  "chat-code": {
+    "response-message": "{{user}} has included Guild Wars 2 chat codes in their message:",
+    "response-item": "`{{code}}` – {{name}} (item {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-map": "`{{code}}` – {{name}} ({{type}} {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-skill": "`{{code}}` – {{name}} (skill {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-trait": "`{{code}}` – {{name}} (trait {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-recipe": "`{{code}}` – Recipe: {{name}} (recipe {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-skin": "`{{code}}` – {{name}} (skin {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-outfit": "`{{code}}` – {{name}} (outfit {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "response-objective": "`{{code}}` – {{name}} (objective {{id}}) – [W]({{wiki}} \"Wiki\")",
+    "poi-waypoint": "waypoint",
+    "poi-landmark": "point of interest",
+    "poi-vista": "vista",
+    "poi-unknown": "unknown"
+  }
+}

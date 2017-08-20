@@ -1,7 +1,0 @@
-{
-  "reset-time": {
-    "help": "Shows the current raid reset time and how much time there is left until the reset happens. This will also show a link to the wiki containing all Guild Wars 2 reset times.",
-    "short-help": "Shows the raid reset time",
-    "response": "{mentions}, reset will happen **{{next_reset}}**.\n\nRaid rewards reset every {{reset}} UTC. Other timezones:\n{{timezones}}\n\nFor a full overview, check the wiki: {{- full_overview_url}}"
-  }
-}
