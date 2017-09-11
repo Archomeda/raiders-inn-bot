@@ -4,6 +4,10 @@ const AutoRemoveMessage = require('../../../middleware/AutoRemoveMessage');
 
 const DiscordCommandError = require('../../../modules/DiscordCommandError');
 const DiscordCommand = require('../../../modules/DiscordCommand');
+const DiscordReplyMessage = require('../../../modules/DiscordReplyMessage');
+const DiscordReplyPage = require('../../../modules/DiscordReplyPage');
+
+const { splitMax } = require('../../../utils/String');
 
 
 class CommandHelp extends DiscordCommand {
@@ -44,14 +48,30 @@ class CommandHelp extends DiscordCommand {
         }
 
         // Reply with general help
-        const help = [];
+        let help = [];
         modules.forEach(module => {
             const moduleHelp = this._formatModuleHelp(message, module);
             if (moduleHelp) {
                 help.push(moduleHelp);
             }
         });
-        return l.t('module.general:help.response-all-help', { list: help.join('\n\n'), help: helpInvocation });
+        help = help.join('\n\n');
+
+        const helpLength = l.t('module.general:help.response-all-help-paged').length;
+        if (help.length > 2000 - helpLength) {
+            help = splitMax(help, '\n', 2000 - helpLength);
+            help = help.map((h, i) => {
+                return new DiscordReplyPage(l.t('module.general:help.response-all-help-paged', {
+                    list: h,
+                    help: helpInvocation,
+                    current_page: i + 1, // eslint-disable-line camelcase
+                    total_pages: help.length // eslint-disable-line camelcase
+                }));
+            });
+            return new DiscordReplyMessage(help);
+        }
+
+        return l.t('module.general:help.response-all-help', { list: help, help: helpInvocation });
     }
 
     /**
