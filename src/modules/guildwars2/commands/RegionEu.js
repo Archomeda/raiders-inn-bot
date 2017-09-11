@@ -24,12 +24,12 @@ class CommandRegionEu extends DiscordCommand {
         return false;
     }
 
-    async onCommand(message, parameters) {
+    async onCommand(message) {
         const bot = this.getBot();
         const client = bot.getClient();
         const l = bot.getLocalizer();
 
-        let user = message.member || message.user;
+        const user = message.member || message.user;
         if (user.roles) {
             const result = await this._toggleRole(user);
             if (result) {

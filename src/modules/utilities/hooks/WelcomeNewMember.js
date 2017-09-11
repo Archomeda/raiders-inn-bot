@@ -10,7 +10,7 @@ class HookWelcomeNewMember extends DiscordHook {
         super(bot, 'welcome-new-member');
 
         this._hooks = {
-            guildMemberAdd: this.onNewMember.bind(this),
+            guildMemberAdd: this.onNewMember.bind(this)
         };
     }
 
@@ -31,8 +31,8 @@ class HookWelcomeNewMember extends DiscordHook {
                 const commandNa = moduleGw2.getActivity('region-na').getCommandRoute().getInvocation();
                 return await channel.send(l.t('module.utilities:welcome-new-member.welcome', {
                     member: member.toString(),
-                    region_na_command: commandNa,
-                    region_eu_command: commandEu
+                    region_na_command: commandNa, // eslint-disable-line camelcase
+                    region_eu_command: commandEu // eslint-disable-line camelcase
                 }));
             }
         } catch (err) {
