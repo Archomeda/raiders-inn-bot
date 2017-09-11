@@ -16,7 +16,6 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "deep-equal": "^1.0.1",
     "discord.js": "^11.1.0",
     "filesize": "^3.5.10",
     "gw2api-client": "^5.6.2",
@@ -26,7 +25,6 @@
     "js-yaml": "^3.8.4",
     "lodash": "^4.17.4",
     "minimist": "Archomeda/minimist#extend-strings",
-    "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "mongoose": "^4.11.9",
     "mwbot": "^1.0.9",
