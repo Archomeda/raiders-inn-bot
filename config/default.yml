@@ -49,19 +49,6 @@ modules:
     chat-code:
       enabled: true
 
-  raids:
-    # !region - Assign or remove region roles
-    region:
-      enabled: true
-      # The role ids of the supported regions
-      roles:
-        eu: role-id
-        na: role-id
-
-    # !reset - A command to easily see when the weekly raid reset happens
-    reset:
-      enabled: true
-
   # Provides extra utilities
   utilities:
     # !roll - Rolling dice
