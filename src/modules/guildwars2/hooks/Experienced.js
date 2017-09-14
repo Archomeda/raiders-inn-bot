@@ -5,7 +5,7 @@ const DiscordHook = require('../../../../bot/modules/DiscordHook');
 
 const regex = {
     li: /(\d+) Legendary Insights Earned/,
-    clear: /cleared everything.*⭐/
+    clear: /cleared everything.*(⭐|:star:)/
 };
 
 
@@ -49,7 +49,7 @@ class HookExperienced extends DiscordHook {
         }
 
         let passed = false;
-        let text = message.context;
+        let text = message.content;
         if (message.embeds.length > 0) {
             const embed = message.embeds[0];
             text = `${embed.title}\n${embed.description}\n`;
@@ -68,6 +68,7 @@ class HookExperienced extends DiscordHook {
                 passed = true;
             }
         } else if (clearReq && text.match(regex.clear)) {
+            // Full clear
             passed = true;
         }
 
