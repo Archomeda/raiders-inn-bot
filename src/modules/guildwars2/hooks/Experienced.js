@@ -43,8 +43,8 @@ class HookExperienced extends DiscordHook {
             return;
         }
         const member = message.mentions.members.first();
-        if (member.roles.has(expRoleId)) {
-            // Already has the role assigned
+        if (member && member.roles.has(expRoleId)) {
+            // No mentions or already has the role assigned
             return;
         }
 
