@@ -5,6 +5,7 @@ const CommandRegionEu = require('./commands/RegionEu');
 const CommandRegionNa = require('./commands/RegionNa');
 const CommandWiki = require('./commands/Wiki');
 const HookChatCode = require('./hooks/ChatCode');
+const HookExperienced = require('./hooks/Experienced');
 
 
 class ModuleGuildWars2 extends Module {
@@ -15,6 +16,7 @@ class ModuleGuildWars2 extends Module {
         this.register(new CommandRegionNa(bot));
         this.register(new CommandWiki(bot));
         this.register(new HookChatCode(bot));
+        this.register(new HookExperienced(bot));
     }
 }
 

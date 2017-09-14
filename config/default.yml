@@ -49,6 +49,19 @@ modules:
     chat-code:
       enabled: true
 
+    # A hook that assigns people to an experienced raid role
+    # Requires GW2Bot to be present because it listens to those responses, requirements are OR
+    experienced:
+      enabled: false
+      # The account id of GW2Bot
+      gw2bot-id: "310050883100737536"
+      # The experienced role id
+      experienced-role-id: role-id
+      # LI requirement, use false to disable
+      li: 200
+      # Full clear requirement
+      full-clear: true
+
   # Provides extra utilities
   utilities:
     # !roll - Rolling dice

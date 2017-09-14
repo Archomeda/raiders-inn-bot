@@ -53,5 +53,8 @@
     "poi-landmark": "point of interest",
     "poi-vista": "vista",
     "poi-unknown": "unknown"
+  },
+  "experienced": {
+    "response-passed-experienced-check": "{{user}}, you've passed the experienced check. Congratulations!"
   }
 }
