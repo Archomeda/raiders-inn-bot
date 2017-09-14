@@ -7,7 +7,7 @@ const DiscordCommand = require('../../../../bot/modules/DiscordCommand');
 
 class CommandRaider extends DiscordCommand {
     constructor(bot) {
-        super(bot, 'raider', ['raider', 'raid']);
+        super(bot, 'raider', ['gw2']);
         this._localizerNamespaces = 'module.guildwars2';
 
         this.setMiddleware(new AutoRemoveMessage(bot, this, { defaultRequest: 0, defaultResponse: 60 })); // Auto remove response after 1 minute

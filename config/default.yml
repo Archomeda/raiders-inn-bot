@@ -29,7 +29,7 @@ cache:
 modules:
   # Provides general Discord and/or Guild Wars 2 things
   guildwars2:
-    # !raider - Assigns the raider role
+    # !gw2 - Assigns the raider role
     raider:
       enabled: false
       # The role id for this region
