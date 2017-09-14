@@ -5,9 +5,9 @@ const AutoRemoveMessage = require('../../../../bot/middleware/AutoRemoveMessage'
 const DiscordCommand = require('../../../../bot/modules/DiscordCommand');
 
 
-class CommandRegionNa extends DiscordCommand {
+class CommandRaider extends DiscordCommand {
     constructor(bot) {
-        super(bot, 'region-na', ['region na', 'na']);
+        super(bot, 'raider', ['raider', 'raid']);
         this._localizerNamespaces = 'module.guildwars2';
 
         this.setMiddleware(new AutoRemoveMessage(bot, this, { defaultRequest: 0, defaultResponse: 60 })); // Auto remove response after 1 minute
@@ -33,9 +33,9 @@ class CommandRegionNa extends DiscordCommand {
         if (user.roles) {
             const result = await this._toggleRole(user);
             if (result) {
-                return l.t('module.guildwars2:region-na.response-assigned');
+                return l.t('module.guildwars2:raider.response-assigned');
             }
-            return l.t('module.guildwars2:region-na.response-removed');
+            return l.t('module.guildwars2:raider.response-removed');
         }
 
         const exec = client.guilds
@@ -43,8 +43,8 @@ class CommandRegionNa extends DiscordCommand {
             .filter(u => u)
             .map(user => this._toggleRole(user));
         await Promise.all(exec);
-        return l.t('module.guildwars2:region-na.response-changed-applied');
+        return l.t('module.guildwars2:raider.response-changed-applied');
     }
 }
 
-module.exports = CommandRegionNa;
+module.exports = CommandRaider;

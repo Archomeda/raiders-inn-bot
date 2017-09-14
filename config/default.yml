@@ -29,14 +29,8 @@ cache:
 modules:
   # Provides general Discord and/or Guild Wars 2 things
   guildwars2:
-    # !region eu - Assigns or removes the EU region
-    region-eu:
-      enabled: false
-      # The role id for this region
-      role-id: role-id
-
-    # !region na - Assigns or removes the NA region
-    region-na:
+    # !raider - Assigns the raider role
+    raider:
       enabled: false
       # The role id for this region
       role-id: role-id
