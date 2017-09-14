@@ -43,6 +43,10 @@ class HookExperienced extends DiscordHook {
             return;
         }
         const member = message.mentions.members.first();
+        if (member.roles.has(expRoleId)) {
+            // Already has the role assigned
+            return;
+        }
 
         let passed = false;
         let text = message.context;
