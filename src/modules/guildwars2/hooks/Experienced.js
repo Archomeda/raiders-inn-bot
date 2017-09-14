@@ -45,7 +45,18 @@ class HookExperienced extends DiscordHook {
         const member = message.mentions.members.first();
 
         let passed = false;
-        const text = message.embeds[0] || message.content;
+        let text = message.context;
+        if (message.embeds.length > 0) {
+            const embed = message.embeds[0];
+            text = `${embed.title}\n${embed.description}\n`;
+            for (const field of embed.fields) {
+                text += `${field.name}\n${field.value}\n`;
+            }
+        }
+        if (!text) {
+            return;
+        }
+
         let match;
         if (liReq !== false && (match = text.match(regex.li))) {
             // LI
