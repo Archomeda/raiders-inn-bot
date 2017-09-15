@@ -46,5 +46,10 @@
   },
   "experienced": {
     "response-passed-experienced-check": "{{user}}, you've passed the experienced check. Congratulations!"
+  },
+  "pof-countdown": {
+    "presence-countdown-days": "waiting game: {{days_left}}d{{hours_left}}h",
+    "presence-countdown-hours": "final countdown: {{hours_left}}h",
+    "presence-pof": "Path of Fire"
   }
 }
