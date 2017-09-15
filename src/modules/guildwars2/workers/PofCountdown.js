@@ -11,9 +11,14 @@ class WorkerPofCountdown extends Worker {
     constructor(bot) {
         super(bot, 'pof-countdown');
         this._localizerNamespaces = 'module.guildwars2';
+        this._done = false;
     }
 
     async checkNickname() {
+        if (this._done) {
+            return;
+        }
+
         const bot = this.getBot();
         const client = bot.getClient();
         const l = bot.getLocalizer();
@@ -40,6 +45,10 @@ class WorkerPofCountdown extends Worker {
 
         this.log(`Setting own game to '${presence}'`);
         await client.user.setGame(presence);
+
+        if (!presence) {
+            this._done = true;
+        }
     }
 
     async enableWorker() {
