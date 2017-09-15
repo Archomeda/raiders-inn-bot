@@ -13,6 +13,9 @@
 #
 #####
 
+timezone: America/Los_Angeles
+
+
 database:
   mongodb:
     uri: mongodb://127.0.0.1/raiders-inn-discord-bot
