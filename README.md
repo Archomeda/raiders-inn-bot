@@ -6,8 +6,9 @@ While this bot is technically designed for this Discord server, you can adapt it
 The bot can do various tasks that helps the Guild Wars 2 raiding community on the Discord server.
  - **Guild Wars 2**
    - Raids
-     - Region assignment (uses Discord roles)
+     - Command that assigns the raider status
      - Static command for the weekly reset time (planned, needs to be reimplemented)
+     - Parses GW2Bot's LI and boss clear responses to assign the raid experienced role
    - Other
      - Parses chat codes automatically and includes the name and wiki link
      - Query the Guild Wars 2 wiki for something
