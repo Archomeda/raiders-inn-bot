@@ -32,6 +32,9 @@ class HookChannelKeeper extends DiscordHook {
                     }
                 }
                 break;
+            } else if (channelConfig.length === i + 1) {
+                // No match
+                return;
             }
         }
 
