@@ -7,16 +7,17 @@ The bot can do various tasks that helps the Guild Wars 2 raiding community on th
  - **Guild Wars 2**
    - Raids
      - Command that assigns the raider status
-     - Static command for the weekly reset time (planned, needs to be reimplemented)
      - Parses GW2Bot's LI and boss clear responses to assign the raid experienced role
    - Other
      - Parses chat codes automatically and includes the name and wiki link
      - Query the Guild Wars 2 wiki for something
- - **Management**
-   - Exporting the list of role, channel and account ids to help configuring the bot (restricted by permissions by default)
  - **Utilities**
    - Rolling dice
    - Welcomes new people
+ - **Administration**
+   - Ability to export the list of role, channel and account ids to help configuring the bot (restricted by permissions by default)
+ - **Moderation**
+   - Keeps a certain amount of duplicated voice channels and removes unused ones (channel keeper)
 
 ### Available commands
 You can type `!help` in any text channel to receive the list of available commands.

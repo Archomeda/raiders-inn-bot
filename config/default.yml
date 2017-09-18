@@ -62,6 +62,15 @@ modules:
     pof-countdown:
       enabled: false
 
+  # Server moderation tools
+  moderation:
+    # Monitors usage of specified channels, and keep new channels available whenever there's a short of channels,
+    # and removes unused channels
+    channel-keeper:
+      enabled: false
+      # A list of channels that have to be monitored, use \d to indicate the number (e.g. "Raid \d")
+      channels: []
+
   # Provides extra utilities
   utilities:
     # !roll - Rolling dice
