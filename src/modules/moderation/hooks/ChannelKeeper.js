@@ -18,8 +18,8 @@ class HookChannelKeeper extends DiscordHook {
 
         // Find all related channels
         const channels = [];
-        let channelRegex = undefined;
-        let channelConf = undefined;
+        let channelRegex;
+        let channelConf;
         for (let i = 0; i < channelConfig.length; i++) {
             channelRegex = channelRegexes[i];
             channelConf = channelConfig[i];
@@ -41,7 +41,7 @@ class HookChannelKeeper extends DiscordHook {
             for (let i = channels.length; i >= 0; i--) {
                 if (channels[i] && channels[i].members.size === 0) {
                     try {
-                        await channels[i].delete('This channel is currently unused');
+                        await channels[i].delete('This channel is currently unused'); // eslint-disable-line no-await-in-loop
                         this.log(`Removed unused channel ${channels[i].name}`, 'log');
                     } catch (err) {
                         this.log(`Error while removing unused channel ${channels[i].name}: ${err}`, 'warn');
@@ -60,7 +60,7 @@ class HookChannelKeeper extends DiscordHook {
                     const name = channelConf.replace('\\d', i + 1);
                     let newChannel;
                     try {
-                        newChannel = await channelBase.clone(name, true, true, 'New channel to keep up with demand');
+                        newChannel = await channelBase.clone(name, true, true, 'New channel to keep up with demand'); // eslint-disable-line no-await-in-loop
                         this.log(`Created new channel ${name}`, 'log');
                     } catch (err) {
                         this.log(`Error while creating new channel ${name}: ${err}`, 'warn');
@@ -69,7 +69,7 @@ class HookChannelKeeper extends DiscordHook {
                         // Somehow cloning a voice channel causes Discord.js to fail because of an improper bitrate, but the channel is still cloned in Discord...
                         newChannel = channelBase.guild.channels.find('name', name);
                         if (newChannel) {
-                            await newChannel.setPosition(pos);
+                            await newChannel.setPosition(pos); // eslint-disable-line no-await-in-loop
                             pos++;
                         }
                     }
