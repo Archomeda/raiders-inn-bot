@@ -63,18 +63,18 @@ class HookChannelKeeper extends DiscordHook {
                     const name = channelConf.replace('\\d', i + 1);
                     let newChannel;
                     try {
-                        newChannel = await channelBase.clone(name, true, true, 'New channel to keep up with demand'); // eslint-disable-line no-await-in-loop
+                        newChannel = await channelBase.clone({ name, reason: 'New channel to keep up with demand' }); // eslint-disable-line no-await-in-loop
+                        const exec = [];
+                        if (channelBase.parent) {
+                            exec.push(newChannel.setParent(channelBase.parent, { lockPermissions: true }));
+                        }
+                        exec.push(newChannel.setPosition(pos));
+                        exec.push(newChannel.setUserLimit(channelBase.userLimit));
+                        await Promise.all(exec); // eslint-disable-line no-await-in-loop
+                        pos++;
                         this.log(`Created new channel ${name}`, 'log');
                     } catch (err) {
                         this.log(`Error while creating new channel ${name}: ${err}`, 'warn');
-                    }
-                    if (!newChannel) {
-                        // Somehow cloning a voice channel causes Discord.js to fail because of an improper bitrate, but the channel is still cloned in Discord...
-                        newChannel = channelBase.guild.channels.find('name', name);
-                        if (newChannel) {
-                            await newChannel.setPosition(pos); // eslint-disable-line no-await-in-loop
-                            pos++;
-                        }
                     }
                     empty++;
                 } else {
