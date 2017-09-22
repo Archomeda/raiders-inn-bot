@@ -155,7 +155,7 @@ class CommandWiki extends DiscordCommand {
         }
 
         const hash = crypto.createHash('md5').update(filename).digest('hex');
-        const url = `https://wiki.guildwars2.com/images/${hash.substr(0, 1)}/${hash.substr(0, 2)}/${encodeURIComponent(filename)}`;console.log(url);
+        const url = `https://wiki.guildwars2.com/images/${hash.substr(0, 1)}/${hash.substr(0, 2)}/${encodeURIComponent(filename)}`;
         embed.setThumbnail(url);
         return embed;
     }
