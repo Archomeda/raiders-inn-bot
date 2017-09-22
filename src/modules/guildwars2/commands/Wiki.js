@@ -111,7 +111,7 @@ class CommandWiki extends DiscordCommand {
         const title = articleData.title;
 
         // Construct message
-        const embed = new Discord.RichEmbed().setTitle(l.t('module.guildwars2:wiki.response-title', { title }));
+        const embed = new Discord.MessageEmbed().setTitle(l.t('module.guildwars2:wiki.response-title', { title }));
         const splittedText = convertHtmlToMarkdown(text, 'wiki-ext', { prefixUrl: 'https://wiki.guildwars2.com' }).split('\n');
         if (splittedText[0].startsWith('> ')) {
             text = splittedText[0].trim().substr(2);
@@ -155,7 +155,7 @@ class CommandWiki extends DiscordCommand {
         }
 
         const hash = crypto.createHash('md5').update(filename).digest('hex');
-        const url = `https://wiki.guildwars2.com/images/${hash.substr(0, 1)}/${hash.substr(0, 2)}/${filename}`;
+        const url = `https://wiki.guildwars2.com/images/${hash.substr(0, 1)}/${hash.substr(0, 2)}/${encodeURIComponent(filename)}`;console.log(url);
         embed.setThumbnail(url);
         return embed;
     }

@@ -19,7 +19,7 @@ class DiscordReplyPage {
 
         /**
          * The embedded message.
-         * @type {RichEmbed|undefined}
+         * @type {MessageEmbed|undefined}
          */
         this.embed = options && options.embed;
 

@@ -44,7 +44,7 @@ class WorkerPofCountdown extends Worker {
         }
 
         this.log(`Setting own game to '${presence}'`);
-        await client.user.setGame(presence);
+        await client.user.setActivity(presence);
 
         if (!presence) {
             this._done = true;

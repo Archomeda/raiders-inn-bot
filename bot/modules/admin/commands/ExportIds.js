@@ -49,11 +49,11 @@ class CommandExportIds extends DiscordCommand {
 
         if (message.channel.type !== 'dm') {
             // Send the file by DM instead
-            await message.author.send('', { file: { attachment: Buffer.from(result.join('\n')), name: 'ids.txt' } });
+            await message.author.send('', { files: [{ attachment: Buffer.from(result.join('\n')), name: 'ids.txt' }] });
             return l.t('module.admin:export-ids.response-see-dm');
         }
 
-        return new DiscordReplyMessage('', { file: { attachment: Buffer.from(result.join('\n')), name: 'ids.txt' } });
+        return new DiscordReplyMessage('', { files: [{ attachment: Buffer.from(result.join('\n')), name: 'ids.txt' }] });
     }
 }
 
