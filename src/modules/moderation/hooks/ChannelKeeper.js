@@ -3,9 +3,14 @@
 const DiscordHook = require('../../../../bot/modules/DiscordHook');
 
 
+const waitTime = 5 * 1000;
+
+
 class HookChannelKeeper extends DiscordHook {
     constructor(bot) {
         super(bot, 'channel-keeper');
+
+        this._timeout = undefined;
 
         this._hooks = {
             voiceStateUpdate: this.onVoiceStateUpdate.bind(this)
@@ -89,6 +94,10 @@ class HookChannelKeeper extends DiscordHook {
     }
 
     async onVoiceStateUpdate(oldMember, newMember) {
+        if (this._timeout) {
+            return;
+        }
+
         const channels = this.getConfig().get('channels');
 
         if (channels.length === 0) {
@@ -99,15 +108,25 @@ class HookChannelKeeper extends DiscordHook {
         const oldChannel = oldMember.voiceChannel;
         const newChannel = newMember.voiceChannel;
 
-        try {
-            if (oldChannel) {
-                await this.keepChannels(oldChannel);
-            }
-            if (newChannel) {
-                await this.keepChannels(newChannel);
-            }
-        } catch (err) {
-            this.log(`Error while keeping channels: ${err}`, 'warn');
+        if (newChannel) {
+            this._timeout = setTimeout(async () => {
+                try {
+                    await this.keepChannels(newChannel);
+                } catch (err) {
+                    this.log(`Error while keeping channels: ${err}`, 'warn');
+                }
+                this._timeout = undefined;
+            }, waitTime);
+        }
+        if (oldChannel) {
+            this._timeout = setTimeout(async () => {
+                try {
+                    await this.keepChannels(oldChannel);
+                } catch (err) {
+                    this.log(`Error while keeping channels: ${err}`, 'warn');
+                }
+                this._timeout = undefined;
+            }, waitTime);
         }
     }
 }
