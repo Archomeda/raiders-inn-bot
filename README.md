@@ -25,30 +25,30 @@ This message will get removed automatically after 5 minutes to prevent clutterin
 You can also type `!help <command>` - where `<command>` is the name of an available command - in order to receive more detailed information about a specific command.
 
 ## Usage
-This bot is currently not publically available for invites. Instead, you have to run the bot for yourself.
+This bot is currently not available for invites. Instead, you have to run the bot yourself.
 There are two options: use Docker or set it up manually.
-Do note that at this moment, this bot is not made to be ran on more than one Discord server simultaneously, and therefore hasn't been tested for that.
+Do note that at this moment, this bot is not made to be run on more than one Discord server simultaneously, and therefore it hasn't been tested for that.
 After installation, don't forget to edit the settings in the *config* folder (check *config/default.yml* for instructions).
 The bot requires a reboot after every configuration change.
 
 ### Docker
  - Have [Docker](https://docs.docker.com/engine/installation/) and [Docker Compose](https://github.com/docker/compose/releases) installed
- - Clone or download the zip of a specific version (or master if that isn't available)
- - Run:
-   
-   ```bash
-   cd kormir-discord-bot
-   docker-compose build
-   docker-compose up -d
-   ```
+ - Create a new folder (e.g. *raiders-inn-bot*)
+ - Run the following from within that folder:
+   `wget -O - https://raw.githubusercontent.com/Archomeda/raiders-inn-bot/master/install.sh | bash`
+ - This will run [a script](install.sh) that sets up the environment for the bot to run in
+ - Create and edit *config/local.yml*
+ - Start the bot: `docker-compose up -d`
 
 You can manipulate the state of the bot by running various `docker-compose` commands.
-These commands have to be executed from within the *kormir-discord-bot* folder:
+These commands have to be executed from within your chosen folder:
  - Suspend: `docker-compose pause`
  - Resume: `docker-compose unpause`
  - Restart: `docker-compose restart`
  - Stop and remove: `docker-compose down`
  - Start: `docker-compose up -d`
+
+While technically you can run the bot without using Docker Compose, you'll have to figure that out yourself at the moment.
 
 ### Manual (linux)
  - The bot requires the software to be installed:
@@ -62,19 +62,20 @@ These commands have to be executed from within the *kormir-discord-bot* folder:
 If you are running the bot 24/7, it is recommended to have a process manager that monitors the bot's process (e.g. pm2 or systemd).
 
 ## Updating
-This bot follows semantic versioning.
-If a major version is released, it cannot be guaranteed that backwards compatibility is available.
-Also, Docker images have to be created manually for now.
+**Note:** Always check if your config file needs updating by comparing [the default config file](config/default.yml) to your own local file.
 
-If you've used git, it's as easy as running `git pull` to update.
-Check if your local config file needs any changes.
-Afterwards, restart the bot if you've installed it manually.
-If you've used Docker, instead run:
+### Docker
+Run the following from within the bot folder:
 ```bash
+docker-compose pull
+wget https://raw.githubusercontent.com/Archomeda/raiders-inn-bot/master/config/default.yml -O config/default.yml
 docker-compose down
-docker-compose build
 docker-compose up -d
 ```
+
+### Manual (linux)
+If you've used git, it's as easy as running `git pull` to update, otherwise download a new copy.
+Afterwards, restart the bot.
 
 ## Contributing
 You can always contribute, but it does not necessarily mean that every feature will be added.
