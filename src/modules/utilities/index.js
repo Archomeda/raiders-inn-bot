@@ -2,7 +2,6 @@
 
 const Module = require('../../../bot/modules/Module');
 const CommandRoll = require('./commands/Roll');
-const HookWelcomeNewMember = require('./hooks/WelcomeNewMember');
 
 
 class ModuleUtilities extends Module {
@@ -10,7 +9,6 @@ class ModuleUtilities extends Module {
         super(bot, 'utilities');
 
         this.register(new CommandRoll(bot));
-        this.register(new HookWelcomeNewMember(bot));
     }
 }
 

@@ -15,8 +15,5 @@
     "response-dice-out-of-range": "You can only roll between 1 and {{max}} times.",
     "response-faces-out-of-range": "The die has to have between 2 and {{max}} faces.",
     "response-rolling": "{{- user}} is rolling {{symbols}}"
-  },
-  "welcome-new-member": {
-    "welcome": "ANOTHER – HUMAN – JOINED – BZZZT – WELCOME – {{- member}}!\nINITIALIZE – PRERECORDED – MESSAGE...\n\nHey there and welcome to The Raiders Inn! Before you can begin, please assign yourself to NA and/or EU by using the `{{region_na_command}}` or `{{region_eu_command}}` command. Enjoy your stay! 🍻"
   }
 }
