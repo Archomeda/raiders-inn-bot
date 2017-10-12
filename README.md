@@ -8,12 +8,12 @@ The bot can do various tasks that helps the Guild Wars 2 raiding community on th
    - Raids
      - Command that assigns the raider status
      - Parses GW2Bot's LI and boss clear responses to assign the raid experienced role
+       - Command to opt-out for this
    - Other
      - Parses chat codes automatically and includes the name and wiki link
-     - Query the Guild Wars 2 wiki for something
+     - Guild Wars 2 wiki querying
  - **Utilities**
    - Rolling dice
-   - Welcomes new people
  - **Administration**
    - Ability to export the list of role, channel and account ids to help configuring the bot (restricted by permissions by default)
  - **Moderation**
