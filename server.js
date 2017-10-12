@@ -16,6 +16,11 @@ async function stop() {
     process.exit();
 }
 
+process.on('warning', e => {
+    console.warn(`${e.name}: ${e.message}`);
+    console.warn(e.stack);
+});
+
 process.on('SIGTERM', stop);
 process.on('SIGINT', stop);
 
