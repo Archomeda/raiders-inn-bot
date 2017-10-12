@@ -64,9 +64,6 @@ modules:
     experienced:
       enabled: false
 
-    pof-countdown:
-      enabled: false
-
   # Server moderation tools
   moderation:
     # Monitors usage of specified channels, and keep new channels available whenever there's a short of channels,

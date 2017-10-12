@@ -58,10 +58,5 @@
     "poi-landmark": "point of interest",
     "poi-vista": "vista",
     "poi-unknown": "unknown"
-  },
-  "pof-countdown": {
-    "presence-countdown-days": "waiting game: {{days_left}}d{{hours_left}}h",
-    "presence-countdown-hours": "final countdown: {{hours_left}}h",
-    "presence-pof": "Path of Fire"
   }
 }
