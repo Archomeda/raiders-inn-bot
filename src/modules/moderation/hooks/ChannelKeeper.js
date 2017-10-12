@@ -63,15 +63,16 @@ class HookChannelKeeper extends DiscordHook {
                     const name = channelConf.replace('\\d', i + 1);
                     let newChannel;
                     try {
-                        newChannel = await channelBase.clone({ name, reason: 'New channel to keep up with demand' }); // eslint-disable-line no-await-in-loop
-                        const exec = [];
-                        if (channelBase.parent) {
-                            exec.push(newChannel.setParent(channelBase.parent, { lockPermissions: true }));
-                        }
-                        exec.push(newChannel.setPosition(pos));
-                        exec.push(newChannel.setUserLimit(channelBase.userLimit));
-                        await Promise.all(exec); // eslint-disable-line no-await-in-loop
                         pos++;
+                        newChannel = await channelBase.clone({ name, reason: 'New channel to keep up with demand' }); // eslint-disable-line no-await-in-loop
+                        const editData = {
+                            position: pos,
+                            userLimit: channelBase.userLimit
+                        };
+                        if (channelBase.parent) {
+                            editData.parentID = channelBase.parentID;
+                        }
+                        await newChannel.edit(editData); // eslint-disable-line no-await-in-loop
                         this.log(`Created new channel ${name}`, 'log');
                     } catch (err) {
                         this.log(`Error while creating new channel ${name}: ${err}`, 'warn');
