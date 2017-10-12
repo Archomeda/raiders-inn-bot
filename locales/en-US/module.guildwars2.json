@@ -10,11 +10,26 @@
     "_meta": {
       "name": "Raider role assignment",
       "short-description": "Toggles the raider role assignment",
-      "long-description": "If you're not marked as a raider, this will assign you to the raider role. If you're already marked, this will remove your assignment."
+      "long-description": "If you're not added to the raider role, this will assign you to it. If you're already added, this will remove your assignment."
     },
-    "response-assigned": "You've been marked as a raider. If you change your mind in the future, you can run the same command again to unmark yourself.",
-    "response-removed": "You're no longer a raider. If you change your mind in the future, you can run the same command again to mark yourself as a raider again.",
-    "response-changes-applied": "The changes to your raider assignment have been applied."
+    "response-assigned": "You've been added to the raider role. If you change your mind, you can run the same command again to undo this.",
+    "response-removed": "You've been removed from the raider role. If you change your mind, you can run the same command again to add yourself again.",
+    "response-no-dm": "This command can not be executed in DM."
+  },
+  "experienced": {
+    "_meta": {
+      "name": "Experienced role assignment",
+      "short-description": "Toggles the experienced role assignment",
+      "long-description": "If you're not added to the experienced role, this will allow the bot to assign you to it whenever you've passed the experienced check. If you're already added, this will remove your assignment."
+    },
+    "audit-passed-by-li": "Automatically verified by LI requirement",
+    "audit-passed-by-clear": "Automatically verified by full clear requirement",
+    "response-passed-experienced-check": "{{user}}, you've passed the experienced check. Congratulations!",
+    "response-toggle-off-disallow": "You've been removed from the experienced role and you'll no longer be added automatically. If you change your mind, you can run the same command again to undo this.",
+    "response-disallow": "You've been excluded to be automatically added to the experienced role. If you change your mind, you can run the same command again to undo this.",
+    "response-toggle-on-allow": "You've been re-added to experienced role. If you change your mind, you can run the same command again to remove yourself again.",
+    "response-allow": "You've been included to be automatically added to the experienced role. If you change your mind, you can run the same command to remove yourself again.",
+    "response-no-dm": "This command can not be executed in DM."
   },
   "wiki": {
     "_meta": {
@@ -43,9 +58,6 @@
     "poi-landmark": "point of interest",
     "poi-vista": "vista",
     "poi-unknown": "unknown"
-  },
-  "experienced": {
-    "response-passed-experienced-check": "{{user}}, you've passed the experienced check. Congratulations!"
   },
   "pof-countdown": {
     "presence-countdown-days": "waiting game: {{days_left}}d{{hours_left}}h",

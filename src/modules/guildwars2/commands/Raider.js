@@ -26,24 +26,14 @@ class CommandRaider extends DiscordCommand {
 
     async onCommand(message) {
         const bot = this.getBot();
-        const client = bot.getClient();
         const l = bot.getLocalizer();
 
-        const user = message.member || message.user;
-        if (user.roles) {
-            const result = await this._toggleRole(user);
-            if (result) {
-                return l.t('module.guildwars2:raider.response-assigned');
-            }
-            return l.t('module.guildwars2:raider.response-removed');
+        if (message.channel.type !== 'text') {
+            return l.t('module.guildwars2:raider.response-no-dm');
         }
 
-        const exec = client.guilds
-            .map(server => server.member(user))
-            .filter(u => u)
-            .map(user => this._toggleRole(user));
-        await Promise.all(exec);
-        return l.t('module.guildwars2:raider.response-changed-applied');
+        const result = await this._toggleRole(message.member);
+        return result ? l.t('module.guildwars2:raider.response-assigned') : l.t('module.guildwars2:raider.response-removed');
     }
 }
 

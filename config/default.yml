@@ -48,7 +48,7 @@ modules:
 
     # A hook that assigns people to an experienced raid role
     # Requires GW2Bot to be present because it listens to those responses, requirements are OR
-    experienced:
+    experienced-hook:
       enabled: false
       # The account id of GW2Bot
       gw2bot-id: "310050883100737536"
@@ -58,6 +58,11 @@ modules:
       li: 200
       # Full clear requirement
       full-clear: true
+
+    # A command that allows toggling whenever a person is experienced
+    # It makes only sense to enable this whenever the experienced hook is also enabled
+    experienced:
+      enabled: false
 
     pof-countdown:
       enabled: false
