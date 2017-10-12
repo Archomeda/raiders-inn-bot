@@ -11,6 +11,14 @@ bot.addModule(ModuleGuildWars2);
 bot.addModule(ModuleModeration);
 bot.addModule(ModuleUtilities);
 
+async function stop() {
+    await bot.stop();
+    process.exit();
+}
+
+process.on('SIGTERM', stop);
+process.on('SIGINT', stop);
+
 (async function () {
     try {
         await bot.start();
