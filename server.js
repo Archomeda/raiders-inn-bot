@@ -4,11 +4,13 @@
 const Bot = require('./bot/Bot');
 const ModuleGuildWars2 = require('./src/modules/guildwars2');
 const ModuleModeration = require('./src/modules/moderation');
+const ModuleRaidersInn = require('./src/modules/raidersinn');
 const ModuleUtilities = require('./src/modules/utilities');
 
 const bot = new Bot();
 bot.addModule(ModuleGuildWars2);
 bot.addModule(ModuleModeration);
+bot.addModule(ModuleRaidersInn);
 bot.addModule(ModuleUtilities);
 
 async function stop() {

@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "name": "Raiders Inn"
+  },
+  "howto": {
+    "_meta": {
+      "name": "Starter information",
+      "short-description": "Short starter information about the Raiders Inn Discord server",
+      "long-description": "This will post some starter information about the Raiders Inn Discord server."
+    },
+    "response": "The Raiders Inn is a Guild Wars 2 raiding community. In order to get started, first **please read {{channel}} completely**. Everything you need to know is listed there. Have fun raiding!",
+    "response-no-dm": "This command can not be executed in DM."
+  }
+}

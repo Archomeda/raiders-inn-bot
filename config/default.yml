@@ -73,6 +73,12 @@ modules:
       # A list of channels that have to be monitored, use \d to indicate the number (e.g. "Raid \d")
       channels: []
 
+  # Raiders Inn specific tools
+  raidersinn:
+    # !howto - Starter info command
+    howto:
+      enabled: true
+
   # Provides extra utilities
   utilities:
     # !roll - Rolling dice
