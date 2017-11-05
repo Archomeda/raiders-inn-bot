@@ -90,7 +90,7 @@ modules:
       signup-channel-id: channel-id
       roles:
         - name: RoleA
-          emoji: ":wave:"
+          emoji: 👋
 
   # Provides extra utilities
   utilities:
