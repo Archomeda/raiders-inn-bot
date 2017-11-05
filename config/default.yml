@@ -75,6 +75,10 @@ modules:
 
   # Raiders Inn specific tools
   raidersinn:
+    # !gear - General gear info
+    gear:
+      enabled: true
+
     # !howto - Starter info command
     howto:
       enabled: true

@@ -2,6 +2,14 @@
   "_meta": {
     "name": "Raiders Inn"
   },
+  "gear": {
+    "_meta": {
+      "name": "Gear information",
+      "short-description": "Provides basic references on how to gear up a character",
+      "long-description": "Provides basic references on how to gear up a character."
+    },
+    "response": "So you want to gear up your character, right? Ana has hired me to tell you to read <https://wiki.guildwars2.com/wiki/User:Tanetris/So_You_Want_To_Gear_a_Character> or watch <https://www.youtube.com/watch?v=8xxH0xIjGag>.\nGood luck and please don't shoot the messenger!"
+  },
   "howto": {
     "_meta": {
       "name": "Starter information",
