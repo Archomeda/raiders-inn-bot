@@ -5,8 +5,8 @@
   "gear": {
     "_meta": {
       "name": "Gear information",
-      "short-description": "Provides basic references on how to gear up a character",
-      "long-description": "Provides basic references on how to gear up a character."
+      "short-description": "Basic references on how to gear up a character",
+      "long-description": "This will post basic references on how to gear up a character."
     },
     "response": "So you want to gear up your character, right? Ana has hired me to tell you to read <https://wiki.guildwars2.com/wiki/User:Tanetris/So_You_Want_To_Gear_a_Character> or watch <https://www.youtube.com/watch?v=8xxH0xIjGag>.\nGood luck and please don't shoot the messenger!"
   },
@@ -17,6 +17,15 @@
       "long-description": "This will post some starter information about the Raiders Inn Discord server."
     },
     "response": "The Raiders Inn is a Guild Wars 2 raiding community. In order to get started, first **please read {{channel}} completely**. Everything you need to know is listed there. Have fun raiding!",
+    "response-no-dm": "This command can not be executed in DM."
+  },
+  "signup": {
+    "_meta": {
+      "name": "Signup information",
+      "short-description": "Information about how to sign up for raids",
+      "long-description": "This will post information about how to sign up for raids."
+    },
+    "response": "Signups happen in the {{channel}} channel. In order to sign up for a training, simply click on the icon of the role you want to sign up for. The roles are as follows:\n{{roles}}",
     "response-no-dm": "This command can not be executed in DM."
   }
 }

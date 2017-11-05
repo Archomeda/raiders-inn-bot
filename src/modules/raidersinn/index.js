@@ -3,6 +3,7 @@
 const Module = require('../../../bot/modules/Module');
 const CommandGear = require('./commands/Gear');
 const CommandHowto = require('./commands/Howto');
+const CommandSignup = require('./commands/Signup');
 
 
 class ModuleRaidersInn extends Module {
@@ -11,6 +12,7 @@ class ModuleRaidersInn extends Module {
 
         this.register(new CommandGear(bot));
         this.register(new CommandHowto(bot));
+        this.register(new CommandSignup(bot));
     }
 }
 

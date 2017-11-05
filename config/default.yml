@@ -82,6 +82,15 @@ modules:
     # !howto - Starter info command
     howto:
       enabled: true
+      welcome-channel-id: channel-id
+
+    # !signup - Signup information
+    signup:
+      enabled: true
+      signup-channel-id: channel-id
+      roles:
+        - name: RoleA
+          emoji: ":wave:"
 
   # Provides extra utilities
   utilities:
