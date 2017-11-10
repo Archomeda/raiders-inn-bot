@@ -13,14 +13,14 @@ class CommandRaider extends DiscordCommand {
         this.setMiddleware(new AutoRemoveMessage(bot, this, { defaultRequest: 0, defaultResponse: 60 })); // Auto remove response after 1 minute
     }
 
-    async _toggleRole(user) {
+    async _toggleRole(member) {
         const roleId = this.getConfig().get('role-id');
-        if (!user.roles.has(roleId)) {
-            await user.addRole(roleId);
+        if (!member.roles.has(roleId)) {
+            await member.addRole(roleId);
             return true;
         }
 
-        await user.removeRole(roleId);
+        await member.removeRole(roleId);
         return false;
     }
 
@@ -32,7 +32,7 @@ class CommandRaider extends DiscordCommand {
             return l.t('module.guildwars2:raider.response-no-dm');
         }
 
-        const member = message.guild.members.fetch(message.author);
+        const member = await message.guild.members.fetch(message.author);
         if (!member) {
             return l.t('module.guildwars2:raider.response-fetch-failed');
         }

@@ -15,11 +15,11 @@ class CommandExperienced extends DiscordCommand {
         this.setMiddleware(new AutoRemoveMessage(bot, this, { defaultRequest: 0, defaultResponse: 60 })); // Auto remove response after 1 minute
     }
 
-    async _toggleAllow(user) {
+    async _toggleAllow(member) {
         const bot = this.getBot();
         const l = bot.getLocalizer();
         const config = this.getModule().getConfig().root(this.getId());
-        const discordId = user.id;
+        const discordId = member.id;
 
         const roleId = config.get('experienced-role-id');
         let account = await models.Account.findOne({ discordId });
@@ -32,7 +32,7 @@ class CommandExperienced extends DiscordCommand {
             account.allowExperienced = true;
             await account.save();
             if (account.isExperienced) {
-                await user.addRole(roleId);
+                await member.addRole(roleId);
                 return l.t('module.guildwars2:experienced.response-toggle-on-allow');
             }
             return l.t('module.guildwars2:experienced.response-allow');
@@ -42,7 +42,7 @@ class CommandExperienced extends DiscordCommand {
         account.allowExperienced = false;
         await account.save();
         if (account.isExperienced) {
-            await user.removeRole(roleId);
+            await member.removeRole(roleId);
             return l.t('module.guildwars2:experienced.response-toggle-off-disallow');
         }
         return l.t('module.guildwars2:experienced.response-disallow');
@@ -56,7 +56,7 @@ class CommandExperienced extends DiscordCommand {
             return l.t('module.guildwars2:experienced.response-no-dm');
         }
 
-        const member = message.guild.members.fetch(message.author);
+        const member = await message.guild.members.fetch(message.author);
         if (!member) {
             return l.t('module.guildwars2:experienced.response-fetch-failed');
         }
