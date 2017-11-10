@@ -32,7 +32,11 @@ class CommandRaider extends DiscordCommand {
             return l.t('module.guildwars2:raider.response-no-dm');
         }
 
-        const result = await this._toggleRole(message.member);
+        const member = message.guild.members.fetch(message.author);
+        if (!member) {
+            return l.t('module.guildwars2:raider.response-fetch-failed');
+        }
+        const result = await this._toggleRole(member);
         return result ? l.t('module.guildwars2:raider.response-assigned') : l.t('module.guildwars2:raider.response-removed');
     }
 }

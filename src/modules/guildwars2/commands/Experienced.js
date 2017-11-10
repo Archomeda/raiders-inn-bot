@@ -56,7 +56,11 @@ class CommandExperienced extends DiscordCommand {
             return l.t('module.guildwars2:experienced.response-no-dm');
         }
 
-        return this._toggleAllow(message.member);
+        const member = message.guild.members.fetch(message.author);
+        if (!member) {
+            return l.t('module.guildwars2:experienced.response-fetch-failed');
+        }
+        return this._toggleAllow(member);
     }
 }
 

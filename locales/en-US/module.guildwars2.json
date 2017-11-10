@@ -14,6 +14,7 @@
     },
     "response-assigned": "You've been added to the raider role. If you change your mind, you can run the same command again to undo this.",
     "response-removed": "You've been removed from the raider role. If you change your mind, you can run the same command again to add yourself again.",
+    "response-fetch-failed": "I couldn't fetch your user data, try going online if you're offline before trying again. If it still doesn't work, try contacting one of the staff members.",
     "response-no-dm": "This command can not be executed in DM."
   },
   "experienced": {
@@ -29,6 +30,7 @@
     "response-disallow": "You've been excluded to be automatically added to the experienced role. If you change your mind, you can run the same command again to undo this.",
     "response-toggle-on-allow": "You've been re-added to experienced role. If you change your mind, you can run the same command again to remove yourself again.",
     "response-allow": "You've been included to be automatically added to the experienced role. If you change your mind, you can run the same command to remove yourself again.",
+    "response-fetch-failed": "I couldn't fetch your user data, try going online if you're offline before trying again. If it still doesn't work, try contacting one of the staff members.",
     "response-no-dm": "This command can not be executed in DM."
   },
   "wiki": {
