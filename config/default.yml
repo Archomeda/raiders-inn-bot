@@ -64,40 +64,18 @@ modules:
       # Full clear requirement
       full-clear: true
 
-    # A hook that allows people to assign themselves a specific profession by reacting on a predefined message
-    profession-assignment:
+    # A hook that allows people to assign themselves a specific role by reacting on a predefined message
+    role-assignment:
       enabled: false
       # The id of the predefined message where the reactions are posted
       channel-id: channel-id
       message-id: message-id
-      # All the available professions with their associated role and emoji ids
-      guardian:
-        role-id: role-id
-        emoji-id: emoji-id
-      revenant:
-        role-id: role-id
-        emoji-id: emoji-id
-      warrior:
-        role-id: role-id
-        emoji-id: emoji-id
-      engineer:
-        role-id: role-id
-        emoji-id: emoji-id
-      ranger:
-        role-id: role-id
-        emoji-id: emoji-id
-      thief:
-        role-id: role-id
-        emoji-id: emoji-id
-      elementalist:
-        role-id: role-id
-        emoji-id: emoji-id
-      mesmer:
-        role-id: role-id
-        emoji-id: emoji-id
-      necromancer:
-        role-id: role-id
-        emoji-id: emoji-id
+      # All the available roles with their associated role and emoji ids
+      roles:
+      #  - role-id: roleA-id
+      #    emoji-id: emojiA-id
+      #  - role-id: roleB-id
+      #    emoji-id: emojiB-id
 
   # Server moderation tools
   moderation:
