@@ -100,7 +100,7 @@ class HookProfessionAssignment extends DiscordHook {
                     if (!reaction || !reaction.me) {
                         try {
                             await message.react(emoji); // eslint-disable-line no-await-in-loop
-                        } catch(err) {
+                        } catch (err) {
                             // Reacting failed, possibly because the emoji doesn't exist
                             this.log(`Reacting on profession assignment message failed: ${err}`, 'warn');
                         }
@@ -110,8 +110,9 @@ class HookProfessionAssignment extends DiscordHook {
                 // Remove unsupported reactions
                 const exec = [];
                 for (const reaction of message.reactions.filterArray(r => !emojis.includes(r.emoji.id) && !emojis.includes(r.emoji.name))) {
-                    // fetchUsers() is hardcapped at 100 users at a time
-                    for (const user of (await reaction.fetchUsers()).keyArray()) {
+                    // .fetchUsers() is hardcapped at 100 users at a time
+                    const users = (await reaction.fetchUsers()).keyArray(); // eslint-disable-line no-await-in-loop
+                    for (const user of users) {
                         exec.push(reaction.remove(user));
                     }
                 }
