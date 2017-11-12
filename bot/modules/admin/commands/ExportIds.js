@@ -20,7 +20,7 @@ class CommandExportIds extends DiscordCommand {
         const client = bot.getClient();
         const l = bot.getLocalizer();
 
-        let result = [];
+        const result = [];
         for (const guild of client.guilds.array()) {
             result.push(`=== ${guild.name}: ${guild.id} ===`);
 
