@@ -9,8 +9,8 @@
       "long-description": "Exports the list of role, channel and account ids as a text file. This file will be sent by DM."
     },
     "export-roles": "Roles:",
-    "export-text-channels": "Text channels:",
-    "export-voice-channels": "Voice channels:",
+    "export-emojis": "Emojis:",
+    "export-channels": "Channels:",
     "export-members": "Members:",
     "response-see-dm": "Check your DM."
   }

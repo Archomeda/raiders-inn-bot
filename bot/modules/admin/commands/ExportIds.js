@@ -23,26 +23,34 @@ class CommandExportIds extends DiscordCommand {
         let result = [];
         for (const guild of client.guilds.array()) {
             result.push(`=== ${guild.name}: ${guild.id} ===`);
+
             result.push(l.t('module.admin:export-ids.export-roles'));
             for (const role of guild.roles.array().sort((a, b) => b.position - a.position)) {
                 result.push(`${role.name}: ${role.id}`);
             }
-            const textChannels = [];
-            const voiceChannels = [];
-            for (const channel of guild.channels.array().sort((a, b) => a.position - b.position)) {
-                if (channel.type === 'text') {
-                    textChannels.push(`${channel.name}: ${channel.id}`);
-                } else if (channel.type === 'voice') {
-                    voiceChannels.push(`${channel.name}: ${channel.id}`);
+
+            result.push(`\n${l.t('module.admin:export-ids.export-emojis')}`);
+            for (const emoji of guild.emojis.array().sort((a, b) => a.createdTimestamp - b.createdTimestamp)) {
+                result.push(`${emoji.name}: ${emoji.id}`);
+            }
+
+            result.push(`\n${l.t('module.admin:export-ids.export-channels')}`);
+            const categories = guild.channels.filterArray(c => c.type === 'category').sort((a, b) => a.position - b.position);
+            const channelsWithoutCategory = guild.channels.filterArray(c => c.type !== 'category' && !c.parent).sort((a, b) => a.type === b.type ? a.position - b.position : a.type.localeCompare(b.type));
+            const printChannel = c => result.push(`${c.name} (${c.type}): ${c.id}`);
+            for (const channel of channelsWithoutCategory) {
+                printChannel(channel);
+            }
+            for (const category of categories) {
+                result.push(`> ${category.name} (${category.id}) <`);
+                for (const channel of category.children.array().sort((a, b) => a.type === b.type ? a.position - b.position : a.type.localeCompare(b.type))) {
+                    printChannel(channel);
                 }
             }
-            result.push(`\n${l.t('module.admin:export-ids.export-text-channels')}`);
-            result = result.concat(textChannels);
-            result.push(`\n${l.t('module.admin:export-ids.export-voice-channels')}`);
-            result = result.concat(voiceChannels);
+
             result.push(`\n${l.t('module.admin:export-ids.export-members')}`);
             for (const member of guild.members.array()) {
-                result.push(`${member.user.tag}: ${member.id}`);
+                result.push(`${member.user.tag}${member.nickname ? ` (${member.nickname})` : ''}: ${member.id}`);
             }
             result.push('\n');
         }
