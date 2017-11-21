@@ -101,7 +101,7 @@ class HookRoleAssignment extends DiscordHook {
                                 await message.react(emoji); // eslint-disable-line no-await-in-loop
                             } catch (err) {
                                 // Reacting failed, possibly because the emoji doesn't exist
-                                this.log(`Reacting on profession assignment message failed: ${err}`, 'warn');
+                                this.log(`Reacting on raid role assignment message failed: ${err}`, 'warn');
                             }
                         }
                     }
