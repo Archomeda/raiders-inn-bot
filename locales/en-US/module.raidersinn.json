@@ -27,5 +27,27 @@
     },
     "response": "Signups happen in the {{channel}} channel. In order to sign up for a training, simply click on the icon of the role you want to sign up for. The roles are as follows:\n{{roles}}",
     "response-no-dm": "This command can not be executed in DM."
+  },
+  "timeout": {
+    "_meta": {
+      "name": "Raid timeouts",
+      "short-description": "Current raid timeouts",
+      "long-description": "Raid timeouts prevent people from signing up for scheduled raids.",
+      "param-user": "Show all the timeouts of a user, or if the other parameters are given, perform a timeout (latter is restricted by permissions).",
+      "param-duration": "The duration for the new timeout in days.",
+      "param-reason": "The reason for the timeout."
+    },
+    "timeout": "● {{start, ll LT z}} - {{end, ll LT z}}: {{reason}} ({{by}})",
+    "response-self-no-timeout": "You are currently not timed out.",
+    "response-self-timeout": "You have been timed out until {{date, ll LT z}}.",
+    "response-other-not-allowed": "You don't have permission to view other people's timeouts.",
+    "response-other-no-timeouts": "There are no historical timeouts for this user.",
+    "response-other-timeouts": "The following timeouts have been registered for this user:\n{{timeouts}}",
+    "response-perform-dm": "Hey there!\n\nI'm sorry to inform you that you will temporarily be unable to sign up for scheduled raids.\n\nModeration Reason:\n{{reason}}\n\nThis is likely because you have signed up for multiple raids that you haven't shown up for and haven't given adequate notice of withdrawal. Other possible reasons can include: double booking, bringing builds that we judge are detrimental to the progress of other trainees in the context of the training session, behaviour that is detrimental to the progress of other trainees, etc.\n\nThis timeout will expire around *{{date, ll LT z}}* without notification. This DM is an automated message. **Do not** reply to this DM directly. If you wish to appeal to this timeout, please contact one of the staff members or moderators. Have a good day.",
+    "response-perform-not-allowed": "You don't have permission to time people out.",
+    "response-perform-timeout": "{{user}} has been timed out until around {{date, ll LT z}}.",
+    "response-removed-dm": "Your timeout has been removed by our staff. Enjoy!",
+    "response-removed-timeout": "The timeout for {{user}} has been removed.",
+    "response-removed-no-timeout": "{{user}} has no active timeouts."
   }
 }

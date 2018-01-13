@@ -341,7 +341,7 @@ class DiscordCommand extends DiscordHook {
         Object.keys(permissions).forEach(name => {
             groups[name] = (group => id => {
                 const permissionId = `${this.getModule().getId()}.${this.getId()}${id ? `:${id}` : ''}`;
-                const check = p => permissionId.search(new RegExp(`^${p.replace('.', '\\.').replace('*', '[^:]*')}$`)) > -1;
+                const check = p => permissionId.search(new RegExp(`^${p.replace('.', '\\.').replace(/\*/g, '[^:]*')}$`)) > -1;
 
                 if (group.blacklist && group.blacklist.some(check)) {
                     return false;

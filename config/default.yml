@@ -88,6 +88,18 @@ modules:
 
   # Raiders Inn specific tools
   raidersinn:
+    # !timeout - Times people out for raiding, adding them to a temporary (more restrictive) role for a duration while also adding a log
+    # Don't forget to enable timeout-expire as well, otherwise the timeouts won't be removed automatically
+    timeout:
+      enabled: false
+      # The role that's used for indicating a timeout
+      role-id: role-id
+      # Send a notification DM to whom is getting timed out
+      send-dm: true
+
+    timeout-expire:
+      enabled: false
+
     # !gear - General gear info
     gear:
       enabled: true
@@ -157,4 +169,6 @@ permissions:
   default:
     blacklist:
       - admin.*
+      - raidersinn.timeout:timeout
+      - raidersinn.timeout:other
     whitelist: []
