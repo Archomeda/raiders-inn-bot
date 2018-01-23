@@ -5,9 +5,9 @@ const AutoRemoveMessage = require('../../../../bot/middleware/AutoRemoveMessage'
 const DiscordCommand = require('../../../../bot/modules/DiscordCommand');
 
 
-class CommandRaider extends DiscordCommand {
+class CommandFractals extends DiscordCommand {
     constructor(bot) {
-        super(bot, 'raider', ['raider', 'gw2']);
+        super(bot, 'fractals', ['fractals']);
         this._localizerNamespaces = 'module.guildwars2';
 
         this.setMiddleware(new AutoRemoveMessage(bot, this, { defaultRequest: 0, defaultResponse: 60 })); // Auto remove response after 1 minute
@@ -29,16 +29,16 @@ class CommandRaider extends DiscordCommand {
         const l = bot.getLocalizer();
 
         if (message.channel.type !== 'text') {
-            return l.t('module.guildwars2:raider.response-no-dm');
+            return l.t('module.guildwars2:fractals.response-no-dm');
         }
 
         const member = await message.guild.members.fetch(message.author);
         if (!member) {
-            return l.t('module.guildwars2:raider.response-fetch-failed');
+            return l.t('module.guildwars2:fractals.response-fetch-failed');
         }
         const result = await this._toggleRole(member);
-        return result ? l.t('module.guildwars2:raider.response-assigned') : l.t('module.guildwars2:raider.response-removed');
+        return result ? l.t('module.guildwars2:fractals.response-assigned') : l.t('module.guildwars2:fractals.response-removed');
     }
 }
 
-module.exports = CommandRaider;
+module.exports = CommandFractals;

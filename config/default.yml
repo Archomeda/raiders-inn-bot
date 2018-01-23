@@ -32,16 +32,22 @@ cache:
 modules:
   # Provides general Discord and/or Guild Wars 2 things
   guildwars2:
-    # !gw2 - Assigns the raider role
-    raider:
-      enabled: false
-      # The role id for this region
-      role-id: role-id
-
     # !experienced - Allows toggling whenever a person is experienced
     # It makes only sense to enable this whenever the experienced hook is also enabled
     experienced:
       enabled: false
+
+    # !fractals - Assigns the fractals role
+    fractals:
+      enabled: false
+      # The role id
+      role-id: role-id
+
+    # !raider - Assigns the raider role
+    raider:
+      enabled: false
+      # The role id
+      role-id: role-id
 
     # !wiki - Allows searching the GW2 wiki
     wiki:

@@ -6,17 +6,6 @@
     "minute": "{{count}} minute",
     "minute_plural": "{{count}} minutes"
   },
-  "raider": {
-    "_meta": {
-      "name": "Raider role assignment",
-      "short-description": "Toggles the raider role assignment",
-      "long-description": "If you're not added to the raider role, this will assign you to it. If you're already added, this will remove your assignment."
-    },
-    "response-assigned": "You've been added to the raider role. If you change your mind, you can run the same command again to undo this.",
-    "response-removed": "You've been removed from the raider role. If you change your mind, you can run the same command again to add yourself again.",
-    "response-fetch-failed": "I couldn't fetch your user data, try going online if you're offline before trying again. If it still doesn't work, try contacting one of the staff members.",
-    "response-no-dm": "This command can not be executed in DM."
-  },
   "experienced": {
     "_meta": {
       "name": "Experienced role assignment",
@@ -30,6 +19,28 @@
     "response-disallow": "You've been excluded to be automatically added to the experienced role. If you change your mind, you can run the same command again to undo this.",
     "response-toggle-on-allow": "You've been re-added to experienced role. If you change your mind, you can run the same command again to remove yourself again.",
     "response-allow": "You've been included to be automatically added to the experienced role. If you change your mind, you can run the same command to remove yourself again.",
+    "response-fetch-failed": "I couldn't fetch your user data, try going online if you're offline before trying again. If it still doesn't work, try contacting one of the staff members.",
+    "response-no-dm": "This command can not be executed in DM."
+  },
+  "fractals": {
+    "_meta": {
+      "name": "Fractals role assignment",
+      "short-description": "Toggles the fractals role assignment",
+      "long-description": "If you're not added to the fractals role, this will assign you to it. If you're already added, this will remove your assignment."
+    },
+    "response-assigned": "You've been added to the fractals role. If you change your mind, you can run the same command again to undo this.",
+    "response-removed": "You've been removed from the fractals role. If you change your mind, you can run the same command again to add yourself again.",
+    "response-fetch-failed": "I couldn't fetch your user data, try going online if you're offline before trying again. If it still doesn't work, try contacting one of the staff members.",
+    "response-no-dm": "This command can not be executed in DM."
+  },
+  "raider": {
+    "_meta": {
+      "name": "Raider role assignment",
+      "short-description": "Toggles the raider role assignment",
+      "long-description": "If you're not added to the raider role, this will assign you to it. If you're already added, this will remove your assignment."
+    },
+    "response-assigned": "You've been added to the raider role. If you change your mind, you can run the same command again to undo this.",
+    "response-removed": "You've been removed from the raider role. If you change your mind, you can run the same command again to add yourself again.",
     "response-fetch-failed": "I couldn't fetch your user data, try going online if you're offline before trying again. If it still doesn't work, try contacting one of the staff members.",
     "response-no-dm": "This command can not be executed in DM."
   },
