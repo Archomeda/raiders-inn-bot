@@ -13,7 +13,6 @@ services:
       - ./storage/cache:/data
   bot:
     image: "archomeda/raiders-inn-bot:${BOT_VER}"
-    command: node server.js
     restart: unless-stopped
     volumes:
       - ./config:/bot/config
@@ -21,5 +20,4 @@ services:
       - db
       - redis
     environment:
-      MONGODB: mongodb://db/raiders-inn-discord-bot
-      REDIS: redis
+      MONGO_URI: mongodb://db/raiders-inn-discord-bot

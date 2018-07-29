@@ -1,0 +1,175 @@
+# The bot's token can be found on the bot's application page on discordapp.com/developers/applications/me
+discord-token: discord-token
+
+# The bot's owner's Discord ID
+owner: 0
+
+# MongoDB connection
+mongo:
+  uri: mongodb://127.0.0.1/raiders-inn-discord-bot
+
+# Redis connection (https://stackexchange.github.io/StackExchange.Redis/Configuration#configuration-options)
+redis:
+  options: "localhost,channelPrefix=raiders-inn-discord-bot:"
+
+
+
+
+
+
+
+
+
+
+#####
+# Every activity (e.g. commands) in a module can be enabled and disabled separately.
+#####
+modules:
+  # Provides general Discord and/or Guild Wars 2 things
+  guildwars2:
+    # !experienced - Allows toggling whenever a person is experienced
+    # It makes only sense to enable this whenever the experienced hook is also enabled
+    experienced:
+      enabled: false
+
+    # !fractals - Assigns the fractals role
+    fractals:
+      enabled: false
+      # The role id
+      role-id: role-id
+
+    # !raider - Assigns the raider role
+    raider:
+      enabled: false
+      # The role id
+      role-id: role-id
+
+    # !wiki - Allows searching the GW2 wiki
+    wiki:
+      enabled: true
+
+    # A chat code hook that automatically decodes chat codes mentioned in messages
+    chat-code:
+      enabled: true
+
+    # A hook that assigns people to an experienced raid role
+    # Requires GW2Bot to be present because it listens to those responses, requirements are OR
+    experienced-hook:
+      enabled: false
+      # The account id of GW2Bot
+      gw2bot-id: "310050883100737536"
+      # The experienced role id
+      experienced-role-id: role-id
+      # LI requirement, use false to disable
+      li: 200
+      # Full clear requirement
+      full-clear: true
+
+    # A hook that allows people to assign themselves a specific role by reacting on a predefined message
+    role-assignment:
+      enabled: false
+      # The id of the predefined message where the reactions are posted
+      channel-id: channel-id
+      message-id: message-id
+      # All the available roles with their associated role and emoji ids
+      roles:
+      #  - role-id: roleA-id
+      #    emoji-id: emojiA-id
+      #  - role-id: roleB-id
+      #    emoji-id: emojiB-id
+
+  # Server moderation tools
+  moderation:
+    # Monitors usage of specified channels, and keep new channels available whenever there's a short of channels,
+    # and removes unused channels
+    channel-keeper:
+      enabled: false
+      # A list of channels that have to be monitored, use \d to indicate the number (e.g. "Raid \d")
+      channels: []
+
+  # Raiders Inn specific tools
+  raidersinn:
+    # !timeout - Times people out for raiding, adding them to a temporary (more restrictive) role for a duration while also adding a log
+    # Don't forget to enable timeout-expire as well, otherwise the timeouts won't be removed automatically
+    timeout:
+      enabled: false
+      # The role that's used for indicating a timeout
+      role-id: role-id
+      # Send a notification DM to whom is getting timed out
+      send-dm: true
+
+    timeout-expire:
+      enabled: false
+
+    # !gear - General gear info
+    gear:
+      enabled: true
+
+    # !howto - Starter info command
+    howto:
+      enabled: true
+      welcome-channel-id: channel-id
+
+    # !signup - Signup information
+    signup:
+      enabled: true
+      signup-channel-id: channel-id
+      roles:
+        - name: RoleA
+          emoji: 👋
+
+  # Provides extra utilities
+  utilities:
+    # !roll - Rolling dice
+    roll:
+      enabled: true
+      max-dice: 10
+      max-faces: 100
+
+
+#####
+# The permissions are set up in a hierarchical way. If a person is a member of more than 1 group,
+# the first matched command in either blacklist or whitelist in a group (top-down) from the list below gets priority.
+# This means that if in groupA commandA is listed, and user is part of groupA and wants to execute commandB, it will
+# fall back to the next first group (that is not groupA) that the user is also part of, that has commandB either
+# whitelisted or blacklisted explicitly. If none has been found, it will fall back to the default group.
+#
+# Please note that if both blacklist and whitelist are matched, blacklist will take precedence.
+#
+# To add a new group, just add a new key and fill in the properties.
+# Be sure to *not* delete default, as this is the fallback group in case nothing is matched.
+# The asterisk can be used as a wildcard.
+#
+# It's good practice to copy this to your own local config and change it to your own likings, because
+# when you define the root permissions property, you will override all of the roles defined below.
+#####
+permissions:
+  owner:
+    user-ids:
+      - owner-id
+    role-ids: []
+    blacklist: []
+    whitelist:
+      # Makes sure every command is whitelisted for the owner.
+      - "*"
+      - "*:*"
+
+  moderator:
+    user-ids: []
+    role-ids: []
+    blacklist:
+      - admin.*
+    whitelist:
+      # Even though it looks like all commands are whitelisted, it's not.
+      # Blacklist takes precedence, the "*" in the whitelist is just a catch all so it doesn't fall back further.
+      - "*"
+      - "*:*"
+
+  # The default group is a special case, if nothing has been blacklisted or whitelisted, it will accept all commands.
+  # DO NOT define other groups below this one.
+  default:
+    blacklist:
+      - admin.*
+      - raidersinn.timeout:timeout
+      - raidersinn.timeout:other
+    whitelist: []

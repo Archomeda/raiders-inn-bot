@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Settings.GetLanguageGlobal" xml:space="preserve">
+    <value>The global language is set to {langName} ({langKey}).</value>
+    <comment>Shows the global language</comment>
+  </data>
+  <data name="Settings.GetLanguageGuild" xml:space="preserve">
+    <value>{user:mention}, the server language is set to {langName} ({langKey}).</value>
+    <comment>Shows the guild language</comment>
+  </data>
+  <data name="Settings.SetLanguageGlobal" xml:space="preserve">
+    <value>The global language has been set to {langName}.</value>
+    <comment>Sets the global language</comment>
+  </data>
+  <data name="Settings.SetLanguageGuild" xml:space="preserve">
+    <value>{user:mention}, the server language has been set to {langName}.</value>
+    <comment>Sets the guild language</comment>
+  </data>
+  <data name="Settings.SetLanguageGlobal.NotAvailable" xml:space="preserve">
+    <value>The language {langKey} is not a valid language for the bot.</value>
+    <comment>Sets the global language: The provided language is not available</comment>
+  </data>
+  <data name="Settings.SetLanguageGuild.NotAvailable" xml:space="preserve">
+    <value>{user:mention}, the language {langKey} is not a valid language for the bot.</value>
+    <comment>Sets the guild language: The provided language is not available</comment>
+  </data>
+  <data name="Settings.GetPrefix" xml:space="preserve">
+    <value>{user:mention}, the command prefix is set to `{prefix}`.</value>
+    <comment>Shows the command prefix</comment>
+  </data>
+  <data name="Settings.GetPrefix.Empty" xml:space="preserve">
+    <value>{user:mention}, the command prefix is currently not set.</value>
+    <comment>Shows the command prefix: Empty</comment>
+  </data>
+  <data name="Settings.SetPrefix" xml:space="preserve">
+    <value>{user:mention}, the command prefix has been set to `{prefix}`.</value>
+    <comment>Sets the command prefix</comment>
+  </data>
+  <data name="Settings.SetPrefix.Empty" xml:space="preserve">
+    <value>{user:mention}, the command prefix has been removed.</value>
+    <comment>Sets the command prefix: Empty</comment>
+  </data>
+  <data name="Utils.Help" xml:space="preserve">
+    <value>{user:mention}, listed below are the available commands. You can append the name of a command to this help command for more information about that command.</value>
+    <comment>Shows information about commands</comment>
+  </data>
+  <data name="Utils.Help.ModulePart" xml:space="preserve">
+    <value>__**{description}**__</value>
+    <comment>Shows information about commands: Module section</comment>
+  </data>
+  <data name="Utils.Help.CommandPart" xml:space="preserve">
+    <value>`{commandInvocation}` - {description}</value>
+    <comment>Shows information about commands: Command section</comment>
+  </data>
+  <data name="Utils.Help_dm" xml:space="preserve">
+    <value>Listed below are the available commands. You can append the name of a command to this help command for more information about that command.</value>
+    <comment>Shows information about commands</comment>
+  </data>
+  <data name="Utils.Help.Module.Submodules" xml:space="preserve">
+    <value>Commands with subcommands: *{submodules}*.</value>
+    <comment>Shows information about commands: Submodule information in module section</comment>
+  </data>
+  <data name="Utils.Help.Command" xml:space="preserve">
+    <value>{user:mention}, the command information is as follows:</value>
+    <comment>Shows information about commands: Command info</comment>
+  </data>
+  <data name="Utils.Help.Command_dm" xml:space="preserve">
+    <value>The command information is as follows:</value>
+    <comment>Shows information about commands: Command info</comment>
+  </data>
+  <data name="Utils.Help.Command.Sub" xml:space="preserve">
+    <value>*This command has extra subcommands available:*</value>
+    <comment>Shows information about commands: Command sub info</comment>
+  </data>
+  <data name="Settings.Description" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Description for the settings module</comment>
+  </data>
+  <data name="Settings.Language.Description" xml:space="preserve">
+    <value>Shows or sets the language</value>
+    <comment>Description for the settings, language module</comment>
+  </data>
+  <data name="Settings.Language.GetGlobal.Description" xml:space="preserve">
+    <value>Shows the current global language</value>
+    <comment>Description for the settings, language, get global command</comment>
+  </data>
+  <data name="Settings.Language.GetGuild.Description" xml:space="preserve">
+    <value>Shows the current language for this server</value>
+    <comment>Description for the settings, language, get guild command</comment>
+  </data>
+  <data name="Settings.Language.SetGlobal.Description" xml:space="preserve">
+    <value>Sets the global language</value>
+    <comment>Description for the settings, language, set global command</comment>
+  </data>
+  <data name="Settings.Language.SetGuild.Description" xml:space="preserve">
+    <value>Sets the server language</value>
+    <comment>Description for the settings, language, set guild command</comment>
+  </data>
+  <data name="Settings.Prefix.Description" xml:space="preserve">
+    <value>Shows or sets the command prefix</value>
+    <comment>Description for the settings, prefix module</comment>
+  </data>
+  <data name="Settings.Prefix.Get.Description" xml:space="preserve">
+    <value>Shows the current command prefix</value>
+    <comment>Description for the settings, prefix, get command</comment>
+  </data>
+  <data name="Settings.Prefix.Set.Description" xml:space="preserve">
+    <value>Sets the command prefix</value>
+    <comment>Description for the settings, prefix, set command</comment>
+  </data>
+  <data name="Settings.Language.SetGlobal.LangId.Description" xml:space="preserve">
+    <value>The language id</value>
+    <comment>Description for the settings, language, set global, langid parameter</comment>
+  </data>
+  <data name="Settings.Language.SetGuild.LangId.Description" xml:space="preserve">
+    <value>The language id</value>
+    <comment>Description for the settings, language, set guild, langid parameter</comment>
+  </data>
+  <data name="Settings.Prefix.Set.Prefix.Description" xml:space="preserve">
+    <value>The command prefix</value>
+    <comment>Description for the settings, prefix, set, prefix parameter</comment>
+  </data>
+  <data name="Utils.Description" xml:space="preserve">
+    <value>Utilities</value>
+    <comment>Description for the utils module</comment>
+  </data>
+  <data name="Utils.Help.Description" xml:space="preserve">
+    <value>Shows information about the commands</value>
+    <comment>Description for the utils, description command</comment>
+  </data>
+  <data name="Utils.Help.Single.Description" xml:space="preserve">
+    <value>Shows information about a command</value>
+    <comment>Description for the utils, description command</comment>
+  </data>
+  <data name="Utils.Help.Single.Command.Description" xml:space="preserve">
+    <value>The command</value>
+    <comment>Description for the utils, description, command parameter</comment>
+  </data>
+  <data name="Utils.Help.Command.DoesNotExist" xml:space="preserve">
+    <value>{user:mention}, that command does not exist.</value>
+    <comment>Shows information about commands: Command does not exist</comment>
+  </data>
+  <data name="Utils.Help.Command.DoesNotExist_dm" xml:space="preserve">
+    <value>That command does not exist.</value>
+    <comment>Shows information about commands: Command does not exist</comment>
+  </data>
+  <data name="Settings.Activity.Description" xml:space="preserve">
+    <value>Shows or sets the activity</value>
+    <comment>Description for the settings, activity module</comment>
+  </data>
+  <data name="Settings.Activity.Get.Description" xml:space="preserve">
+    <value>Shows the current activity</value>
+    <comment>Description for the settings, activity, get command</comment>
+  </data>
+  <data name="Settings.Activity.Set.Description" xml:space="preserve">
+    <value>Sets the activity</value>
+    <comment>Description for the settings, activity, set command</comment>
+  </data>
+  <data name="Settings.Activity.Get" xml:space="preserve">
+    <value>{user:mention}, the activity is set to: {type} {name}.</value>
+    <comment>Shows the current activity</comment>
+  </data>
+  <data name="Settings.Activity.Get_dm" xml:space="preserve">
+    <value>The activity is set to: {type} {name}.</value>
+    <comment>Shows the current activity</comment>
+  </data>
+  <data name="Settings.Activity.Get.Empty" xml:space="preserve">
+    <value>{user:mention}, the activity is currently not set.</value>
+    <comment>Shows the current activity: Empty</comment>
+  </data>
+  <data name="Settings.Activity.Get.Empty_dm" xml:space="preserve">
+    <value>The activity is currently not set.</value>
+    <comment>Shows the current activity: Empty</comment>
+  </data>
+  <data name="Settings.Activity.Set.Type.Description" xml:space="preserve">
+    <value>Activity type: Playing, Streaming, Listening, Watching</value>
+    <comment>Description for the settings, activity, set, type parameter</comment>
+  </data>
+  <data name="Settings.Activity.Set.Text.Description" xml:space="preserve">
+    <value>Activity description</value>
+    <comment>Description for the settings, activity, set, text parameter</comment>
+  </data>
+  <data name="Settings.Activity.Set.InvalidType" xml:space="preserve">
+    <value>{user:mention}, that activity type is invalid. It needs to be one of the following: Playing, Streaming, Listening, Watching.</value>
+    <comment>Sets the activity: Invalid type</comment>
+  </data>
+  <data name="Settings.Activity.Set.InvalidType_dm" xml:space="preserve">
+    <value>That activity type is invalid. It needs to be one of the following: Playing, Streaming, Listening, Watching.</value>
+    <comment>Sets the activity: Invalid type</comment>
+  </data>
+  <data name="Settings.Activity.Set" xml:space="preserve">
+    <value>{user:mention}, the activity has been set to: {type} {name}.</value>
+    <comment>Sets the activity</comment>
+  </data>
+  <data name="Settings.Activity.Set_dm" xml:space="preserve">
+    <value>The activity has been set to: {type} {name}.</value>
+    <comment>Sets the activity</comment>
+  </data>
+  <data name="Settings.Activity.Unset" xml:space="preserve">
+    <value>{user:mention}, the activity has been removed.</value>
+    <comment>Unsets the activity</comment>
+  </data>
+  <data name="Settings.Activity.Unset_dm" xml:space="preserve">
+    <value>The activity has been removed.</value>
+    <comment>Unsets the activity</comment>
+  </data>
+  <data name="Settings.Activity.Unset.Description" xml:space="preserve">
+    <value>Removes the activity</value>
+    <comment>Description for the settings, activity, unset command</comment>
+  </data>
+</root>

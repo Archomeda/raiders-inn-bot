@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaidersInnBot", "RaidersInnBot\RaidersInnBot.csproj", "{0431129C-A798-491E-B973-8D479405AFC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5EAB1F03-81DB-4F7D-B938-4396C1E95CB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{E4C0A6B1-179B-46FF-9172-F6FBEC7113D1}"
+	ProjectSection(SolutionItems) = preProject
+		.docker\.env = .docker\.env
+		.docker\docker-compose.yml = .docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordBotLib", "DiscordBotLib\DiscordBotLib.csproj", "{6B53C766-66A2-4293-B17A-81DD8C2E45A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0431129C-A798-491E-B973-8D479405AFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0431129C-A798-491E-B973-8D479405AFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0431129C-A798-491E-B973-8D479405AFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0431129C-A798-491E-B973-8D479405AFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B53C766-66A2-4293-B17A-81DD8C2E45A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B53C766-66A2-4293-B17A-81DD8C2E45A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B53C766-66A2-4293-B17A-81DD8C2E45A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B53C766-66A2-4293-B17A-81DD8C2E45A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4C0A6B1-179B-46FF-9172-F6FBEC7113D1} = {5EAB1F03-81DB-4F7D-B938-4396C1E95CB5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_SortFileContentOnSave = False
+		SolutionGuid = {59B6437A-4564-4E3C-9FA3-16ED4F9C8D67}
+	EndGlobalSection
+EndGlobal

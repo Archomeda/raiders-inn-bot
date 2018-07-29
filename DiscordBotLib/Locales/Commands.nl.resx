@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Settings.GetLanguageGlobal" xml:space="preserve">
+    <value>De globale taal is ingesteld op {langName} ({langKey}).</value>
+  </data>
+  <data name="Settings.GetLanguageGuild" xml:space="preserve">
+    <value>{user:mention}, de servertaal is ingesteld op {langName} ({langKey}).</value>
+  </data>
+  <data name="Settings.SetLanguageGlobal" xml:space="preserve">
+    <value>De globale taal is nu ingesteld op {langName}.</value>
+  </data>
+  <data name="Settings.SetLanguageGuild" xml:space="preserve">
+    <value>{user:mention}, de servertaal is nu ingesteld op {langName}.</value>
+  </data>
+  <data name="Settings.SetLanguageGlobal.NotAvailable" xml:space="preserve">
+    <value>De taal {langKey} is geen geldige taal voor de bot.</value>
+  </data>
+  <data name="Settings.SetLanguageGuild.NotAvailable" xml:space="preserve">
+    <value>{user:mention}, de taal {langKey} is geen geldige taal voor de bot.</value>
+  </data>
+  <data name="Settings.GetPrefix" xml:space="preserve">
+    <value>{user:mention}, de opdrachtprefix is ingesteld op `{prefix}`.</value>
+  </data>
+  <data name="Settings.GetPrefix.Empty" xml:space="preserve">
+    <value>{user:mention}, de opdrachtprefix is op dit moment niet ingesteld.</value>
+  </data>
+  <data name="Settings.SetPrefix" xml:space="preserve">
+    <value>{user:mention}, de opdrachtprefix is nu ingesteld op `{prefix}`.</value>
+  </data>
+  <data name="Settings.SetPrefix.Empty" xml:space="preserve">
+    <value>{user:mention}, de opdrachtprefix is verwijderd.</value>
+  </data>
+  <data name="Utils.Help" xml:space="preserve">
+    <value>{user:mention}, hieronder staan de beschikbare opdrachten. Je kan de naam van een opdracht toevoegen aan deze helpopdracht voor meer informatie over die opdracht.</value>
+  </data>
+  <data name="Utils.Help_dm" xml:space="preserve">
+    <value>Hieronder staan de beschikbare opdrachten. Je kan de naam van een opdracht toevoegen aan deze helpopdracht voor meer informatie over die opdracht.</value>
+  </data>
+  <data name="Utils.Help.Module.Submodules" xml:space="preserve">
+    <value>Opdrachten met subopdrachten: *{submodules}*.</value>
+  </data>
+  <data name="Utils.Help.Command" xml:space="preserve">
+    <value>{user:mention}, de opdrachtinformatie is als volgt:</value>
+  </data>
+  <data name="Utils.Help.Command_dm" xml:space="preserve">
+    <value>De opdrachtinformatie is als volgt:</value>
+  </data>
+  <data name="Utils.Help.Command.Sub" xml:space="preserve">
+    <value>*Deze opdracht heeft extra subopdrachten beschikbaar:*</value>
+  </data>
+  <data name="Settings.Description" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Settings.Language.Description" xml:space="preserve">
+    <value>Toont of wijzigt de taal</value>
+  </data>
+  <data name="Settings.Language.GetGlobal.Description" xml:space="preserve">
+    <value>Toont de huidige globale taal</value>
+  </data>
+  <data name="Settings.Language.GetGuild.Description" xml:space="preserve">
+    <value>Toont de huidige taal voor deze server</value>
+  </data>
+  <data name="Settings.Language.SetGlobal.Description" xml:space="preserve">
+    <value>Wijzigt de globale taal</value>
+  </data>
+  <data name="Settings.Language.SetGuild.Description" xml:space="preserve">
+    <value>Wijzigt de servertaal</value>
+  </data>
+  <data name="Settings.Prefix.Description" xml:space="preserve">
+    <value>Toont of wijzigt de opdrachtprefix</value>
+  </data>
+  <data name="Settings.Prefix.Get.Description" xml:space="preserve">
+    <value>Toont de huidige opdrachtprefix</value>
+  </data>
+  <data name="Settings.Prefix.Set.Description" xml:space="preserve">
+    <value>Wijzigt de opdrachtprefix</value>
+  </data>
+  <data name="Settings.Language.SetGlobal.LangId.Description" xml:space="preserve">
+    <value>Het taal-id</value>
+  </data>
+  <data name="Settings.Language.SetGuild.LangId.Description" xml:space="preserve">
+    <value>Het taal-id</value>
+  </data>
+  <data name="Settings.Prefix.Set.Prefix.Description" xml:space="preserve">
+    <value>De opdrachtprefix</value>
+  </data>
+  <data name="Utils.Description" xml:space="preserve">
+    <value>Hulpmiddelen</value>
+  </data>
+  <data name="Utils.Help.Description" xml:space="preserve">
+    <value>Toont informatie over de opdrachten</value>
+  </data>
+  <data name="Utils.Help.Single.Description" xml:space="preserve">
+    <value>Toont informatie over een opdracht</value>
+  </data>
+  <data name="Utils.Help.Single.Command.Description" xml:space="preserve">
+    <value>De opdracht</value>
+  </data>
+  <data name="Utils.Help.Command.DoesNotExist" xml:space="preserve">
+    <value>{user:mention}, die opdracht bestaat niet.</value>
+  </data>
+  <data name="Utils.Help.Command.DoesNotExist_dm" xml:space="preserve">
+    <value>Die opdracht bestaat niet.</value>
+  </data>
+  <data name="Settings.Activity.Description" xml:space="preserve">
+    <value>Toont of wijzigt de activiteit</value>
+  </data>
+  <data name="Settings.Activity.Get.Description" xml:space="preserve">
+    <value>Toont de huidige activieit</value>
+  </data>
+  <data name="Settings.Activity.Set.Description" xml:space="preserve">
+    <value>Wijzigt de activiteit</value>
+  </data>
+  <data name="Settings.Activity.Get" xml:space="preserve">
+    <value>{user:mention}, de activiteit is ingesteld op: {type} {name}.</value>
+  </data>
+  <data name="Settings.Activity.Get_dm" xml:space="preserve">
+    <value>De activiteit is ingesteld op: {type} {name}.</value>
+  </data>
+  <data name="Settings.Activity.Get.Empty" xml:space="preserve">
+    <value>{user:mention}, de activiteit is op dit moment niet ingesteld.</value>
+  </data>
+  <data name="Settings.Activity.Get.Empty_dm" xml:space="preserve">
+    <value>De activiteit is op dit moment niet ingesteld.</value>
+  </data>
+  <data name="Settings.Activity.Set.Type.Description" xml:space="preserve">
+    <value>Activiteittype: Playing, Streaming, Listening, Watching</value>
+  </data>
+  <data name="Settings.Activity.Set.Text.Description" xml:space="preserve">
+    <value>Activiteitbeschrijving</value>
+  </data>
+  <data name="Settings.Activity.Set.InvalidType" xml:space="preserve">
+    <value>{user:mention}, dat activiteittype is ongeldig. Het moet een van het volgende zijn: Playing, Streaming, Listening, Watching.</value>
+  </data>
+  <data name="Settings.Activity.Set.InvalidType_dm" xml:space="preserve">
+    <value>Dat activiteittype is ongeldig. Het moet een van het volgende zijn: Playing, Streaming, Listening, Watching.</value>
+  </data>
+  <data name="Settings.Activity.Set" xml:space="preserve">
+    <value>{user:mention}, de activiteit is nu ingesteld op: {type} {name}.</value>
+  </data>
+  <data name="Settings.Activity.Set_dm" xml:space="preserve">
+    <value>De activiteit is nu ingesteld op: {type} {name}.</value>
+  </data>
+  <data name="Settings.Activity.Unset" xml:space="preserve">
+    <value>{user:mention}, de activiteit is verwijderd.</value>
+  </data>
+  <data name="Settings.Activity.Unset_dm" xml:space="preserve">
+    <value>De activiteit is verwijderd.</value>
+  </data>
+  <data name="Settings.Activity.Unset.Description" xml:space="preserve">
+    <value>Verwijdert de activiteit</value>
+  </data>
+  <data name="Utils.Help.ModulePart" xml:space="preserve">
+    <value>__**{description}**__</value>
+  </data>
+  <data name="Utils.Help.CommandPart" xml:space="preserve">
+    <value>`{commandInvocation}` - {description}</value>
+  </data>
+</root>
