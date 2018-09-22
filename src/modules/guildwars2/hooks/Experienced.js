@@ -6,8 +6,8 @@ const models = require('../../../models');
 
 
 const regex = {
-    li: /(\d+) Legendary Insights Earned/,
-    clear: /Everything completed this week (⭐|:star:)/
+    li: /(\d+) Legendary Insights and Divinations earned/i,
+    clear: /Everything completed this week (⭐|:star:)/i
 };
 
 
