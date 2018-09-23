@@ -45,7 +45,7 @@ class CommandTimeout extends DiscordCommand {
                 start: t.start,
                 end: t.end,
                 reason: t.reason,
-                by: (await client.users.fetch(t.by)).tag
+                by: (await client.fetchUser(t.by)).tag
             })));
 
             return l.t('module.raidersinn:timeout.response-other-timeouts', { timeouts: timeouts.join('\n') });
@@ -82,7 +82,7 @@ class CommandTimeout extends DiscordCommand {
                 // Perform 0-duration timeout
                 await Promise.all(guilds
                     .filter(g => g.members.has(user.id))
-                    .map(async g => (await g.members.fetch(user.id)).removeRole(roleId, `Timeout removed by ${user.tag}: ${parameters.reason}`)));
+                    .map(async g => (await g.fetchMember(user.id)).removeRole(roleId, `Timeout removed by ${user.tag}: ${parameters.reason}`)));
                 if (config.get('send-dm')) {
                     await user.send(l.t('module.raidersinn:timeout.response-removed-dm'));
                 }
@@ -92,7 +92,7 @@ class CommandTimeout extends DiscordCommand {
             // Perform timeout
             await Promise.all(guilds
                 .filter(g => g.members.has(user.id))
-                .map(async g => (await g.members.fetch(user.id)).addRole(roleId, `Timed out by ${user.tag}: ${parameters.reason} (expires ${endDate})`)));
+                .map(async g => (await g.fetchMember(user.id)).addRole(roleId, `Timed out by ${user.tag}: ${parameters.reason} (expires ${endDate})`)));
             if (config.get('send-dm')) {
                 await user.send(l.t('module.raidersinn:timeout.response-perform-dm', {
                     reason: parameters.reason,

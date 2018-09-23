@@ -33,7 +33,7 @@ class HookRoleAssignment extends DiscordHook {
             return;
         }
 
-        const member = await reaction.message.guild.members.fetch(user);
+        const member = await reaction.message.guild.fetchMember(user);
         if (!member) {
             // Not a member
             return;
@@ -87,7 +87,7 @@ class HookRoleAssignment extends DiscordHook {
         const config = this.getConfig();
         const channel = client.channels.get(config.get('channel-id'));
         if (channel) {
-            const message = await channel.messages.fetch(config.get('message-id'));
+            const message = await channel.fetchMessage(config.get('message-id'));
             if (message) {
                 const roleAssignments = config.get('roles');
                 if (roleAssignments && roleAssignments.length > 0) {

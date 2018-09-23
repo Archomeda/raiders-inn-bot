@@ -23,7 +23,7 @@ class WorkerExpireTimeout extends Worker {
             });
             await Promise.all(expired.map(a => Promise.all(guilds
                 .filter(g => g.members.has(a.discordId))
-                .map(async g => (await g.members.fetch(a.discordId)).removeRole(roleId, 'Timeout expired')))));
+                .map(async g => (await g.fetchMember(a.discordId)).removeRole(roleId, 'Timeout expired')))));
             await Promise.all(expired.map(a => {
                 a.hasTimeout = false;
                 return a.save();

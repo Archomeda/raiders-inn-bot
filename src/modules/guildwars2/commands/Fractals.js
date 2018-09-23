@@ -32,7 +32,7 @@ class CommandFractals extends DiscordCommand {
             return l.t('module.guildwars2:fractals.response-no-dm');
         }
 
-        const member = await message.guild.members.fetch(message.author);
+        const member = await message.guild.fetchMember(message.author);
         if (!member) {
             return l.t('module.guildwars2:fractals.response-fetch-failed');
         }

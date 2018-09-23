@@ -38,7 +38,7 @@ class HookChatCode extends DiscordHook {
                 return await this._decodeChatCode(c);
             } catch (err) { }
         }))).filter(c => c).join('\n');
-        const embed = new Discord.MessageEmbed().setDescription(decodedCodes);
+        const embed = new Discord.RichEmbed().setDescription(decodedCodes);
 
         message.channel.stopTyping(true);
         return message.channel.send(l.t('module.guildwars2:chat-code.response-message', { user: message.author.toString() }), { embed });

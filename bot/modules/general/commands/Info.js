@@ -16,10 +16,10 @@ class CommandInfo extends DiscordCommand {
         const bot = this.getBot();
         const client = bot.getClient();
         const l = bot.getLocalizer();
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.RichEmbed()
             .setTitle(l.t('module.general:info.response-title', { name: client.user.username }))
             .setDescription(l.t('bot.general:description'))
-            .setThumbnail(client.user.avatarURL())
+            .setThumbnail(client.user.avatarURL)
             .addField(
                 l.t('module.general:info.response-memory-usage'),
                 l.t('module.general:info.response-memory-usage-value', { memory: process.memoryUsage().rss }),
