@@ -16,7 +16,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "discord.js": "hydrabolt/discord.js",
+    "discord.js": "^11.4.2",
     "filesize": "^3.5.10",
     "gw2api-client": "^5.6.5",
     "gw2e-chat-codes": "^1.2.0",
