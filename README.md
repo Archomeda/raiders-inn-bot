@@ -27,7 +27,7 @@ Note that the bot requires a reboot after every global configuration change.
  - Have [Docker](https://docs.docker.com/engine/installation/) and [Docker Compose](https://github.com/docker/compose/releases) installed
  - Create a new folder (e.g. *raiders-inn-bot*)
  - Run the following from within that folder:
-   `wget -O - https://raw.githubusercontent.com/Archomeda/raiders-inn-bot/master/install.sh | bash`
+   `wget -O - https://raw.githubusercontent.com/Archomeda/raiders-inn-bot/dotnet/install.sh | bash`
  - This will run [a script](install.sh) that sets up the environment for the bot to run in
  - Start the bot: `docker-compose up -d`
 

@@ -15,7 +15,7 @@ services:
     image: "archomeda/raiders-inn-bot:${BOT_VER}"
     restart: unless-stopped
     volumes:
-      - ./config:/bot/config
+      - ./config:/app/config
     links:
       - db
       - redis

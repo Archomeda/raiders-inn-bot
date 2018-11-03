@@ -2,7 +2,7 @@
 FROM microsoft/dotnet:2.1-sdk-alpine AS build
 WORKDIR /app
 
-# Copy csproj and restore as distinct laters
+# Copy csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
 
