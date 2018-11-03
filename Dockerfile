@@ -12,7 +12,7 @@ RUN dotnet restore
 COPY . ./
 
 # Build
-RUN dotnet build
+RUN dotnet build -c Release
 
 
 ### Publish image
