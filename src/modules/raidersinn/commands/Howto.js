@@ -15,7 +15,7 @@ class CommandHowto extends DiscordCommand {
         const bot = this.getBot();
         const l = bot.getLocalizer();
         const channelId = this.getConfig().get('welcome-channel-id');
-        const channel = bot.getClient().channels.resolve(channelId);
+        const channel = bot.getClient().channels.get(channelId);
 
         if (message.channel.type !== 'text') {
             return l.t('module.raidersinn:howto.response-no-dm');
