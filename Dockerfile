@@ -16,7 +16,7 @@ WORKDIR /app/RaidersInnBot
 RUN dotnet add package ILLink.Tasks -v 0.1.5-preview-1841731 -s https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
 
 # Build
-RUN dotnet publish -c Release -r linux-musl-x64 -o /app/out /p:ShowLinkerSizeComparison=true
+RUN dotnet publish -c Release -r linux-musl-x64 -o /app/out --no-restore /p:ShowLinkerSizeComparison=true
 
 
 ### Runtime image
