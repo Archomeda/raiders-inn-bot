@@ -24,5 +24,5 @@ LABEL maintainer "Archomeda (https://github.com/Archomeda/raiders-inn-bot)"
 WORKDIR /app
 COPY --from=build /app/RaidersInnBot/out ./
 
-VOLUME /bot/config
+VOLUME /app/config
 ENTRYPOINT [ "dotnet", "RaidersInnBot.dll" ]
