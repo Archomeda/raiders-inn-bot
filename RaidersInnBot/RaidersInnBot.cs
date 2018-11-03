@@ -9,9 +9,9 @@ namespace RaidersInnBot
 {
     internal static class RaidersInnBot
     {
-        private const string embeddedConfigFileName = nameof(RaidersInnBot) + ".config.yml";
-        private const string localConfigFolder = "config";
-        private const string localConfigFileName = "global.yml";
+        private const string EmbeddedConfigFileName = nameof(RaidersInnBot) + ".config.yml";
+        private const string LocalConfigFolder = "config";
+        private const string LocalConfigFileName = "global.yml";
 
         internal static Bot Bot { get; private set; }
 
@@ -28,13 +28,17 @@ namespace RaidersInnBot
             if (!await Bot.Start<GuildConfig>(new BotSettings
             {
                 Assembly = Assembly.GetExecutingAssembly(),
-                EmbeddedConfigFileName = embeddedConfigFileName,
-                ConfigFolder = localConfigFolder,
-                ConfigFileName = localConfigFileName
+                EmbeddedConfigFileName = EmbeddedConfigFileName,
+                ConfigFolder = LocalConfigFolder,
+                ConfigFileName = LocalConfigFileName
             }))
                 return;
 
             Bot.BlockUntilExit();
+#if DEBUG
+            Console.WriteLine("Finished.");
+            Console.ReadLine();
+#endif
         }
 
         private static void Bot_Log(object sender, BotLogEventArgs e) =>

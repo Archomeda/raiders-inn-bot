@@ -1,8 +1,6 @@
 using System;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
-using DiscordBotLib.Extensions;
 
 namespace DiscordBotLib.Localization
 {
@@ -56,6 +54,13 @@ namespace DiscordBotLib.Localization
         {
             switch (format?.ToLower())
             {
+                case "id":
+                    switch (arg)
+                    {
+                        case ISnowflakeEntity snowflakeEntity:
+                            return snowflakeEntity.Id.ToString();
+                    }
+                    break;
                 case "mention":
                     switch (arg)
                     {
@@ -68,6 +73,16 @@ namespace DiscordBotLib.Localization
                 case "name":
                     switch (arg)
                     {
+                        case IChannel channel:
+                            return channel.Name;
+                        case IEmote emoji:
+                            return emoji.Name;
+                        case IGuild guild:
+                            return guild.Name;
+                        case IGuildUser member:
+                            return member.Nickname ?? member.Username;
+                        case IRole role:
+                            return role.Name;
                         case IUser user:
                             return user.Username;
                         case ModuleInfo module:
@@ -85,12 +100,33 @@ namespace DiscordBotLib.Localization
                             return command.Summary;
                     }
                     break;
-
+                case "type":
+                    switch (arg)
+                    {
+                        case ICategoryChannel categoryChannel:
+                            return "category";
+                        case IDMChannel dmChannel:
+                            return "dm";
+                        case IGroupChannel groupChannel:
+                            return "group";
+                        case ITextChannel textChannel:
+                            return "text";
+                        case IVoiceChannel voiceChannel:
+                            return "voice";
+                    }
+                    break;
+                case "username":
+                    switch (arg)
+                    {
+                        case IUser user:
+                            return $"{user.Username}#{user.Discriminator}";
+                    }
+                    break;
             }
 
-            if (arg is IFormattable)
-                return ((IFormattable)arg).ToString(format, this.ParentFormatter);
-            return arg.ToString();
+            return arg is IFormattable formattableArg
+                ? formattableArg.ToString(format, this.ParentFormatter)
+                : arg.ToString();
         }
     }
 }

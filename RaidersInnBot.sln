@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaidersInnBot", "RaidersInnBot\RaidersInnBot.csproj", "{0431129C-A798-491E-B973-8D479405AFC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5EAB1F03-81DB-4F7D-B938-4396C1E95CB5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{E4C0A6B1-179B-46FF-9172-F6FBEC7113D1}"
 	ProjectSection(SolutionItems) = preProject
@@ -37,7 +40,7 @@ Global
 		{E4C0A6B1-179B-46FF-9172-F6FBEC7113D1} = {5EAB1F03-81DB-4F7D-B938-4396C1E95CB5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = False
 		SolutionGuid = {59B6437A-4564-4E3C-9FA3-16ED4F9C8D67}
+		RESX_SortFileContentOnSave = False
 	EndGlobalSection
 EndGlobal

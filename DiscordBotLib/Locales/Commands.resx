@@ -305,4 +305,80 @@
     <value>Removes the activity</value>
     <comment>Description for the settings, activity, unset command</comment>
   </data>
+  <data name="Utils.Export.GuildHeader" xml:space="preserve">
+    <value>=== Guild: {guild:name} ({guild:id}) ===</value>
+    <comment>Exports accessible bot information: Guild header</comment>
+  </data>
+  <data name="Utils.Export.GuildRoles" xml:space="preserve">
+    <value>&gt;&gt; Roles</value>
+    <comment>Exports accessible bot information: Guild roles</comment>
+  </data>
+  <data name="Utils.Export.GuildEmojis" xml:space="preserve">
+    <value>&gt;&gt; Emojis</value>
+    <comment>Exports accessible bot information: Guild emojis</comment>
+  </data>
+  <data name="Utils.Export.GuildChannels" xml:space="preserve">
+    <value>&gt;&gt; Channels</value>
+    <comment>Exports accessible bot information: Guild channels</comment>
+  </data>
+  <data name="Utils.Export.GuildMembers" xml:space="preserve">
+    <value>&gt;&gt; Members</value>
+    <comment>Exports accessible bot information: Guild members</comment>
+  </data>
+  <data name="Utils.Export.GuildRolesPart" xml:space="preserve">
+    <value>{role:name}: {role:id}</value>
+    <comment>Exports accessible bot information: Guild roles section</comment>
+  </data>
+  <data name="Utils.Export.GuildEmojisPart" xml:space="preserve">
+    <value>{emoji:name}: {emoji:id}</value>
+    <comment>Exports accessible bot information: Guild emojis section</comment>
+  </data>
+  <data name="Utils.Export.GuildChannelsPart" xml:space="preserve">
+    <value>{channel:name} ({channel:type}): {channel:id}</value>
+    <comment>Exports accessible bot information: Guild channels section</comment>
+  </data>
+  <data name="Utils.Export.GuildMembersPart" xml:space="preserve">
+    <value>{user:username}: {user:id}</value>
+    <comment>Exports accessible bot information: Guild members section</comment>
+  </data>
+  <data name="Utils.Export.GuildMembersPart.Nickname" xml:space="preserve">
+    <value>{user:username} ({user:name}): {user:id}</value>
+    <comment>Exports accessible bot information: Guild members section with nickname</comment>
+  </data>
+  <data name="Utils.Export.Description" xml:space="preserve">
+    <value>Exports all accessible bot information for this server</value>
+    <comment>Description for the utils, export command</comment>
+  </data>
+  <data name="Utils.Export.Description_dm" xml:space="preserve">
+    <value>Exports all accessible bot information</value>
+    <comment>Description for the utils, export command</comment>
+  </data>
+  <data name="Utils.Export.SentDm" xml:space="preserve">
+    <value>{user:mention}, the export has been sent to you through DM.</value>
+    <comment>Exports accessible bot information: DM sent</comment>
+  </data>
+  <data name="Utils.Export.Exporting" xml:space="preserve">
+    <value>{user:mention}, working on exporting...</value>
+    <comment>Exports accessible bot information: Busy exporting</comment>
+  </data>
+  <data name="Utils.Export.NoGuilds" xml:space="preserve">
+    <value>{user:mention}, no valid servers found to export.</value>
+    <comment>Exports accessible bot information: No valid guilds found</comment>
+  </data>
+  <data name="Utils.Export.GuildEmojisPart.Animated" xml:space="preserve">
+    <value>{emoji:name} (animated): {emoji:id}</value>
+    <comment>Exports accessible bot information: Guild emojis section animated</comment>
+  </data>
+  <data name="Utils.Export.Exporting_dm" xml:space="preserve">
+    <value>Working on exporting...</value>
+    <comment>Exports accessible bot information: Busy exporting</comment>
+  </data>
+  <data name="Utils.Export.NoGuilds_dm" xml:space="preserve">
+    <value>No valid servers found to export.</value>
+    <comment>Exports accessible bot information: No valid guilds found</comment>
+  </data>
+  <data name="Utils.Export.SentDm_dm" xml:space="preserve">
+    <value>The export has finished.</value>
+    <comment>Exports accessible bot information: DM sent</comment>
+  </data>
 </root>

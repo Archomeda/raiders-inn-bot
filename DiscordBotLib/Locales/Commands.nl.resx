@@ -273,4 +273,61 @@
   <data name="Utils.Help.CommandPart" xml:space="preserve">
     <value>`{commandInvocation}` - {description}</value>
   </data>
+  <data name="Utils.Export.GuildHeader" xml:space="preserve">
+    <value>=== Guild: {guild:name} ({guild:id}) ===</value>
+  </data>
+  <data name="Utils.Export.GuildRoles" xml:space="preserve">
+    <value>&gt;&gt; Roles</value>
+  </data>
+  <data name="Utils.Export.GuildEmojis" xml:space="preserve">
+    <value>&gt;&gt; Emojis</value>
+  </data>
+  <data name="Utils.Export.GuildChannels" xml:space="preserve">
+    <value>&gt;&gt; Channels</value>
+  </data>
+  <data name="Utils.Export.GuildMembers" xml:space="preserve">
+    <value>&gt;&gt; Members</value>
+  </data>
+  <data name="Utils.Export.GuildRolesPart" xml:space="preserve">
+    <value>{role:name}: {role:id}</value>
+  </data>
+  <data name="Utils.Export.GuildEmojisPart" xml:space="preserve">
+    <value>{emoji:name}: {emoji:id}</value>
+  </data>
+  <data name="Utils.Export.GuildChannelsPart" xml:space="preserve">
+    <value>{channel:name} ({channel:type}): {channel:id}</value>
+  </data>
+  <data name="Utils.Export.GuildMembersPart" xml:space="preserve">
+    <value>{user:account_name}: {user:id}</value>
+  </data>
+  <data name="Utils.Export.GuildMembersPart.Nickname" xml:space="preserve">
+    <value>{user:account_name} ({user:name}): {user:id}</value>
+  </data>
+  <data name="Utils.Export.Description" xml:space="preserve">
+    <value>Exporteert alle informatie van deze server dat voor de bot toegankelijk is</value>
+  </data>
+  <data name="Utils.Export.Description_dm" xml:space="preserve">
+    <value>Exporteert alle informatie dat voor de bot toegankelijk is</value>
+  </data>
+  <data name="Utils.Export.SentDm" xml:space="preserve">
+    <value>{user:mention}, de export is verstuurd per PB.</value>
+  </data>
+  <data name="Utils.Export.Exporting" xml:space="preserve">
+    <value>{user:mention}, bezig met exporteren...</value>
+  </data>
+  <data name="Utils.Export.NoGuilds" xml:space="preserve">
+    <value>{user:mention}, geen geldige servers gevonden om te exporteren.</value>
+  </data>
+  <data name="Utils.Export.GuildEmojisPart.Animated" xml:space="preserve">
+    <value>{emoji:name} (animated): {emoji:id}</value>
+  </data>
+  <data name="Utils.Export.Exporting_dm" xml:space="preserve">
+    <value>Bezig met exporteren...</value>
+  </data>
+  <data name="Utils.Export.NoGuilds_dm" xml:space="preserve">
+    <value>Geen geldige servers gevonden om te exporteren.</value>
+  </data>
+  <data name="Utils.Export.SentDm_dm" xml:space="preserve">
+    <value>De export is klaar.</value>
+  </data>
 </root>

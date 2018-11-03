@@ -22,9 +22,9 @@ namespace DiscordBotLib.Commands
             {
                 var localizer = this.GetLocalizer();
                 var client = this.Context.Client.GetBot().DiscordClient;
-                if (client.Activity != null)
-                    return this.ReplyAsync(localizer.Translate("Commands", "Settings.Activity.Get", this.Context, ("type", client.Activity.Type), ("name", client.Activity.Name)));
-                return this.ReplyAsync(localizer.Translate("Commands", "Settings.Activity.Get.Empty", this.Context));
+                return client.Activity != null
+                    ? this.ReplyAsync(localizer.Translate("Commands", "Settings.Activity.Get", this.Context, ("type", client.Activity.Type), ("name", client.Activity.Name)))
+                    : this.ReplyAsync(localizer.Translate("Commands", "Settings.Activity.Get.Empty", this.Context));
             }
 
             [Command("set")]

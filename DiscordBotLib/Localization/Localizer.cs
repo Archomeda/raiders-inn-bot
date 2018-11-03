@@ -15,10 +15,10 @@ namespace DiscordBotLib.Localization
     /// </summary>
     public class Localizer
     {
-        private const string defaultLangId = "en";
+        private const string DefaultLangId = "en";
 
-        private static readonly Dictionary<Assembly, LocalizationInfoAttribute> localizationInfos = new Dictionary<Assembly, LocalizationInfoAttribute>();
-        private static readonly Dictionary<string, Formatter> formatters = new Dictionary<string, Formatter>();
+        private static readonly Dictionary<Assembly, LocalizationInfoAttribute> LocalizationInfos = new Dictionary<Assembly, LocalizationInfoAttribute>();
+        private static readonly Dictionary<string, Formatter> Formatters = new Dictionary<string, Formatter>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Localizer"/> class.
@@ -27,14 +27,14 @@ namespace DiscordBotLib.Localization
         public Localizer(string language)
         {
             this.Language = language;
-            if (language != defaultLangId)
+            if (language != DefaultLangId)
             {
-                var defaultLanguageKey = this.Translate("Locale", "LanguageKey");
-                if (!formatters.ContainsKey(language))
-                    formatters[language] = new Formatter(new CultureInfo(this.Language));
-                this.Formatter = formatters[language];
+                string defaultLanguageKey = this.Translate("Locale", "LanguageKey");
+                if (!Formatters.ContainsKey(language))
+                    Formatters[language] = new Formatter(new CultureInfo(this.Language));
+                this.Formatter = Formatters[language];
                 this.Culture = this.Formatter.ParentFormatter as CultureInfo;
-                var localizedLanguageKey = this.Translate("Locale", "LanguageKey");
+                string localizedLanguageKey = this.Translate("Locale", "LanguageKey");
                 this.Available = defaultLanguageKey != localizedLanguageKey;
             }
             else
@@ -48,12 +48,12 @@ namespace DiscordBotLib.Localization
         /// <summary>
         /// The localizer language.
         /// </summary>
-        public string Language { get; } = defaultLangId;
+        public string Language { get; } = DefaultLangId;
 
         /// <summary>
         /// The localizer culture.
         /// </summary>
-        public CultureInfo Culture { get; } = new CultureInfo(defaultLangId);
+        public CultureInfo Culture { get; } = new CultureInfo(DefaultLangId);
 
         /// <summary>
         /// Gets the localizer formatter.
@@ -73,12 +73,12 @@ namespace DiscordBotLib.Localization
             string translation = null;
             foreach (var assembly in new[] { Assembly.GetEntryAssembly(), Assembly.GetExecutingAssembly() })
             {
-                if (!localizationInfos.ContainsKey(assembly))
-                    localizationInfos[assembly] = assembly.GetTypes().Select(t => t.GetCustomAttribute<LocalizationInfoAttribute>(false)).FirstOrDefault(t => t != null);
-                if (localizationInfos[assembly] == null)
+                if (!LocalizationInfos.ContainsKey(assembly))
+                    LocalizationInfos[assembly] = assembly.GetTypes().Select(t => t.GetCustomAttribute<LocalizationInfoAttribute>(false)).FirstOrDefault(t => t != null);
+                if (LocalizationInfos[assembly] == null)
                     continue;
 
-                var resourceManager = new ResourceManager($"{localizationInfos[assembly].BaseName}.{file}", assembly);
+                var resourceManager = new ResourceManager($"{LocalizationInfos[assembly].BaseName}.{file}", assembly);
                 try
                 {
                     translation = resourceManager.GetString(key, this.Culture);
@@ -113,7 +113,7 @@ namespace DiscordBotLib.Localization
         public string Translate(string file, string key, IDictionary<string, object> args)
         {
             // Get the translation
-            var translation = this.GetTranslationResource(file, key);
+            string translation = this.GetTranslationResource(file, key);
             if (string.IsNullOrWhiteSpace(translation))
                 throw new InvalidOperationException($"Key {key} was not found in any resource files.");
 
@@ -211,7 +211,7 @@ namespace DiscordBotLib.Localization
             // If the message is in a DM context, append _dm to the language key if it exists
             if (commandContext.Channel is IDMChannel)
             {
-                var translation = this.GetTranslationResource(file, $"{key}_dm");
+                string translation = this.GetTranslationResource(file, $"{key}_dm");
                 key = !string.IsNullOrWhiteSpace(translation) ? $"{key}_dm" : key;
             }
 
@@ -231,8 +231,9 @@ namespace DiscordBotLib.Localization
         {
             if (args == null)
                 return this.Translate(file, key, commandContext);
-            if (args is IDictionary<string, object> dict)
+            else if (args is IDictionary<string, object> dict)
                 return this.Translate(file, key, commandContext, dict);
+
             return this.Translate(file, key, commandContext, args.ToDictionary(p => p.Key, p => p.Value));
         }
 

@@ -412,6 +412,177 @@ namespace DiscordBotLib.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exports all accessible bot information for this server.
+        /// </summary>
+        public static string Utils_Export_Description {
+            get {
+                return ResourceManager.GetString("Utils.Export.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exports all accessible bot information.
+        /// </summary>
+        public static string Utils_Export_Description_dm {
+            get {
+                return ResourceManager.GetString("Utils.Export.Description_dm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {user:mention}, working on exporting....
+        /// </summary>
+        public static string Utils_Export_Exporting {
+            get {
+                return ResourceManager.GetString("Utils.Export.Exporting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working on exporting....
+        /// </summary>
+        public static string Utils_Export_Exporting_dm {
+            get {
+                return ResourceManager.GetString("Utils.Export.Exporting_dm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &gt;&gt; Channels.
+        /// </summary>
+        public static string Utils_Export_GuildChannels {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildChannels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {channel:name} ({channel:type}): {channel:id}.
+        /// </summary>
+        public static string Utils_Export_GuildChannelsPart {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildChannelsPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &gt;&gt; Emojis.
+        /// </summary>
+        public static string Utils_Export_GuildEmojis {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildEmojis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {emoji:name}: {emoji:id}.
+        /// </summary>
+        public static string Utils_Export_GuildEmojisPart {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildEmojisPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {emoji:name} (animated): {emoji:id}.
+        /// </summary>
+        public static string Utils_Export_GuildEmojisPart_Animated {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildEmojisPart.Animated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to === Guild: {guild:name} ({guild:id}) ===.
+        /// </summary>
+        public static string Utils_Export_GuildHeader {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &gt;&gt; Members.
+        /// </summary>
+        public static string Utils_Export_GuildMembers {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {user:username}: {user:id}.
+        /// </summary>
+        public static string Utils_Export_GuildMembersPart {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildMembersPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {user:username} ({user:name}): {user:id}.
+        /// </summary>
+        public static string Utils_Export_GuildMembersPart_Nickname {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildMembersPart.Nickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &gt;&gt; Roles.
+        /// </summary>
+        public static string Utils_Export_GuildRoles {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {role:name}: {role:id}.
+        /// </summary>
+        public static string Utils_Export_GuildRolesPart {
+            get {
+                return ResourceManager.GetString("Utils.Export.GuildRolesPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {user:mention}, no valid servers found to export..
+        /// </summary>
+        public static string Utils_Export_NoGuilds {
+            get {
+                return ResourceManager.GetString("Utils.Export.NoGuilds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No valid servers found to export..
+        /// </summary>
+        public static string Utils_Export_NoGuilds_dm {
+            get {
+                return ResourceManager.GetString("Utils.Export.NoGuilds_dm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {user:mention}, the export has been sent to you through DM..
+        /// </summary>
+        public static string Utils_Export_SentDm {
+            get {
+                return ResourceManager.GetString("Utils.Export.SentDm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The export has finished..
+        /// </summary>
+        public static string Utils_Export_SentDm_dm {
+            get {
+                return ResourceManager.GetString("Utils.Export.SentDm_dm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {user:mention}, listed below are the available commands. You can append the name of a command to this help command for more information about that command..
         /// </summary>
         public static string Utils_Help {
